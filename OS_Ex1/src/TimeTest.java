@@ -19,13 +19,18 @@ public class TimeTest {
 		int buffer;
 		boolean forceFlag = false;
 		
-		// Check arguments
+		// Argument validation
+		if (args.length != 3 && args.length != 4)
+			throw new Exception(USAGE);
+		
 		if (args.length == 4)
 		{
-			if (args[0] == "/verbose")
+			if (args[0].equals("/verbose"))
 				forceFlag = true;
 			else
+			{
 				throw new Exception(USAGE);
+			}
 			
 			sourceDes = args[1];
 			targetDes = args[2];
@@ -37,7 +42,8 @@ public class TimeTest {
 			targetDes = args[1];
 			buffer = Integer.parseInt(args[2]);
 		}
-
+		
+		// Copy file
 		long startTime = System.currentTimeMillis();
 		
 		boolean copyStatus = copyFile(sourceDes, targetDes, buffer, forceFlag);
@@ -51,7 +57,7 @@ public class TimeTest {
 		}
 		else
 		{
-			System.out.println("An error occured while trying to copy the file, please view rlevant printed Exceptions");
+			System.out.println("COPY FAILED! : An error occured while trying to copy the file, please view rlevant printed Exceptions");
 		}
 	}
 	
@@ -75,7 +81,8 @@ public class TimeTest {
         File checkFile = new File(toFileName);
         if (checkFile.exists() && !checkFile.isDirectory() && !bOverwrite)
         {
-        	throw new Exception(toFileName + "exists, invalid overwrite argument passed");
+        	throw new Exception(System.lineSeparator() + toFileName + " exists, invalid overwrite argument passed"
+        			+ System.lineSeparator() + USAGE);
         }
         
         try 
@@ -94,7 +101,7 @@ public class TimeTest {
         }
         catch (FileNotFoundException e) 
         {
-        	System.out.println("Requested file not found to be copied from");
+        	System.out.println("Requested source file not found");
 			e.printStackTrace();
 			return false;
 		} 
@@ -121,6 +128,7 @@ public class TimeTest {
     			return false;
             }
         }
+        
         return true;
 	}
 }
