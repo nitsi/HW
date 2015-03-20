@@ -1,3 +1,10 @@
+/*
+ * Operation Systems - Exercise 1
+ * ID: 200846905
+ * Name: Matan Gidnian
+ * Note: PDF file included
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +50,9 @@ public class TimeTest {
 			buffer = Integer.parseInt(args[2]);
 		}
 		
+		if (buffer < 1)
+			throw new Exception("The buffer entered is smaller then 1, copying cannot be doe!");
+		
 		// Copy file
 		long startTime = System.currentTimeMillis();
 		
@@ -57,7 +67,7 @@ public class TimeTest {
 		}
 		else
 		{
-			System.out.println("COPY FAILED! : An error occured while trying to copy the file, please view rlevant printed Exceptions");
+			System.out.println("COPY FAILED! : An error occured while trying to copy the file, please view relevant printed Exceptions");
 		}
 	}
 	
@@ -97,7 +107,6 @@ public class TimeTest {
             	else
             		outputStream.write(charChunk, 0, readed);
             }
-
         }
         catch (FileNotFoundException e) 
         {
@@ -128,7 +137,6 @@ public class TimeTest {
     			return false;
             }
         }
-        
         return true;
 	}
 }
