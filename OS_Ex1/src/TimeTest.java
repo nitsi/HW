@@ -32,7 +32,7 @@ public class TimeTest {
 		
 		if (args.length == 4)
 		{
-			if (args[0].equals("/verbose"))
+			if (args[0].equals("/force"))
 				forceFlag = true;
 			else
 			{
