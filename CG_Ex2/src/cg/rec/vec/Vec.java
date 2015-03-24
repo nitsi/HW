@@ -57,8 +57,8 @@ public class Vec {
 	 * @return The reflected vector
 	 */
 	public Vec reflect(Vec normal) {
-		//TODO:
-		return null;
+		Vec newVec = new Vec(this.x,this.y,this.z);
+		return sub(newVec, scale(dotProd(newVec,normal) * 2, normal));
 	}
 
 	/**
@@ -94,9 +94,9 @@ public class Vec {
 	 *            Vector
 	 */
 	public void mac(double s, Vec a) {
-		x = a.x * s;
-		y = a.y * s;
-		z = a.z * s;
+		x += a.x * s;
+		y += a.y * s;
+		z += a.z * s;
 	}
 
 	/**
@@ -169,11 +169,12 @@ public class Vec {
 	 * @throws ArithmeticException
 	 */
 	public void normalize() throws ArithmeticException {
-		if (length() <= 0)
+		double vLength = length();
+		if (vLength <= 0)
 			throw new ArithmeticException("length is zero, cannot divide by zero !");
-		x = x / length();
-		y = y / length();
-		z = z / length();
+		x = x / vLength;
+		y = y / vLength;
+		z = z / vLength;
 	}
 
 	/**
@@ -196,8 +197,7 @@ public class Vec {
 	 * @return the angle in radians in the range [0,PI]
 	 */
 	public final double angle(Vec v1) {
-		//TODO:
-		return Double.NaN;
+		return Math.acos(dotProd(this, v1) / (this.length() * v1.length()));
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	static public double distance(Vec a, Vec b) {
-		//TODO:
+		// We will implement this for Ex3
 		return Double.NaN;
 	}
 
@@ -224,8 +224,7 @@ public class Vec {
 	 * @return Vector1 x Vector2
 	 */
 	public static Vec crossProd(Vec a, Vec b) {	
-		//TODO: 
-		return null;
+		return new Vec(b.y*a.z - b.z*a.y, b.z*a.x - b.x*a.z, b.x*a.y - b.y*a.x);
 	}
 
 	/**
@@ -238,8 +237,10 @@ public class Vec {
 	 * @return a+b
 	 */
 	public static Vec add(Vec a, Vec b) {
-		//TODO:
-		return null;
+		b.x += a.x;
+		b.y += a.y;
+		b.z += a.z;
+		return b;
 	}
 
 	/**
@@ -252,8 +253,10 @@ public class Vec {
 	 * @return a-b
 	 */
 	public static Vec sub(Vec a, Vec b) {
-		//TODO:
-		return null;
+		a.x -= b.x;
+		a.y -= b.y;
+		a.z -= b.z;
+		return a;
 	}
 
 	/**
@@ -264,8 +267,10 @@ public class Vec {
 	 * @return -1*a
 	 */
 	public static Vec negate(Vec a) {
-		//TODO:
-		return null;
+		a.x *= -1;
+		a.y *= -1;
+		a.z *= -1;
+		return a;
 	}
 
 	/**
@@ -278,8 +283,10 @@ public class Vec {
 	 * @return s*a
 	 */
 	public static Vec scale(double s, Vec a) {
-		//TODO:
-		return null;
+		a.x *= s;
+		a.y *= s;
+		a.z *= s;
+		return a;
 	}
 
 	/**
@@ -292,8 +299,8 @@ public class Vec {
 	 * @return a.*b
 	 */
 	public static Vec scale(Vec a, Vec b) {
-		//TODO:
-		return null;
+		Vec newVec = new Vec(a.x * b.x, a.y * b.y, a.z * b.z);
+		return newVec;
 	}
 
 	/**
@@ -306,7 +313,8 @@ public class Vec {
 	 * @return a==b
 	 */
 	public static boolean equals(Vec a, Vec b) {
-		//TODO:
+		if (a.x == b.x && a.y == b.y && a.z == b.z)
+			return true;
 		return false;
 	}
 
@@ -320,8 +328,7 @@ public class Vec {
 	 * @return a.b
 	 */
 	public static double dotProd(Vec a, Vec b) {
-		//TODO:
-		return Double.NaN;
+		return (b.x*a.x + b.y*a.y + b.z*a.z);
 	}
 
 	/**
