@@ -12,12 +12,13 @@ public class MatrixMultThread implements Runnable
 	private float[][] a, b, doneMatrix;
 	private int rowStart, rowEnd;
 	
-	public MatrixMultThread(float[][] first, float[][] second, float[][] answer, int startRow, int endRow) {
-		this.a = first;
-		this.b = second;
-		this.doneMatrix = answer;
-		this.rowStart = startRow;
-		this.rowEnd = endRow;
+	public MatrixMultThread(float[][] first, float[][] second, float[][] answer, int startRow, int endRow) 
+	{
+		a = first;
+		b = second;
+		doneMatrix = answer;
+		rowStart = startRow;
+		rowEnd = endRow;
 	}
 	
 	public static void main(String[] args)
@@ -113,10 +114,13 @@ public class MatrixMultThread implements Runnable
 	/*
 	 * Fill the given matrix with random input.
 	 */
-	private static void matrixRandFiller(float[][] m) {
-		for (int i = 0; i < m.length; i++) {
-			for (int j = 0; j < m[i].length; j++) {
-				m[i][j] = (float)(Math.random() * 100);
+	private static void matrixRandFiller(float[][] emptyMatrix) 
+	{
+		for (int i = 0; i < emptyMatrix.length; i++) 
+		{
+			for (int j = 0; j < emptyMatrix[i].length; j++) 
+			{
+				emptyMatrix[i][j] = (float) (Math.random() * 100);
 			}
 		}
 	}
