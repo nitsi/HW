@@ -9,14 +9,14 @@ import java.io.File;
 
 /**
  * Main application class. This application searches for all files under some given path that contain a given textual pattern.
- * All files found are copied to some specific directory. 
+ * All files found are copied to some specific directory.
  */
 public class DiskSearcher {
 	
-	private static final String ARGS_AMOUNT = "";
-	private static final String SEARCH_AMOUNT_ERR = "";
-	private static final String WORKERS_AMOUNT_ERR = "";
-	private static final String INVALID_NUM_ARG = "";
+	private static final String ARGS_AMOUNT = "ERROR: Arguments amount is invalid";
+	private static final String SEARCH_AMOUNT_ERR = "ERROR: Please enter a number greater then 0 for searchers to proceed";
+	private static final String WORKERS_AMOUNT_ERR = "ERROR: Please enter a number greater then 0 for copiers to proceed";
+	private static final String INVALID_NUM_ARG = "ERROR: Please enter a valid number for copiers/searchers amount";
 	
 	public static void main(String[] args) 
 	{

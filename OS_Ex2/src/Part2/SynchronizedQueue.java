@@ -12,14 +12,12 @@ package Part2;
 public class SynchronizedQueue<T> {
 
 	private T[] buffer;
-	private int producers;
-	
-	private int startPosition;
-	private int capacity;
 	private int size;
+	private int begginingIndex;
+	private int producers;
+	private int capacity;
 	
-	// Objects as locks for sync
-	private Object procsLock;
+	// Object as lock for better sync
 	private Object qLock;
 	
 	/**
@@ -30,11 +28,10 @@ public class SynchronizedQueue<T> {
 	@SuppressWarnings("unchecked")
 	public SynchronizedQueue(int capacity) {
 		this.buffer = (T[])(new Object[capacity]);
-		startPosition = 0;
+		begginingIndex = 0;
 		producers = 0;
 		size = 0;
 		this.capacity = capacity;
-		procsLock = new Object();
 		qLock = new Object();
 	}
 	
@@ -67,12 +64,12 @@ public class SynchronizedQueue<T> {
 				}
 			}
 			
-			// size > 0
-			T element = buffer[startPosition];
+			// legal and valid size
+			T item = buffer[begginingIndex];
 			size--;
-			startPosition = (startPosition + 1) % capacity;
+			begginingIndex = (begginingIndex + 1) % capacity;
 			qLock.notifyAll();
-			return element;
+			return item;
 		}
 	}
 
@@ -82,18 +79,21 @@ public class SynchronizedQueue<T> {
 	 * 
 	 * @param item Item to enqueue
 	 */
-	public void enqueue(T item) {
-		synchronized (qLock) {
-			while (size == capacity) {
-				try {
+	public void enqueue(T item) 
+	{
+		synchronized (qLock) 
+		{
+			while (capacity == size) 
+			{
+				try 
+				{
 					qLock.wait();
-				} catch (InterruptedException e) {
-					// Ignore
-				}
+				} 
+				catch (InterruptedException e) {}
 			}
 			
-			// size < capacity
-			buffer[(startPosition + size) % capacity] = item;
+			// capacity is bigger then size, legal
+			buffer[(begginingIndex + size) % capacity] = item;
 			size++;
 			qLock.notifyAll();
 		}
