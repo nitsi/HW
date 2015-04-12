@@ -128,10 +128,8 @@ public class SynchronizedQueue<T> {
 	 * @see #dequeue()
 	 * @see #unregisterProducer()
 	 */
-	public void registerProducer() {
-		synchronized (procsLock) {
-			producers++;
-		}
+	public synchronized void registerProducer() {
+		this.producers++;
 	}
 
 	/**
@@ -140,14 +138,13 @@ public class SynchronizedQueue<T> {
 	 * @see #dequeue()
 	 * @see #registerProducer()
 	 */
-	public void unregisterProducer() {
-		synchronized (procsLock) {
-			if (producers > 0) {
-				producers--;
-				synchronized (qLock) {
-					qLock.notifyAll();
-				}
-			}			
-		}
+	public synchronized void unregisterProducer() {
+		if (producers > 0) 
+		{
+			producers--;
+			synchronized (qLock) {
+				qLock.notifyAll();
+			}
+		}			
 	}
 }
