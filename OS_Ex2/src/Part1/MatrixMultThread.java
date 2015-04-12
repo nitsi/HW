@@ -1,3 +1,4 @@
+package Part1;
 /*  Operation Systems - Ex2
  *  Name:	Matan Gidnian
  *  ID:		200846905
