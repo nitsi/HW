@@ -202,7 +202,7 @@ public class Vec {
 	 * @return Scalar
 	 */
 	public double dotProd(Vec a) {
-		return (double) ((x * a.x) + (y * a.y) + (z * a.z));
+		return (double) ((this.x * a.x) + (this.y * a.y) + (this.z * a.z));
 	}
 
 	/**

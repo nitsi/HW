@@ -35,15 +35,10 @@ public class SpotLight extends Light {
 	
 	@Override
 	public void init(Map<String, String> attributes) {
-//		if(attributes.containsKey("dir")) {
-//			this.direction = new Vec(attributes.get("dir"));	
-//			this.direction.normalize();
-//		}		
-//		super.init(attributes);	
-		
-		super.init(attributes);
-		if (attributes.containsKey("direction")) {
-			new Point3D(attributes.get("direction"));
-		}
+		if(attributes.containsKey("dir")) {
+			this.direction = new Vec(attributes.get("dir"));	
+			this.direction.normalize();
+		}		
+		super.init(attributes);	
 	}
 }
