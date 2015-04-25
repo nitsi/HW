@@ -1,8 +1,3 @@
-/*
- Computer Graphics - Exercise 3
- Matan Gidnian	200846905
- Aviad Hahami	302188347
- */
 package ex3.render.raytrace;
 
 import java.util.HashMap;
@@ -50,7 +45,6 @@ public class Polygon extends Surface {
 		// Sanity check
 		if (size < 3) {
 			throw new IllegalArgumentException("Invalid Poly");
-
 		}
 
 		// Make sure the points are in sorted order
@@ -62,7 +56,6 @@ public class Polygon extends Surface {
 		// Populate the points array
 		for (int i = 0; i < size; i++) {
 			p[i] = new Point3D(justThePointsSorted.get("p" + i));
-
 		}
 
 	}
@@ -75,7 +68,6 @@ public class Polygon extends Surface {
 		Vec normal = Vec.crossProd(oneVectorInThePoli, towVectorInThePoli);
 		normal.normalize();
 		return normal;
-
 	}
 
 }
