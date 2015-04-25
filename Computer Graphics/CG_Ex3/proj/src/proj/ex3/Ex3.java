@@ -14,7 +14,7 @@ import proj.ex3.gui.MainFrame;
  * You basically don't need to add things here to the this package
  */
 public class Ex3 {
-	// DUMMY COMMIT
+	
 
 	private static String getAboutMessage() {
 		// TODO: Add any specific instructions here if you changed any thing or
@@ -30,6 +30,7 @@ public class Ex3 {
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
+		System.out.println("MAT");
 
 		String sceneFilename = null;
 		String imageFilename = null;
