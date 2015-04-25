@@ -12,7 +12,7 @@ public abstract class Light implements IInitable {
 
 	protected Vec g_color;
 
-	public abstract Vec getIntansityLight(Point3D point);
+	public abstract Vec getLightIntensity(Point3D point);
 
 	public static boolean isLight(String inputString) {
 

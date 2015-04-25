@@ -196,18 +196,18 @@ public class Scene implements IInitable {
 			DirectionLight dLight = (DirectionLight) light;
 			L = dLight.getDirection();
 			L.negate();
-			IL = dLight.getIntansityLight(point);
+			IL = dLight.getLightIntensity(point);
 		} else if (light instanceof OmniLight) {
 			OmniLight oLight = (OmniLight) light;
 			L = Point3D.vectorBetweenTwoPoints(point, oLight.getPosition());
 			if (object instanceof Polygon) {
 				L.negate();
 			}
-			IL = oLight.getIntansityLight(point);
+			IL = oLight.getLightIntensity(point);
 		} else {
 			SpotLight sLight = (SpotLight) light;
 			L = Point3D.vectorBetweenTwoPoints(point, sLight.getPosition());
-			IL = sLight.getIntansityLight(point);
+			IL = sLight.getLightIntensity(point);
 		}
 		L.normalize();
 
@@ -248,15 +248,15 @@ public class Scene implements IInitable {
 			DirectionLight dLight = (DirectionLight) light;
 			L = dLight.getDirection();
 			L.negate();
-			IL = dLight.getIntansityLight(intersectionPoint);
+			IL = dLight.getLightIntensity(intersectionPoint);
 		} else if (light instanceof OmniLight) {
 			OmniLight oLight = (OmniLight) light;
 			L = Point3D.vectorBetweenTwoPoints(intersectionPoint, oLight.getPosition());
-			IL = oLight.getIntansityLight(intersectionPoint);
+			IL = oLight.getLightIntensity(intersectionPoint);
 		} else {
 			SpotLight sLight = (SpotLight) light;
 			L = Point3D.vectorBetweenTwoPoints(intersectionPoint, sLight.getPosition());
-			IL = sLight.getIntansityLight(intersectionPoint);
+			IL = sLight.getLightIntensity(intersectionPoint);
 		}
 		L.normalize();
 

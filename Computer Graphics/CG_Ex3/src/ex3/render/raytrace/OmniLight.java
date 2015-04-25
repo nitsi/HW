@@ -9,57 +9,56 @@ import java.util.Map;
 
 public class OmniLight extends Light {
 
-	private Point3D position;
-	private double kConst;
-	private double kLinear;
-	private double kQuadratic;
+	private static final String MISSING = "missing: ";
+	private static final String NO_LIGHT_POSITION = "pos attr!";
+
+	private Point3D g_pointPosition;
+	private double g_kConstant;
+	private double g_kLinear;
+	private double g_kQuadratic;
 
 	public OmniLight() {
 	}
 
+	/**
+	 * OmniLight(Map<String, String> attributes)
+	 * 
+	 * @param attributes
+	 */
 	public OmniLight(Map<String, String> attributes) {
 		init(attributes);
 	}
 
 	@Override
-	public void init(Map<String, String> attributes) throws IllegalArgumentException {
+	public void init(Map<String, String> attributes) {
 
-		if (!attributes.containsKey("color")) {
-			g_color = new Vec(1, 1, 1);
-		} else {
-			g_color = new Vec(attributes.get("color"));
+		if (verifyInput(attributes)) {
+			// Instantiate the XML input into variables
+			g_color = attributes.containsKey("color") ? new Vec(attributes.get("color")) : new Vec(1, 1, 1);
+			g_pointPosition = new Point3D(attributes.get("pos"));
+			g_kConstant = attributes.containsKey("kc") ? Double.parseDouble(attributes.get("kc")) : 1;
+			g_kLinear = attributes.containsKey("kl") ? Double.parseDouble(attributes.get("kl")) : 0;
+			g_kQuadratic = attributes.containsKey("kq") ? Double.parseDouble(attributes.get("kq")) : 0;
 		}
-		if (!attributes.containsKey("pos")) {
-			throw new IllegalArgumentException("missing position to the light");
-		} else {
-			position = new Point3D(attributes.get("pos"));
-		}
-		if (!attributes.containsKey("kc")) {
-			kConst = 1;
-		} else {
-			kConst = Double.parseDouble(attributes.get("kc"));
-		}
-		if (!attributes.containsKey("kl")) {
-			kLinear = 0;
-		} else {
-			kLinear = Double.parseDouble(attributes.get("kl"));
-		}
-		if (!attributes.containsKey("kq")) {
-			kQuadratic = 0;
-		} else {
-			kQuadratic = Double.parseDouble(attributes.get("kq"));
-		}
-
 	}
 
-	public Vec getIntansityLight(Point3D p) {
+	private boolean verifyInput(Map<String, String> attributes) {
+		if (!attributes.containsKey("pos")) {
+			throw new IllegalArgumentException(MISSING + NO_LIGHT_POSITION);
+		}
+		return true;
+	}
 
-		double lengthFromHit = p.distance(position);
-		Vec IL = Vec.scale(1 / (kConst + kLinear * lengthFromHit + kQuadratic * lengthFromHit * lengthFromHit), g_color);
-		return IL;
+	public Vec getLightIntensity(Point3D point) {
+
+		double i_distanceFromPointPosition = point.distance(g_pointPosition);
+		// return the vector post scale
+		return Vec.scale(1 / (g_kConstant + g_kLinear * i_distanceFromPointPosition + g_kQuadratic * i_distanceFromPointPosition
+				* i_distanceFromPointPosition), g_color);
+
 	}
 
 	public Point3D getPosition() {
-		return position;
+		return g_pointPosition;
 	}
 }
