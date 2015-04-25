@@ -1,3 +1,9 @@
+/*
+Computer Graphics - Exercise 3
+Matan Gidnian	200846905
+Aviad Hahami	302188347
+ */
+
 package ex3.render.raytrace;
 
 import java.util.Map;
@@ -8,12 +14,14 @@ import java.util.Map;
  */
 public class Camera implements IInitable {
 
-	private Point3D eye;
-	private Vec towards;
+	private Point3D eyeView;
+	
+	private Vec dirTo;
 	private Vec up;
-	private Vec right;
-	private double screenDist;
-	private double screenWidth;
+	private Vec _rightDirection;
+	
+	private double _screenDist;
+	private double _screenWidth;
 	private Point3D centerCoordinate3D;
 
 	public Camera() {
@@ -24,45 +32,45 @@ public class Camera implements IInitable {
 		if (!attributes.containsKey("eye")) {
 			throw new IllegalArgumentException("pleas enter aye coordinate");
 		}
-		eye = new Point3D(attributes.get("eye"));
+		this.eyeView = new Point3D(attributes.get("eye"));
 
 		if (!attributes.containsKey("look-at") && !attributes.containsKey("direction")) {
 			throw new IllegalArgumentException("missing direction or look-at attributes");
 		}
 		if (attributes.containsKey("direction")) {
-			towards = new Vec(attributes.get("direction"));
+			dirTo = new Vec(attributes.get("direction"));
 		} else {
-			towards = Point3D.vecBetweenTowPoints(new Point3D(attributes.get("loot-at")), eye);
+			dirTo = Point3D.vecBetweenTowPoints(new Point3D(attributes.get("loot-at")), eyeView);
 		}
 		if (!attributes.containsKey("up-direction")) {
 			throw new IllegalArgumentException("missing up-direction");
 		}
-		Vec tempUp = new Vec(attributes.get("up-direction"));
-		right = Vec.crossProd(towards, tempUp);
-		if (!(Vec.dotProd(towards, tempUp) == 0)) {
-			up = Vec.crossProd(towards, right);
+		Vec _upDirection = new Vec(attributes.get("up-direction"));
+		_rightDirection = Vec.crossProd(dirTo, _upDirection);
+		if (!(Vec.dotProd(dirTo, _upDirection) == 0)) {
+			up = Vec.crossProd(dirTo, _rightDirection);
 		} else {
-			up = tempUp;
+			up = _upDirection;
 		}
 		if (!attributes.containsKey("screen-dist")) {
 			throw new IllegalArgumentException("missing screen-dist");
 		} else {
-			screenDist = Double.parseDouble(attributes.get("screen-dist"));
+			_screenDist = Double.parseDouble(attributes.get("screen-dist"));
 		}
 
 		if (!attributes.containsKey("screen-width")) {
-			screenWidth = 2;
+			_screenWidth = 2;
 		} else {
-			screenWidth = Double.parseDouble(attributes.get("screen-width"));
+			_screenWidth = Double.parseDouble(attributes.get("screen-width"));
 		}
-		centerCoordinate3D = Point3D.add(Vec.scale(screenDist, towards), eye);
-		if (Vec.linearDependant(towards, up)) {
+		centerCoordinate3D = Point3D.add(Vec.scale(_screenDist, dirTo), eyeView);
+		if (Vec.isLinearDependant(dirTo, up)) {
 			throw new IllegalArgumentException("direction and up-direction are linearDependant");
 		}
 		up.normalize();
 		up.negate();
-		right.normalize();
-		towards.normalize();
+		_rightDirection.normalize();
+		dirTo.normalize();
 	}
 
 	/**
@@ -75,17 +83,17 @@ public class Camera implements IInitable {
 	 */
 
 	public Ray constructRayThroughPixel(double x, double y, double height, double width) {
-		double pixSize = screenWidth / width;
+		double pixSize = _screenWidth / width;
 		Point3D centerCoordinate2D = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
 		// the center of the view plane
-		Vec rightProgress = Vec.scale(x - centerCoordinate2D.x, Vec.scale(pixSize, right));
+		Vec rightProgress = Vec.scale(x - centerCoordinate2D.x, Vec.scale(pixSize, _rightDirection));
 		Vec upProgress = Vec.scale(y - centerCoordinate2D.y, Vec.scale(pixSize, up));
 		Point3D destinationPixelIn3D = Point3D.add(upProgress, Point3D.add(rightProgress, centerCoordinate3D));
-		Vec vectorBetweenDestinationPixelAndAye = Point3D.vecBetweenTowPoints(destinationPixelIn3D, eye);
-		return new Ray(eye, vectorBetweenDestinationPixelAndAye);
+		Vec vectorBetweenDestinationPixelAndAye = Point3D.vecBetweenTowPoints(destinationPixelIn3D, eyeView);
+		return new Ray(eyeView, vectorBetweenDestinationPixelAndAye);
 	}
 
 	public Point3D getEye() {
-		return eye;
+		return eyeView;
 	}
 }

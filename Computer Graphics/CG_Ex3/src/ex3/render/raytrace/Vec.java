@@ -197,7 +197,7 @@ public class Vec {
 			z = z / vecLenght; 
 		}
 	}
-	public static boolean linearDependant(Vec v, Vec u){
+	public static boolean isLinearDependant(Vec v, Vec u){
 		if ((v.x / u.x) == (v.y / u.y) && (v.y / u.y) == (v.z / u.z)){
 			return true;
 		}
