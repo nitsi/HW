@@ -1,101 +1,81 @@
-/*
-Computer Graphics - Exercise 3
-Matan Gidnian	200846905
-Aviad Hahami	302188347
-*/
-
-package proj.ex3.render.raytrace;
-
 import java.util.Map;
 
 import proj.ex3.math.Point3D;
 import proj.ex3.math.Ray;
 import proj.ex3.math.Vec;
 
+
+
+
 /**
  * Represents the scene's camera.
  * 
  */
 public class Camera implements IInitable {
-	
-	protected Point3D eye = null;
-	protected Vec direction = null;
-	protected Point3D lookAt = null;
-	protected Vec upDirection = null;
-	protected double screenDist;
-	protected double screenWidth;
-	
-	//protected Vec realUpDirection;
-	protected Vec rightDirection;
-	protected double screenHeight;
-	
+
+	private Point3D eye;
+	private Vec towards;
+	private Vec up;
+	private Vec right;
+	private double screenDist;
+	private double screenWidth;
+	private Point3D centerCoordinate3D;
+
+	// private double frustum;
+
 	public Camera() {
-		screenWidth = 2;
-		screenDist = 0;
 	}
-	
-	/**
-	 * sends a ray through a wanted pixel
-	 * @param newX
-	 * @param newY
-	 * @param canvasWidth
-	 * @param canvasHeight
-	 * @return
-	 */
 
+	public void init(Map<String, String> attributes)
+			throws IllegalArgumentException {
 
-	@Override
-	public void init(Map<String, String> attributes) {
-		
-		// Attributes is the XML phrased.
-		if (attributes.containsKey("eye") &&
-				!attributes.get("eye").isEmpty()) {
-			this.eye = new Point3D(attributes.get("eye"));
+		if (!attributes.containsKey("eye")) {
+			throw new IllegalArgumentException("pleas enter aye coordinate");
 		}
-		if (attributes.containsKey("direction") &&
-				!attributes.get("direction").isEmpty()) {
-			this.direction = new Vec(attributes.get("direction"));
-			this.direction.normalize();
+		eye = new Point3D(attributes.get("eye"));
+
+		if (!attributes.containsKey("look-at")
+				&& !attributes.containsKey("direction")) {
+			throw new IllegalArgumentException(
+					"missing direction or look-at attributes");
 		}
-		if (attributes.containsKey("look-at") &&
-				!attributes.get("look-at").isEmpty()) {
-			this.lookAt = new Point3D(attributes.get("look-at"));
-			this.direction = new Vec(eye, lookAt);
-			this.direction.normalize();
+		if (attributes.containsKey("direction")) {
+			towards = new Vec(attributes.get("direction"));
+		} else {
+			towards = Point3D.vecBetweenTowPoints(
+					new Point3D(attributes.get("loot-at")), eye);
 		}
-		if (attributes.containsKey("up-direction") &&
-				!attributes.get("up-direction").isEmpty()) {
-			this.upDirection = new Vec(attributes.get("up-direction"));
-			this.upDirection.normalize();
+		if (!attributes.containsKey("up-direction")) {
+			throw new IllegalArgumentException("missing up-direction");
 		}
-		if (attributes.containsKey("screen-dist") &&
-				!attributes.get("screen-dist").isEmpty()) {
-			this.screenDist = Double.valueOf(attributes.get("screen-dist"));
+		Vec tempUp = new Vec(attributes.get("up-direction"));
+		right = Vec.crossProd( towards, tempUp);
+		if (!(Vec.dotProd(towards, tempUp) == 0)) {
+			up = Vec.crossProd(towards, right);
+		} else {
+			up = tempUp;
 		}
-		if (attributes.containsKey("screen-width") &&
-				!attributes.get("screen-width").isEmpty()) {
-			this.screenWidth = Double.valueOf(attributes.get("screen-width"));
+		if (!attributes.containsKey("screen-dist")) {
+			throw new IllegalArgumentException("missing screen-dist");
+		} else {
+			screenDist = Double.parseDouble(attributes.get("screen-dist"));
 		}
-		this.rightDirection = Vec.crossProd(direction, upDirection);
-		this.rightDirection.normalize();
-		
-		// up direction and direction are co-linear
-		Vec directionToTest = direction.clone();
-		directionToTest.normalize();
-		Vec upDirectionToTest = upDirection.clone();
-		upDirectionToTest.normalize();
-		if (Point3D.isColinear(directionToTest, upDirectionToTest)) {
-			throw new IllegalArgumentException("Lines Are Co-Linear");
+
+		if (!attributes.containsKey("screen-width")) {
+			screenWidth = 2;
+		} else {
+			screenWidth = Double.parseDouble(attributes.get("screen-width"));
 		}
-		
-		// If the direction and up direction is not orthogonal,
-		// make them orthogonal.
-		if (Vec.dotProd(direction, upDirection) != 0) {			
-			this.upDirection = Vec.crossProd(rightDirection, direction);
-			this.upDirection.normalize();			
+		centerCoordinate3D = Point3D.add(Vec.scale(screenDist, towards), eye);
+		if (Vec.linearDependant(towards, up)){
+			throw new IllegalArgumentException("direction and up-direction are linearDependant");
 		}
+		up.normalize();
+		up.negate();
+		right.normalize();
+		towards.normalize();
 	}
-	
+
 	/**
 	 * Transforms image xy coordinates to view pane xyz coordinates. Returns the
 	 * ray that goes through it.
@@ -104,28 +84,23 @@ public class Camera implements IInitable {
 	 * @param y
 	 * @return
 	 */
-	public Ray constructRayThroughPixel(double newX,
-			double newY, int canvasWidth, int canvasHeight) {
-		
-		if (direction == null && lookAt == null) {
-			System.out.println("insufficiant data");
-		}
-		if (direction == null) {
-			direction = new Vec(eye, lookAt);
-		}
-		
-		double width = screenWidth / canvasWidth;	
-		double nWidth = (newX - (canvasWidth / 2)) * width;
-		double nHeight = (newY - (canvasHeight / 2)) * width;
 
-		Vec P = new Vec(direction.x, direction.y, direction.z);
-		P = Vec.add(eye.ToVec(), Vec.scale(screenDist, direction));
+	public Ray constructRayThroughPixel(double x, double y, double height,
+			double width) {
+		double pixSize = screenWidth / width;
+		Point3D centerCoordinate2D = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
+		// the center of the view plane
+		Vec rightProgress = Vec.scale(x - centerCoordinate2D.x,
+				Vec.scale(pixSize, right));
+		Vec upProgress = Vec.scale(y - centerCoordinate2D.y,
+				Vec.scale(pixSize, up));
+		Point3D destinationPixelIn3D = Point3D.add(upProgress, Point3D.add(rightProgress, centerCoordinate3D));
+		Vec vectorBetweenDestinationPixelAndAye = Point3D.vecBetweenTowPoints(
+				destinationPixelIn3D, eye);
+		return new Ray(eye, vectorBetweenDestinationPixelAndAye);
+	}
 
-		P.mac(nHeight, upDirection);
-		P.mac(nWidth, rightDirection);
-		P.sub(eye.ToVec());		
-		P.normalize();
-		
-		return new Ray(eye, P);
+	public Point3D getEye(){
+		return eye;
 	}
 }
