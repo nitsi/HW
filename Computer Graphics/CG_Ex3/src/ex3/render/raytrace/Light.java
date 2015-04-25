@@ -5,7 +5,7 @@ package ex3.render.raytrace;
  */
 public abstract class Light implements IInitable {
 
-	protected Vec color;
+	protected Vec g_color;
 	
 	public abstract Vec getIntansityLight(Point3D p);
 	

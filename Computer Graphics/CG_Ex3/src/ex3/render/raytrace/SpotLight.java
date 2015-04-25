@@ -26,9 +26,9 @@ public class SpotLight extends Light {
 			throws IllegalArgumentException {
 
 		if (!attributes.containsKey("color")) {
-			color = new Vec(1, 1, 1);
+			g_color = new Vec(1, 1, 1);
 		} else {
-			color = new Vec(attributes.get("color"));
+			g_color = new Vec(attributes.get("color"));
 		}
 		if (!attributes.containsKey("pos")) {
 			throw new IllegalArgumentException("missing position to the light");
@@ -71,7 +71,7 @@ public class SpotLight extends Light {
 		double lengthFromHit = p.distance(position);
 		Vec IL = Vec.scale(1 / (kConst + kLinear * lengthFromHit + kQuadratic
 				* lengthFromHit * lengthFromHit),
-				Vec.scale(angleBetweenObjectAndLight, color));
+				Vec.scale(angleBetweenObjectAndLight, g_color));
 		return IL;
 	}
 }
