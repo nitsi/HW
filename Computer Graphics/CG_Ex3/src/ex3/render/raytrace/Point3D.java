@@ -7,17 +7,12 @@ public class Point3D {
 	public double x, y, z;
 
 	/**
-	 * constructor for string input
-	 * 
-	 * @param v
+	 * constructor for empty input
 	 */
-	public Point3D(String v) {
-		Scanner s = new Scanner(v);
-		this.x = s.nextDouble();
-		this.y = s.nextDouble();
-		this.z = s.nextDouble();
-		// close scanner
-		s.close();
+	public Point3D() {
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
 	}
 
 	/**
@@ -45,42 +40,28 @@ public class Point3D {
 	}
 
 	/**
-	 * constructor for empty input
+	 * constructor for string input
+	 * 
+	 * @param v
 	 */
-	public Point3D() {
-		this.x = 0;
-		this.y = 0;
-		this.z = 0;
+	public Point3D(String v) {
+		Scanner s = new Scanner(v);
+		this.x = s.nextDouble();
+		this.y = s.nextDouble();
+		this.z = s.nextDouble();
+		// close scanner
+		s.close();
 	}
 
 	/**
-	 * checks if a given vector equals the Point vector
+	 * Receives a vector and a point
 	 * 
-	 * @param a
-	 * @return
+	 * @param v
+	 * @param p
+	 * @return new Point3D with the new values
 	 */
-	public boolean equals(Vec a) {
-		return ((this.x == a.x) && (this.y == a.y) && (this.z == a.z));
-	}
-
-	/**
-	 * 
-	 * @param point
-	 * @return distance between given point to the current one
-	 */
-	public double distance(Point3D point) {
-		return Math.sqrt(Math.pow((point.x - x), 2) + Math.pow((point.y - y), 2) + Math.pow((point.z - z), 2));
-	}
-
-	/**
-	 * calculates distance between two given Point3D
-	 * 
-	 * @param p1
-	 * @param p2
-	 * @return distance between two given points p1 & p2
-	 */
-	public static double distance(Point3D p1, Point3D p2) {
-		return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2) + Math.pow((p1.z - p2.z), 2));
+	public static Point3D add(Vec v, Point3D p) {
+		return new Point3D(v.x + p.x, v.y + p.y, v.z + p.z);
 	}
 
 	/**
@@ -105,14 +86,33 @@ public class Point3D {
 	}
 
 	/**
-	 * Receives a vector and a point
 	 * 
-	 * @param v
-	 * @param p
-	 * @return new Point3D with the new values
+	 * @param point
+	 * @return distance between given point to the current one
 	 */
-	public static Point3D add(Vec v, Point3D p) {
-		return new Point3D(v.x + p.x, v.y + p.y, v.z + p.z);
+	public double distance(Point3D point) {
+		return Math.sqrt(Math.pow((point.x - x), 2) + Math.pow((point.y - y), 2) + Math.pow((point.z - z), 2));
+	}
+
+	/**
+	 * calculates distance between two given Point3D
+	 * 
+	 * @param p1
+	 * @param p2
+	 * @return distance between two given points p1 & p2
+	 */
+	public static double distance(Point3D p1, Point3D p2) {
+		return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2) + Math.pow((p1.z - p2.z), 2));
+	}
+
+	/**
+	 * checks if a given vector equals the Point vector
+	 * 
+	 * @param a
+	 * @return
+	 */
+	public boolean equals(Vec a) {
+		return ((this.x == a.x) && (this.y == a.y) && (this.z == a.z));
 	}
 
 	/**
