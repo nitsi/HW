@@ -1,23 +1,39 @@
+/*
+Computer Graphics - Exercise 3
+Matan Gidnian	200846905
+Aviad Hahami	302188347
+ */
+
 package ex3.render.raytrace;
 
 import java.util.Map;
 
+
+
 /**
- * Represents the scene's camera.
+ * Camera class represents the camera view in the scene
  * 
  */
 public class Camera implements IInitable {
+	private static final String MISSING = "missing: ";
+	private static final String NO_EYE_CORDS = "eye coordinates!";
+	private static final String NO_LOOK_AT = "look-at attr!";
+	private static final String NO_DIRECTION = "direction attr!";
+	private static final String NO_UP_DIRECTION = "up-direction attr!";
+	private static final String NO_SCREEN_DIST = "screen-dist attr!";
+	private static final String LINEAR_DEPENDANCY = "Both directions are linear dependant!";
 
-	private Point3D eye;
-	private Vec towards;
-	private Vec up;
-	private Vec right;
-	private double screenDist;
-	private double screenWidth;
-	private Point3D centerCoordinate3D;
+	private Point3D g_eye;
 
-	// private double frustum;
+	private Vec g_dirTo;
+	private Vec g_upDirection;
+	private Vec g_rightDirection;
 
+	private double g_screenDist;
+	private double g_screenWidth;
+	private Point3D g_centerCoordinate3D;
+
+	// empty constructor
 	public Camera() {
 	}
 
@@ -26,68 +42,72 @@ public class Camera implements IInitable {
 		if (!attributes.containsKey("eye")) {
 			throw new IllegalArgumentException("pleas enter aye coordinate");
 		}
-		eye = new Point3D(attributes.get("eye"));
+		g_eye = new Point3D(attributes.get("eye"));
 
 		if (!attributes.containsKey("look-at") && !attributes.containsKey("direction")) {
 			throw new IllegalArgumentException("missing direction or look-at attributes");
 		}
 		if (attributes.containsKey("direction")) {
-			towards = new Vec(attributes.get("direction"));
+			g_dirTo = new Vec(attributes.get("direction"));
 		} else {
-			towards = Point3D.vectorBetweenTwoPoints(new Point3D(attributes.get("loot-at")), eye);
+			g_dirTo = Point3D.vectorBetweenTwoPoints(new Point3D(attributes.get("loot-at")), g_eye);
 		}
 		if (!attributes.containsKey("up-direction")) {
 			throw new IllegalArgumentException("missing up-direction");
 		}
 		Vec tempUp = new Vec(attributes.get("up-direction"));
-		right = Vec.crossProd(towards, tempUp);
-		if (!(Vec.dotProd(towards, tempUp) == 0)) {
-			up = Vec.crossProd(towards, right);
+		g_rightDirection = Vec.crossProd(g_dirTo, tempUp);
+		if (!(Vec.dotProd(g_dirTo, tempUp) == 0)) {
+			g_upDirection = Vec.crossProd(g_dirTo, g_rightDirection);
 		} else {
-			up = tempUp;
+			g_upDirection = tempUp;
 		}
 		if (!attributes.containsKey("screen-dist")) {
 			throw new IllegalArgumentException("missing screen-dist");
 		} else {
-			screenDist = Double.parseDouble(attributes.get("screen-dist"));
+			g_screenDist = Double.parseDouble(attributes.get("screen-dist"));
 		}
 
 		if (!attributes.containsKey("screen-width")) {
-			screenWidth = 2;
+			g_screenWidth = 2;
 		} else {
-			screenWidth = Double.parseDouble(attributes.get("screen-width"));
+			g_screenWidth = Double.parseDouble(attributes.get("screen-width"));
 		}
-		centerCoordinate3D = Point3D.add(Vec.scale(screenDist, towards), eye);
-		if (Vec.isLinearDependant(towards, up)) {
+		g_centerCoordinate3D = Point3D.add(Vec.scale(g_screenDist, g_dirTo), g_eye);
+		if (Vec.isLinearDependant(g_dirTo, g_upDirection)) {
 			throw new IllegalArgumentException("direction and up-direction are linearDependant");
 		}
-		up.normalize();
-		up.negate();
-		right.normalize();
-		towards.normalize();
+		g_upDirection.normalize();
+		g_upDirection.negate();
+		g_rightDirection.normalize();
+		g_dirTo.normalize();
 	}
 
 	/**
-	 * Transforms image xy coordinates to view pane xyz coordinates. Returns the
-	 * ray that goes through it.
+	 * Transforms image's X,Y coordinates to pane's X,Y,Z coordinates.
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @param height
+	 * @param width
+	 * @return - piercing ray
 	 */
 
-	public Ray constructRayThroughPixel(double x, double y, double height, double width) {
-		double pixSize = screenWidth / width;
-		Point3D centerCoordinate2D = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
-		// the center of the view plane
-		Vec rightProgress = Vec.scale(x - centerCoordinate2D.x, Vec.scale(pixSize, right));
-		Vec upProgress = Vec.scale(y - centerCoordinate2D.y, Vec.scale(pixSize, up));
-		Point3D destinationPixelIn3D = Point3D.add(upProgress, Point3D.add(rightProgress, centerCoordinate3D));
-		Vec vectorBetweenDestinationPixelAndAye = Point3D.vectorBetweenTwoPoints(destinationPixelIn3D, eye);
-		return new Ray(eye, vectorBetweenDestinationPixelAndAye);
+	public Ray generatePixelPiercingRay(double x, double y, double height, double width) {
+		double i_pixelSize = g_screenWidth / width;
+		// init view pane center
+		Point3D i_2DcenterCoordinate = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
+
+		Vec i_rightDirectionProgress = Vec.scale(x - i_2DcenterCoordinate.x, Vec.scale(i_pixelSize, g_rightDirection));
+		Vec i_upDirectionProgress = Vec.scale(y - i_2DcenterCoordinate.y, Vec.scale(i_pixelSize, g_upDirection));
+
+		Point3D i_destinationPixel3DFormat = Point3D.add(i_upDirectionProgress, Point3D.add(i_rightDirectionProgress, g_centerCoordinate3D));
+
+		Vec i_vectorBetweenDestPixelAndEye = Point3D.vectorBetweenTwoPoints(i_destinationPixel3DFormat, g_eye);
+		return new Ray(g_eye, i_vectorBetweenDestPixelAndEye);
 	}
 
 	public Point3D getEye() {
-		return eye;
+		return g_eye;
 	}
 }
