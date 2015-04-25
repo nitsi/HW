@@ -1,3 +1,9 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
+
 package ex3.render.raytrace;
 
 import java.util.HashMap;
@@ -6,68 +12,81 @@ import java.util.TreeMap;
 
 public class Polygon extends Surface {
 
-	private int size;
-	private Point3D[] p;
+	private static final String INVALID_POLYGON_SIZE = "Invalid polygon size!";
+	private int g_PolygonSize;
+	private Point3D[] g_PolygonPointsArray;
 
 	public Polygon() {
 	}
 
+	/**
+	 * constructs polygon
+	 * 
+	 * @param attributes
+	 */
 	public Polygon(Map<String, String> attributes) {
-		size = 0;
+		g_PolygonSize = 0;
 		originInit(attributes);
 		init(attributes);
 	}
 
 	public int getSize() {
-		return size;
+		return g_PolygonSize;
 	}
 
-	public Point3D getPoint(int i) {
-		if (i < 0 || i > size - 1) {
-			return null;
-		}
-		return p[i];
+	/**
+	 * 
+	 * @param index
+	 * @return polygon point (Point3D) @ a given index
+	 */
+	public Point3D getPolygonPointAtIndex(int index) {
+		// verify index is in bounds
+		return (index >= 0 || index <= g_PolygonSize - 1) ? g_PolygonPointsArray[index] : null;
 	}
 
 	@Override
 	public void init(Map<String, String> attributes) throws IllegalArgumentException {
 
-		Map<String, String> justThePoints = new HashMap<String, String>();
+		Map<String, String> i_PolygonPointsMap = new HashMap<String, String>();
 
-		// Filter out just the points from the attributes, and count them
-		for (Map.Entry<String, String> entry : attributes.entrySet()) {
-			if (entry.getKey().startsWith("p")) {
-				justThePoints.put(entry.getKey(), entry.getValue());
-				size++;
+		// Purify points data from XML crap
+		for (Map.Entry<String, String> mapEntry : attributes.entrySet()) {
+			if (mapEntry.getKey().startsWith("p")) {
+				i_PolygonPointsMap.put(mapEntry.getKey(), mapEntry.getValue());
 			}
 		}
+		// set the size according to the table
+		g_PolygonSize = i_PolygonPointsMap.size();
 
-		// Sanity check
-		if (size < 3) {
-			throw new IllegalArgumentException("Invalid Poly");
+		// Verify we're not going anywhere bad
+		if (g_PolygonSize <= 2) {
+			throw new IllegalArgumentException(INVALID_POLYGON_SIZE);
 		}
 
-		// Make sure the points are in sorted order
-		Map<String, String> justThePointsSorted = new TreeMap<String, String>(justThePoints);
+		// Sort the points in the map using RB trees(TreeMap implementation)
 
-		// Initialize the points array
-		p = new Point3D[size];
+		Map<String, String> i_PolygonPointsSortedMap = new TreeMap<String, String>(i_PolygonPointsMap);
 
-		// Populate the points array
-		for (int i = 0; i < size; i++) {
-			p[i] = new Point3D(justThePointsSorted.get("p" + i));
+		// Generate the points array with the polygon size data
+		g_PolygonPointsArray = new Point3D[g_PolygonSize];
+
+		// Insert data from the map to array
+		String i_pointIndexString = null;
+		for (int i = 0; i < g_PolygonSize; i++) {
+			i_pointIndexString = "p" + i;
+			g_PolygonPointsArray[i] = new Point3D(i_PolygonPointsSortedMap.get(i_pointIndexString));
 		}
 
 	}
 
 	@Override
-	public Vec getNormalInPoint(Point3D p) {
+	public Vec getNormalAtPoint(Point3D point) {
 
-		Vec oneVectorInThePoli = Point3D.vectorBetweenTwoPoints(this.p[0], this.p[1]);
-		Vec towVectorInThePoli = Point3D.vectorBetweenTwoPoints(this.p[0], this.p[2]);
-		Vec normal = Vec.crossProd(oneVectorInThePoli, towVectorInThePoli);
-		normal.normalize();
-		return normal;
+		Vec i_v1 = Point3D.vectorBetweenTwoPoints(this.g_PolygonPointsArray[0], this.g_PolygonPointsArray[1]);
+		Vec i_v2 = Point3D.vectorBetweenTwoPoints(this.g_PolygonPointsArray[0], this.g_PolygonPointsArray[2]);
+		Vec i_calculatedNormal = Vec.crossProd(i_v1, i_v2);
+		i_calculatedNormal.normalize();
+		return i_calculatedNormal;
 	}
 
 }

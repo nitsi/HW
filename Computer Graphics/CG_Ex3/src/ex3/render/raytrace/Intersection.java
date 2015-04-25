@@ -90,7 +90,7 @@ public class Intersection {
 	public static Point3D intersection_RayAndPolygon(Ray ray, Polygon polygon) {
 
 		// Test whether the ray intersects with the polygon's plane
-		Point3D i_RayAndPolygonSurfaceIntersection = intersection_RayAndSurface(ray, polygon.getNormalInPoint(null), polygon.getPoint(0));
+		Point3D i_RayAndPolygonSurfaceIntersection = intersection_RayAndSurface(ray, polygon.getNormalAtPoint(null), polygon.getPolygonPointAtIndex(0));
 
 		// if no intersection with the plane, there's no intersection with the
 		// polygon either
@@ -102,8 +102,8 @@ public class Intersection {
 		Vec i_zeroVector = new Vec(0, 0, 0);
 		for (int i = 0; i < polygon.getSize(); i++) {
 
-			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPoint(i), ray.g_rayPoint);
-			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPoint((i + 1) % polygon.getSize()), ray.g_rayPoint);
+			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPolygonPointAtIndex(i), ray.g_rayPoint);
+			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPolygonPointAtIndex((i + 1) % polygon.getSize()), ray.g_rayPoint);
 
 
 			// get the cross product
