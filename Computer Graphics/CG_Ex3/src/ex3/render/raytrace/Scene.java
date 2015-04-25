@@ -129,9 +129,9 @@ public class Scene implements IInitable {
 		for (Light light : lights) {
 			Ray shootRayToLight = null;
 			double distanceToLight = 0;
-			if (light instanceof dirLight) {
+			if (light instanceof DirectionLight) {
 				distanceToLight = Double.MAX_VALUE;
-				Vec OpDirection = ((dirLight) light).getDirection();
+				Vec OpDirection = ((DirectionLight) light).getDirection();
 				OpDirection.negate();
 				shootRayToLight = new Ray(intersection.getPoint(), OpDirection);
 			}
@@ -206,8 +206,8 @@ public class Scene implements IInitable {
 		// and the light source, and IL at that point
 		Vec L = null;
 		Vec IL = null;
-		if (light instanceof dirLight) {
-			dirLight dLight = (dirLight) light;
+		if (light instanceof DirectionLight) {
+			DirectionLight dLight = (DirectionLight) light;
 			L = dLight.getDirection();
 			L.negate();
 			IL = dLight.getIntansityLight(point);
@@ -259,8 +259,8 @@ public class Scene implements IInitable {
 		// and the light source, and IL at that point
 		Vec L = null;
 		Vec IL = null;
-		if (light instanceof dirLight) {
-			dirLight dLight = (dirLight) light;
+		if (light instanceof DirectionLight) {
+			DirectionLight dLight = (DirectionLight) light;
 			L = dLight.getDirection();
 			L.negate();
 			IL = dLight.getIntansityLight(intersectionPoint);
@@ -332,8 +332,8 @@ public class Scene implements IInitable {
 				light = new OmniLight(attributes);
 			}
 			if ("dir-light".equals(name)) {
-				light = new dirLight();
-				light = new dirLight(attributes);
+				light = new DirectionLight();
+				light = new DirectionLight(attributes);
 			}
 			if ("spot-light".equals(name)) {
 				light = new SpotLight();
