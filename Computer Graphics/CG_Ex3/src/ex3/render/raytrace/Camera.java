@@ -31,6 +31,7 @@ public class Camera implements IInitable {
 	private double g_screenWidth;
 	private Point3D g_centerCoordinate3D;
 
+	// empty constructor
 	public Camera() {
 	}
 
@@ -43,7 +44,7 @@ public class Camera implements IInitable {
 
 			/**
 			 * will set the direction to the received attribute, otherwise will
-			 * set as the vector between two points
+			 * set as the vector between "look-at" attribute and the eye
 			 */
 
 			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vecBetweenTwoPoints(
@@ -64,7 +65,8 @@ public class Camera implements IInitable {
 			g_screenWidth = attributes.containsKey("screen-width") ? Double.parseDouble(attributes.get("screen-width")) : 2;
 
 			g_centerCoordinate3D = Point3D.add(Vec.scale(g_screenDist, g_dirTo), g_eye);
-
+			
+			//test for linear dependency
 			if (Vec.isLinearDependant(g_dirTo, g_upDirection)) {
 				throw new IllegalArgumentException(LINEAR_DEPENDANCY);
 			}
@@ -84,7 +86,7 @@ public class Camera implements IInitable {
 	 * verifies the XML input, will generate exceptions otherwise
 	 * 
 	 * @param attributes
-	 * @return
+	 * @return - true if all passed
 	 */
 	private boolean verifyIputs(Map<String, String> attributes) {
 
@@ -129,7 +131,7 @@ public class Camera implements IInitable {
 		Vec i_upDirectionProgress = Vec.scale(y - i_2DcenterCoordinate.y, Vec.scale(i_pixelSize, g_upDirection));
 
 		Point3D i_destinationPixel3DFormat = Point3D.add(i_upDirectionProgress, Point3D.add(i_rightDirectionProgress, g_centerCoordinate3D));
-		
+
 		Vec i_vectorBetweenDestPixelAndEye = Point3D.vecBetweenTwoPoints(i_destinationPixel3DFormat, g_eye);
 		return new Ray(g_eye, i_vectorBetweenDestPixelAndEye);
 	}
