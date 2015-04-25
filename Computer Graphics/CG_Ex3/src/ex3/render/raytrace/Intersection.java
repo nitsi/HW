@@ -22,9 +22,9 @@ public class Intersection {
 
 	public static Point3D intersection_RayAndSphere(Ray ray, Sphere sphere) {
 
-		Vec i_zeroToP0 = Point3D.vectorBetweenTwoPoints(ray.p, sphere.getCenter());
+		Vec i_zeroToP0 = Point3D.vectorBetweenTwoPoints(ray.g_rayPoint, sphere.getCenter());
 		double i_ONE = 1;
-		double i_doubleDotProd = 2 * Vec.dotProd(ray.v, i_zeroToP0);
+		double i_doubleDotProd = 2 * Vec.dotProd(ray.g_rayDirection, i_zeroToP0);
 		double i_distanceDiff = i_zeroToP0.lengthSquared() - (Math.pow(sphere.getRadius(), 2));
 
 		double i_discriminant = (Math.pow(i_doubleDotProd, 2) - (4 * i_ONE * i_distanceDiff));
@@ -46,7 +46,7 @@ public class Intersection {
 				double i_minimalValue = Math.min(i_intersectionCalc1, i_intersectionCalc2);
 
 				// Return the intersection location in Point3D
-				return Point3D.add(Vec.scale(i_minimalValue, ray.v), ray.p);
+				return Point3D.add(Vec.scale(i_minimalValue, ray.g_rayDirection), ray.g_rayPoint);
 
 			} else {
 				return null;
@@ -101,8 +101,8 @@ public class Intersection {
 		// we verify the intersection happened within the polygon's area
 		Vec i_zeroVector = new Vec(0, 0, 0);
 		for (int i = 0; i < polygon.getSize(); i++) {
-			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPointAtLocation(i), ray.p);
-			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPointAtLocation((i + 1) % polygon.getSize()), ray.p);
+			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPointAtLocation(i), ray.g_rayPoint);
+			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPointAtLocation((i + 1) % polygon.getSize()), ray.g_rayPoint);
 
 			// get the cross product
 			Vec i_vectorsNormal = Vec.crossProd(i_secondVector, i_firstVector);
@@ -114,7 +114,7 @@ public class Intersection {
 				i_vectorsNormal.normalize();
 				// if the dot product of the normal and the ray is smaller than
 				// zero, we're out
-				if (Vec.dotProd(i_vectorsNormal, ray.v) < 0) {
+				if (Vec.dotProd(i_vectorsNormal, ray.g_rayDirection) < 0) {
 					return null;
 				}
 			}
@@ -124,7 +124,7 @@ public class Intersection {
 
 	private static Point3D intersection_RayAndSurface(Ray ray, Vec surfaceNormal, Point3D pointOnSurface) {
 
-		double i_RaySurfaceIntersection = Vec.dotProd(ray.v, surfaceNormal);
+		double i_RaySurfaceIntersection = Vec.dotProd(ray.g_rayDirection, surfaceNormal);
 
 		// Test if the surface is facing the ray
 		if (i_RaySurfaceIntersection >= 0) {
@@ -136,12 +136,12 @@ public class Intersection {
 		// If we got here, then the ray and the surface are not parallel.
 		// Find the intersection of the ray with the surface plane
 
-		Vec i_RayToSurfaceDistance = Point3D.vectorBetweenTwoPoints(pointOnSurface, ray.p);
+		Vec i_RayToSurfaceDistance = Point3D.vectorBetweenTwoPoints(pointOnSurface, ray.g_rayPoint);
 
 		double i_RayToSurfaceNormal = Vec.dotProd(i_RayToSurfaceDistance, surfaceNormal);
 
 		double i_RayToSurfaceNormalDivision = i_RayToSurfaceNormal / i_RaySurfaceIntersection;
-		return Point3D.add(Vec.scale(i_RayToSurfaceNormalDivision, ray.v), ray.p);
+		return Point3D.add(Vec.scale(i_RayToSurfaceNormalDivision, ray.g_rayDirection), ray.g_rayPoint);
 
 	}
 

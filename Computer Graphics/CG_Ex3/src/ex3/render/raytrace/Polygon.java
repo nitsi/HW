@@ -54,32 +54,30 @@ public class Polygon extends Surface {
 
 	@Override
 	public void init(Map<String, String> attributes) {
-		// Verify polygon is in legitimate size
-		if (verifyPolygonSize()) {
 
-			Map<String, String> i_PolygonPointsMap = new HashMap<String, String>();
+		Map<String, String> i_PolygonPointsMap = new HashMap<String, String>();
 
-			// Retrieve the points from XML
-			for (Map.Entry<String, String> mapEntry : attributes.entrySet()) {
-				if (mapEntry.getKey().startsWith("p")) {
-					i_PolygonPointsMap.put(mapEntry.getKey(), mapEntry.getValue());
-				}
+		// Retrieve the points from XML
+		for (Map.Entry<String, String> mapEntry : attributes.entrySet()) {
+			if (mapEntry.getKey().startsWith("p")) {
+				i_PolygonPointsMap.put(mapEntry.getKey(), mapEntry.getValue());
 			}
-			// set the size
-			g_polygonSize = i_PolygonPointsMap.size();
+		}
+		// set the size
+		g_polygonSize = i_PolygonPointsMap.size();
 
-			// Sort points using RB trees (tree map implementation)
-			Map<String, String> i_SortedPolygonPointsMap = new TreeMap<String, String>(i_PolygonPointsMap);
+		// Sort points using RB trees (tree map implementation)
+		Map<String, String> i_SortedPolygonPointsMap = new TreeMap<String, String>(i_PolygonPointsMap);
 
-			// Initialize the points array
-			g_PointsArray = new Point3D[g_polygonSize];
+		// Initialize the points array
+		g_PointsArray = new Point3D[g_polygonSize];
 
-			// Populate the points array
-			String i_pointString = null;
-			for (int i = 0; i < g_polygonSize; i++) {
-				i_pointString = "p" + i;
-				g_PointsArray[i] = new Point3D(i_SortedPolygonPointsMap.get(i_pointString));
-			}
+		// Populate the points array
+		String i_pointString = null;
+		for (int i = 0; i < g_polygonSize; i++) {
+			i_pointString = "p" + i;
+			g_PointsArray[i] = new Point3D(i_SortedPolygonPointsMap.get(i_pointString));
+
 		}
 
 	}
@@ -92,7 +90,7 @@ public class Polygon extends Surface {
 	 * @throws IllegalArgumentException
 	 */
 	private boolean verifyPolygonSize() throws IllegalArgumentException {
-		if (g_polygonSize <= 2) {
+		if (g_polygonSize < 3) {
 			throw new IllegalArgumentException(WRONG_POLYGON_SIZE);
 		}
 		return true;
@@ -101,7 +99,7 @@ public class Polygon extends Surface {
 	@Override
 	public Vec getNormalAtLocation(Point3D p) {
 		// we ignore the given point (p) in this implementation
-		
+
 		// calculate the normal
 		Vec i_polygonGeneralNormal = Vec.crossProd(Point3D.vectorBetweenTwoPoints(this.g_PointsArray[0], this.g_PointsArray[1]),
 				Point3D.vectorBetweenTwoPoints(this.g_PointsArray[0], this.g_PointsArray[2]));

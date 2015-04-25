@@ -12,8 +12,7 @@ public class Ex3 {
 	private static String getAboutMessage() {
 		// TODO: Add any specific instructions here if you changed any thing or
 		// had any improvements document them all
-		return "GUI for exercise3\nPlease include any specific information you may "
-				+ "want the grader to see while testing this.";
+		return "GUI for exercise3\nPlease include any specific information you may " + "want the grader to see while testing this.";
 	}
 
 	/**
@@ -21,7 +20,7 @@ public class Ex3 {
 	 * <canvas height> <target image filename>
 	 */
 	public static void main(String[] args) {
-
+		System.out.println("mine");
 		String sceneFilename = null;
 		String imageFilename = null;
 		int canvasWidth = 960;
@@ -42,8 +41,7 @@ public class Ex3 {
 
 		// Init GUI
 		MainFrame mainFrame = new MainFrame();
-		mainFrame.initialize(sceneFilename, canvasWidth, canvasHeight,
-				getAboutMessage());
+		mainFrame.initialize(sceneFilename, canvasWidth, canvasHeight, getAboutMessage());
 
 		if (imageFilename == null) {
 			mainFrame.setVisible(true);

@@ -69,8 +69,8 @@ public class Scene implements IInitable {
 				if (p == null) {
 					continue;
 				}
-				if (Point3D.distance(ray.p, p) < minDistance && Point3D.distance(ray.p, p) > 0.001) {
-					minDistance = Point3D.distance(ray.p, p);
+				if (Point3D.distance(ray.g_rayPoint, p) < minDistance && Point3D.distance(ray.g_rayPoint, p) > 0.001) {
+					minDistance = Point3D.distance(ray.g_rayPoint, p);
 					minPoint = p;
 					surface = shape;
 				}
@@ -80,8 +80,8 @@ public class Scene implements IInitable {
 				if (p == null) {
 					continue;
 				}
-				if (Point3D.distance(ray.p, p) < minDistance && Point3D.distance(ray.p, p) > 0.001) {
-					minDistance = Point3D.distance(ray.p, p);
+				if (Point3D.distance(ray.g_rayPoint, p) < minDistance && Point3D.distance(ray.g_rayPoint, p) > 0.001) {
+					minDistance = Point3D.distance(ray.g_rayPoint, p);
 					minPoint = p;
 					surface = shape;
 				}
@@ -91,8 +91,8 @@ public class Scene implements IInitable {
 				if (p == null) {
 					continue;
 				}
-				if (Point3D.distance(ray.p, p) < minDistance && Point3D.distance(ray.p, p) > 0.001) {
-					minDistance = Point3D.distance(ray.p, p);
+				if (Point3D.distance(ray.g_rayPoint, p) < minDistance && Point3D.distance(ray.g_rayPoint, p) > 0.001) {
+					minDistance = Point3D.distance(ray.g_rayPoint, p);
 					minPoint = p;
 					surface = shape;
 				}
@@ -143,7 +143,7 @@ public class Scene implements IInitable {
 			}
 			Intersection intersectionWithobject = findIntersection(shootRayToLight);
 			if (intersectionWithobject != null) {
-				double distanceToNewIntersection = Point3D.distance(shootRayToLight.p, intersectionWithobject.getPoint());
+				double distanceToNewIntersection = Point3D.distance(shootRayToLight.g_rayPoint, intersectionWithobject.getPoint());
 				if (distanceToLight > distanceToNewIntersection + 0.0001 && distanceToNewIntersection > 0.0001) {
 					continue;
 				}
@@ -153,7 +153,7 @@ public class Scene implements IInitable {
 
 		}
 		Vec normal = intersection.getSurface().getNormalAtLocation(intersection.getPoint());
-		Ray reflectionRay = new Ray(intersection.getPoint(), ray.v.reflect(normal));
+		Ray reflectionRay = new Ray(intersection.getPoint(), ray.g_rayDirection.reflect(normal));
 		double KS = intersection.getSurface().getReflectance();
 		Vec reflectionColor = calcColor(reflectionRay, level + 1);
 		color.add(Vec.scale(KS, reflectionColor));
@@ -263,7 +263,7 @@ public class Scene implements IInitable {
 		// Reflect L in relation to N
 		Vec R = L.reflect(normalAtIntersectionPoint);
 		R.normalize();
-		Vec eyeLookAtPoint = Point3D.vectorBetweenTwoPoints(ray.p, intersectionPoint);
+		Vec eyeLookAtPoint = Point3D.vectorBetweenTwoPoints(ray.g_rayPoint, intersectionPoint);
 		eyeLookAtPoint.normalize();
 		// Calculate the dot product between them
 		double dotProduct = Math.max(0, Vec.dotProd(eyeLookAtPoint, R));

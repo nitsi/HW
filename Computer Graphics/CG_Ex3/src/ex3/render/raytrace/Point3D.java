@@ -50,12 +50,17 @@ public class Point3D {
 	 * @param v
 	 */
 	public Point3D(String v) {
-		Scanner s = new Scanner(v);
-		this.x = s.nextDouble();
-		this.y = s.nextDouble();
-		this.z = s.nextDouble();
-		// close scanner
-		s.close();
+		try {
+			Scanner s = new Scanner(v);
+			this.x = s.nextDouble();
+			this.y = s.nextDouble();
+			this.z = s.nextDouble();
+			// close scanner
+			s.close();
+		} catch (NullPointerException e) {
+			System.err.print(e);
+
+		}
 	}
 
 	/**

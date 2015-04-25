@@ -1,23 +1,24 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
 package ex3.render.raytrace;
-
 
 public class Ray {
 
-	// point of origin
-	 public Point3D p; 
-	// ray direction
-	 public Vec v; 
-	
+	public Point3D g_rayPoint;
+	public Vec g_rayDirection;
+
 	/**
-	 * constructs a new ray
-	 * @param p - point of origin
-	 * @param v - ray direction
+	 * 
+	 * @param rayPoint
+	 * @param rayDirection
 	 */
-	
-	public Ray(Point3D p, Vec v) {
-		this.p = p;
-		this.v = v;
-		v.normalize();
+	public Ray(Point3D rayPoint, Vec rayDirection) {
+		this.g_rayPoint = rayPoint;
+		this.g_rayDirection = rayDirection;
+		rayDirection.normalize();
 	}
-	
+
 }

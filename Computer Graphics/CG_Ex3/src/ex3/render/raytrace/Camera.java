@@ -48,7 +48,7 @@ public class Camera implements IInitable {
 			 */
 
 			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vectorBetweenTwoPoints(
-					new Point3D(attributes.get("loot-at")), g_eye);
+					new Point3D(attributes.get("look-at")), g_eye);
 
 			Vec i_tempUpDirection = new Vec(attributes.get("up-direction"));
 
@@ -94,9 +94,9 @@ public class Camera implements IInitable {
 			throw new IllegalArgumentException(MISSING + NO_EYE_CORDS);
 		}
 
-		if (!attributes.containsKey("look-at")) {
+	/*	if (!attributes.containsKey("look-at")) {
 			throw new IllegalArgumentException(MISSING + NO_LOOK_AT);
-		}
+		}*/
 
 		if (!attributes.containsKey("direction")) {
 			throw new IllegalArgumentException(MISSING + NO_DIRECTION);
