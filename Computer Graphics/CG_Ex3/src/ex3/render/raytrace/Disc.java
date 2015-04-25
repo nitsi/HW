@@ -58,7 +58,7 @@ public class Disc extends Sphere {
 	}
 
 	@Override
-	public Vec getNormalInPoint(Point3D p) {
+	public Vec getNormalAtLocation(Point3D p) {
 		return g_normal;
 	}
 

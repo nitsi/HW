@@ -152,7 +152,7 @@ public class Scene implements IInitable {
 			color.add(calcSpecularColor(intersection, light, ray));
 
 		}
-		Vec normal = intersection.getSurface().getNormalInPoint(intersection.getPoint());
+		Vec normal = intersection.getSurface().getNormalAtLocation(intersection.getPoint());
 		Ray reflectionRay = new Ray(intersection.getPoint(), ray.v.reflect(normal));
 		double KS = intersection.getSurface().getReflectance();
 		Vec reflectionColor = calcColor(reflectionRay, level + 1);
@@ -186,7 +186,7 @@ public class Scene implements IInitable {
 		Point3D point = intersection.getPoint();
 
 		// Find the normal at the intersection point
-		Vec normalAtIntersectionPoint = object.getNormalInPoint(point);
+		Vec normalAtIntersectionPoint = object.getNormalAtLocation(point);
 
 		// Find the vector between the intersection point
 		// and the light source, and IL at that point
@@ -238,7 +238,7 @@ public class Scene implements IInitable {
 		Point3D intersectionPoint = intersection.getPoint();
 
 		// Find the normal at the intersection point
-		Vec normalAtIntersectionPoint = object.getNormalInPoint(intersectionPoint);
+		Vec normalAtIntersectionPoint = object.getNormalAtLocation(intersectionPoint);
 
 		// Find the vector between the intersection point
 		// and the light source, and IL at that point

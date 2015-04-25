@@ -11,68 +11,102 @@ import java.util.TreeMap;
 
 public class Polygon extends Surface {
 
-	private int size;
-	private Point3D[] p;
+	private static final String WRONG_POLYGON_SIZE = "Wrong polygon size!";
 
+	private int g_polygonSize;
+	private Point3D[] g_PointsArray;
+
+	/**
+	 * empty constructor
+	 */
 	public Polygon() {
 	}
 
+	/**
+	 * constructor using XML attributes
+	 * 
+	 * @param attributes
+	 */
 	public Polygon(Map<String, String> attributes) {
-		size = 0;
+		g_polygonSize = 0;
 		originInit(attributes);
 		init(attributes);
 	}
 
-	public int getSize() {
-		return size;
+	/**
+	 * retrieves a point at given index from points array
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public Point3D getPointAtLocation(int index) {
+		// verify we won't get array out of bounds
+		return (index < 0 || index + 1 > g_polygonSize) ? null : g_PointsArray[index];
 	}
 
-	public Point3D getPoint(int i) {
-		if (i < 0 || i > size - 1) {
-			return null;
-		}
-		return p[i];
+	/**
+	 * 
+	 * @return this polygon's size
+	 */
+	public int getSize() {
+		return g_polygonSize;
 	}
 
 	@Override
-	public void init(Map<String, String> attributes) throws IllegalArgumentException {
+	public void init(Map<String, String> attributes) {
+		// Verify polygon is in legitimate size
+		if (verifyPolygonSize()) {
 
-		Map<String, String> justThePoints = new HashMap<String, String>();
+			Map<String, String> i_PolygonPointsMap = new HashMap<String, String>();
 
-		// Filter out just the points from the attributes, and count them
-		for (Map.Entry<String, String> entry : attributes.entrySet()) {
-			if (entry.getKey().startsWith("p")) {
-				justThePoints.put(entry.getKey(), entry.getValue());
-				size++;
+			// Retrieve the points from XML
+			for (Map.Entry<String, String> mapEntry : attributes.entrySet()) {
+				if (mapEntry.getKey().startsWith("p")) {
+					i_PolygonPointsMap.put(mapEntry.getKey(), mapEntry.getValue());
+				}
+			}
+			// set the size
+			g_polygonSize = i_PolygonPointsMap.size();
+
+			// Sort points using RB trees (tree map implementation)
+			Map<String, String> i_SortedPolygonPointsMap = new TreeMap<String, String>(i_PolygonPointsMap);
+
+			// Initialize the points array
+			g_PointsArray = new Point3D[g_polygonSize];
+
+			// Populate the points array
+			String i_pointString = null;
+			for (int i = 0; i < g_polygonSize; i++) {
+				i_pointString = "p" + i;
+				g_PointsArray[i] = new Point3D(i_SortedPolygonPointsMap.get(i_pointString));
 			}
 		}
 
-		// Sanity check
-		if (size < 3) {
-			throw new IllegalArgumentException("Invalid Poly");
+	}
+
+	/**
+	 * tests whether the polygon size is smaller or equal to 2, if so we invoke
+	 * exception
+	 * 
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	private boolean verifyPolygonSize() throws IllegalArgumentException {
+		if (g_polygonSize <= 2) {
+			throw new IllegalArgumentException(WRONG_POLYGON_SIZE);
 		}
-
-		// Make sure the points are in sorted order
-		Map<String, String> justThePointsSorted = new TreeMap<String, String>(justThePoints);
-
-		// Initialize the points array
-		p = new Point3D[size];
-
-		// Populate the points array
-		for (int i = 0; i < size; i++) {
-			p[i] = new Point3D(justThePointsSorted.get("p" + i));
-		}
-
+		return true;
 	}
 
 	@Override
-	public Vec getNormalInPoint(Point3D p) {
-
-		Vec oneVectorInThePoli = Point3D.vectorBetweenTwoPoints(this.p[0], this.p[1]);
-		Vec towVectorInThePoli = Point3D.vectorBetweenTwoPoints(this.p[0], this.p[2]);
-		Vec normal = Vec.crossProd(oneVectorInThePoli, towVectorInThePoli);
-		normal.normalize();
-		return normal;
+	public Vec getNormalAtLocation(Point3D p) {
+		// we ignore the given point (p) in this implementation
+		
+		// calculate the normal
+		Vec i_polygonGeneralNormal = Vec.crossProd(Point3D.vectorBetweenTwoPoints(this.g_PointsArray[0], this.g_PointsArray[1]),
+				Point3D.vectorBetweenTwoPoints(this.g_PointsArray[0], this.g_PointsArray[2]));
+		i_polygonGeneralNormal.normalize();
+		return i_polygonGeneralNormal;
 	}
 
 }
