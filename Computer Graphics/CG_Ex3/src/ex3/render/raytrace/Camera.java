@@ -38,7 +38,7 @@ public class Camera implements IInitable {
 	public void init(Map<String, String> attributes) throws IllegalArgumentException {
 
 		// if all input tests passed, we continue
-		if (verifyIputs(attributes)) {
+		if (verifyInputs(attributes)) {
 
 			this.g_eye = new Point3D(attributes.get("eye"));
 
@@ -47,8 +47,8 @@ public class Camera implements IInitable {
 			 * set as the vector between "look-at" attribute and the eye
 			 */
 
-			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vectorBetweenTwoPoints(
-					new Point3D(attributes.get("look-at")), g_eye);
+			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vectorBetweenTwoPoints(new Point3D(
+					attributes.get("look-at")), g_eye);
 
 			Vec i_tempUpDirection = new Vec(attributes.get("up-direction"));
 
@@ -65,8 +65,8 @@ public class Camera implements IInitable {
 			g_screenWidth = attributes.containsKey("screen-width") ? Double.parseDouble(attributes.get("screen-width")) : 2;
 
 			g_centerCoordinate3D = Point3D.add(Vec.scale(g_screenDist, g_dirTo), g_eye);
-			
-			//test for linear dependency
+
+			// test for linear dependency
 			if (Vec.isLinearDependant(g_dirTo, g_upDirection)) {
 				throw new IllegalArgumentException(LINEAR_DEPENDANCY);
 			}
@@ -88,15 +88,15 @@ public class Camera implements IInitable {
 	 * @param attributes
 	 * @return - true if all passed
 	 */
-	private boolean verifyIputs(Map<String, String> attributes) {
+	private boolean verifyInputs(Map<String, String> attributes) {
 
 		if (!attributes.containsKey("eye")) {
 			throw new IllegalArgumentException(MISSING + NO_EYE_CORDS);
 		}
 
-	/*	if (!attributes.containsKey("look-at")) {
+		if (!attributes.containsKey("look-at")) {
 			throw new IllegalArgumentException(MISSING + NO_LOOK_AT);
-		}*/
+		}
 
 		if (!attributes.containsKey("direction")) {
 			throw new IllegalArgumentException(MISSING + NO_DIRECTION);

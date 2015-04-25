@@ -35,7 +35,6 @@ public class Polygon extends Surface {
 	}
 
 	@Override
-
 	public void init(Map<String, String> attributes) throws IllegalArgumentException {
 
 		Map<String, String> justThePoints = new HashMap<String, String>();
@@ -69,7 +68,6 @@ public class Polygon extends Surface {
 	}
 
 	@Override
-
 	public Vec getNormalInPoint(Point3D p) {
 
 		Vec oneVectorInThePoli = Point3D.vectorBetweenTwoPoints(this.p[0], this.p[1]);
@@ -77,7 +75,7 @@ public class Polygon extends Surface {
 		Vec normal = Vec.crossProd(oneVectorInThePoli, towVectorInThePoli);
 		normal.normalize();
 		return normal;
->
+
 	}
 
 }

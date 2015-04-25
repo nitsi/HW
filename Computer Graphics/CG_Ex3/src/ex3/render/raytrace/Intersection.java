@@ -102,8 +102,8 @@ public class Intersection {
 		Vec i_zeroVector = new Vec(0, 0, 0);
 		for (int i = 0; i < polygon.getSize(); i++) {
 
-			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPoint(i), ray.p);
-			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPoint((i + 1) % polygon.getSize()), ray.p);
+			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPoint(i), ray.g_rayPoint);
+			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPoint((i + 1) % polygon.getSize()), ray.g_rayPoint);
 
 
 			// get the cross product

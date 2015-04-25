@@ -154,7 +154,7 @@ public class Scene implements IInitable {
 		}
 
 		Vec normal = intersection.getSurface().getNormalInPoint(intersection.getPoint());
-		Ray reflectionRay = new Ray(intersection.getPoint(), ray.v.reflect(normal));
+		Ray reflectionRay = new Ray(intersection.getPoint(), ray.g_rayDirection.reflect(normal));
 
 		double KS = intersection.getSurface().getReflectance();
 		Vec reflectionColor = calcColor(reflectionRay, level + 1);
