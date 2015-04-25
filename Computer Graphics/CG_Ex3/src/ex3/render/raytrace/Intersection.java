@@ -12,7 +12,7 @@ public class Intersection {
 
 	public static Point3D raySphereIntersection(Ray ray, Sphere sphere) {
 		
-		Vec fromOtoP0 = Point3D.vecBetweenTowPoints(ray.p, sphere.getCenter());
+		Vec fromOtoP0 = Point3D.vecBetweenTwoPoints(ray.p, sphere.getCenter());
 		double a = 1;
 	    double b = 2 * Vec.dotProd(ray.v, fromOtoP0); 
 	    double c = fromOtoP0.lengthSquared() - sphere.getRadius() * sphere.getRadius();
@@ -86,8 +86,8 @@ public class Intersection {
 		
 		// Now we need to make sure the intersection happened inside the poly.
 		for (int i = 0; i < poly.getSize(); i++){
-			Vec v = Point3D.vecBetweenTowPoints(poly.getPoint(i), ray.p);
-			Vec u = Point3D.vecBetweenTowPoints(poly.getPoint((i + 1) % poly.getSize()), ray.p);
+			Vec v = Point3D.vecBetweenTwoPoints(poly.getPoint(i), ray.p);
+			Vec u = Point3D.vecBetweenTwoPoints(poly.getPoint((i + 1) % poly.getSize()), ray.p);
 			Vec normal = Vec.crossProd(u, v);
 			if (normal.equals(new Vec(0, 0, 0))){
 				return null;
@@ -125,7 +125,7 @@ public class Intersection {
 		
 		// If we got here, then the ray and the surface are not parallel.
 		// Find the intersection of the ray with the surface plane
-		Vec fromRaytoSurface = Point3D.vecBetweenTowPoints(pointOnSurface, ray.p);
+		Vec fromRaytoSurface = Point3D.vecBetweenTwoPoints(pointOnSurface, ray.p);
 		double fromRaytoSurfaceDotSurfaceNormal = Vec.dotProd(fromRaytoSurface, surfaceNormal);
 		double d = fromRaytoSurfaceDotSurfaceNormal / rayDotNormal;
 		return Point3D.add(Vec.scale(d, ray.v), ray.p);

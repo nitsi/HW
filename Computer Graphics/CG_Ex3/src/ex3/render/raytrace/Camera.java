@@ -34,17 +34,23 @@ public class Camera implements IInitable {
 	}
 
 	public void init(Map<String, String> attributes) throws IllegalArgumentException {
-		
-		//if all input tests passed, we continue 
+
+		// if all input tests passed, we continue
 		if (verifyIputs(attributes)) {
+
 			this.g_eye = new Point3D(attributes.get("eye"));
 
 			if (attributes.containsKey("direction")) {
 				g_dirTo = new Vec(attributes.get("direction"));
 			} else {
-				g_dirTo = Point3D.vecBetweenTowPoints(new Point3D(attributes.get("loot-at")), g_eye);
+				g_dirTo = Point3D.vecBetweenTwoPoints(new Point3D(attributes.get("loot-at")), g_eye);
 			}
-
+			/**
+			 * will set the direction to the received attribute, otherwise will set as the vec between two points
+			 */
+			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vecBetweenTwoPoints(
+					new Point3D(attributes.get("loot-at")), g_eye);
+			
 			Vec i_tempUpDirection = new Vec(attributes.get("up-direction"));
 			g_rightDirection = Vec.crossProd(g_dirTo, i_tempUpDirection);
 			if (!(Vec.dotProd(g_dirTo, i_tempUpDirection) == 0)) {
@@ -70,6 +76,12 @@ public class Camera implements IInitable {
 
 	}
 
+	/**
+	 * verifies the XML input, will generate exceptions otherwise
+	 * 
+	 * @param attributes
+	 * @return
+	 */
 	private boolean verifyIputs(Map<String, String> attributes) {
 
 		if (!attributes.containsKey("eye")) {
@@ -110,7 +122,7 @@ public class Camera implements IInitable {
 		Vec rightProgress = Vec.scale(x - centerCoordinate2D.x, Vec.scale(pixSize, g_rightDirection));
 		Vec upProgress = Vec.scale(y - centerCoordinate2D.y, Vec.scale(pixSize, g_upDirection));
 		Point3D destinationPixelIn3D = Point3D.add(upProgress, Point3D.add(rightProgress, g_centerCoordinate3D));
-		Vec vectorBetweenDestinationPixelAndAye = Point3D.vecBetweenTowPoints(destinationPixelIn3D, g_eye);
+		Vec vectorBetweenDestinationPixelAndAye = Point3D.vecBetweenTwoPoints(destinationPixelIn3D, g_eye);
 		return new Ray(g_eye, vectorBetweenDestinationPixelAndAye);
 	}
 

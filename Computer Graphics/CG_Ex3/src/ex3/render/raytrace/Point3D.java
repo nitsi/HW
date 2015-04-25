@@ -48,7 +48,7 @@ public class Point3D {
 		return new Vec( point.x - x, point.y - y, point.z - z);
 	}
 	// return the vector between 2 points
-	public static Vec vecBetweenTowPoints (Point3D pointOne, Point3D pointTow){
+	public static Vec vecBetweenTwoPoints (Point3D pointOne, Point3D pointTow){
 		return new Vec(pointOne.x - pointTow.x, pointOne.y - pointTow.y, pointOne.z - pointTow.z);
 	}
 	public static Point3D add (Vec v, Point3D p){

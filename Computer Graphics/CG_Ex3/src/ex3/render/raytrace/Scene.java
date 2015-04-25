@@ -140,7 +140,7 @@ public class Scene implements IInitable {
 						((SpotLight) light).getPosition(),
 						intersection.getPoint());
 				shootRayToLight = new Ray(intersection.getPoint(),
-						Point3D.vecBetweenTowPoints(
+						Point3D.vecBetweenTwoPoints(
 								((SpotLight) light).getPosition(),
 								intersection.getPoint()));
 			}
@@ -149,7 +149,7 @@ public class Scene implements IInitable {
 						((OmniLight) light).getPosition(),
 						intersection.getPoint());
 				shootRayToLight = new Ray(intersection.getPoint(),
-						Point3D.vecBetweenTowPoints(
+						Point3D.vecBetweenTwoPoints(
 								((OmniLight) light).getPosition(),
 								intersection.getPoint()));
 			}
@@ -213,14 +213,14 @@ public class Scene implements IInitable {
 			IL = dLight.getIntansityLight(point);
 		} else if (light instanceof OmniLight) {
 			OmniLight oLight = (OmniLight) light;
-			L = Point3D.vecBetweenTowPoints(point, oLight.getPosition());
+			L = Point3D.vecBetweenTwoPoints(point, oLight.getPosition());
 			if (object instanceof Polygon) {
 				L.negate();
 			}
 			IL = oLight.getIntansityLight(point);
 		} else {
 			SpotLight sLight = (SpotLight) light;
-			L = Point3D.vecBetweenTowPoints(point, sLight.getPosition());
+			L = Point3D.vecBetweenTwoPoints(point, sLight.getPosition());
 			IL = sLight.getIntansityLight(point);
 		}
 		L.normalize();
@@ -266,12 +266,12 @@ public class Scene implements IInitable {
 			IL = dLight.getIntansityLight(intersectionPoint);
 		} else if (light instanceof OmniLight) {
 			OmniLight oLight = (OmniLight) light;
-			L = Point3D.vecBetweenTowPoints(intersectionPoint,
+			L = Point3D.vecBetweenTwoPoints(intersectionPoint,
 					oLight.getPosition());
 			IL = oLight.getIntansityLight(intersectionPoint);
 		} else {
 			SpotLight sLight = (SpotLight) light;
-			L = Point3D.vecBetweenTowPoints(intersectionPoint,
+			L = Point3D.vecBetweenTwoPoints(intersectionPoint,
 					sLight.getPosition());
 			IL = sLight.getIntansityLight(intersectionPoint);
 		}
@@ -280,7 +280,7 @@ public class Scene implements IInitable {
 		// Reflect L in relation to N
 		Vec R = L.reflect(normalAtIntersectionPoint);
 		R.normalize();
-		Vec eyeLookAtPoint = Point3D.vecBetweenTowPoints(ray.p,
+		Vec eyeLookAtPoint = Point3D.vecBetweenTwoPoints(ray.p,
 				intersectionPoint);
 		eyeLookAtPoint.normalize();
 		// Calculate the dot product between them

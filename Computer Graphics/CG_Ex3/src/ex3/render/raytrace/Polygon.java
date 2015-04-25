@@ -57,8 +57,8 @@ public class Polygon extends Surface{
 	@Override
 	public Vec getNormalInPoint(Point3D p) {
 		
-		Vec oneVectorInThePoli = Point3D.vecBetweenTowPoints(this.p[0], this.p[1]);
-		Vec towVectorInThePoli = Point3D.vecBetweenTowPoints(this.p[0], this.p[2]);
+		Vec oneVectorInThePoli = Point3D.vecBetweenTwoPoints(this.p[0], this.p[1]);
+		Vec towVectorInThePoli = Point3D.vecBetweenTwoPoints(this.p[0], this.p[2]);
 		Vec normal = Vec.crossProd(oneVectorInThePoli, towVectorInThePoli);
 		normal.normalize();
 		return normal;
