@@ -19,9 +19,9 @@ public class OmniLight extends Light{
 			throws IllegalArgumentException {
 
 		if (!attributes.containsKey("color")) {
-			g_color = new Vec(1, 1, 1);
+			color = new Vec(1, 1, 1);
 		} else {
-			g_color = new Vec(attributes.get("color"));
+			color = new Vec(attributes.get("color"));
 		}
 		if (!attributes.containsKey("pos")){
 			throw new IllegalArgumentException("missing position to the light");
@@ -50,7 +50,7 @@ public class OmniLight extends Light{
 	public Vec getIntansityLight(Point3D p) {
 		
 		double lengthFromHit = p.distance(position);
-		Vec IL = Vec.scale(1 / (kConst + kLinear * lengthFromHit + kQuadratic * lengthFromHit * lengthFromHit), g_color);
+		Vec IL = Vec.scale(1 / (kConst + kLinear * lengthFromHit + kQuadratic * lengthFromHit * lengthFromHit), color);
 		return IL;
 	}
 
