@@ -12,21 +12,19 @@ import proj.ex3.math.Vec;
 
 public class dirLight extends Light {
 	
-	private Point3D direction;
+	private Point3D direction = null;
 	
 	public dirLight()
 	{
-		super();
 		this.direction = new Point3D("0 0 0");
-		//super.color = new Vec("1 1 1");
+		super.color = new Vec("1 1 1");
 	}
 	
 	public void init(Map<String, String> attributes)
 	{
-		//super.init(attributes);
+		super.init(attributes);
 		if (attributes.containsKey("direction")) {
-			//direction = new Vec(attributes.get("direction"));
-			direction = new Point3D(attributes.get("direction"));
+			new Point3D(attributes.get("direction"));
 		}
 	}
 
