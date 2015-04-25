@@ -10,7 +10,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import proj.ex3.render.raytrace.Hit;
+import proj.ex3.render.raytrace.Intersection;
 
 import proj.ex3.math.Ray;
 import proj.ex3.parser.Element;
@@ -119,7 +119,7 @@ public class RayTracer implements IRenderer {
 							(newX, newY, canvas.getWidth(),
 									canvas.getHeight());
 					
-					Hit hit = scene.findIntersection(ray, false);
+					Intersection hit = scene.findIntersection(ray, false);
 
 					if (hit == null) {
 						colorAtPix = scene.getBackgroundColorAt
@@ -151,7 +151,7 @@ public class RayTracer implements IRenderer {
 	private Color castRay(int x, int y, BufferedImage canvas) {
 		Ray ray = scene.camera.constructRayThroughPixel
 				(x, y, canvas.getWidth(), canvas.getHeight());
-		Hit hit = scene.findIntersection(ray, false);
+		Intersection hit = scene.findIntersection(ray, false);
 		if (hit == null) {
 			return scene.getBackgroundColorAt(x, height - y - 1);
 		}

@@ -96,7 +96,7 @@ public class Scene implements IInitable {
 	 * @param ray
 	 * @return
 	 */
-	public Hit findIntersection(Ray ray, boolean backSide) {
+	public Intersection findIntersection(Ray ray, boolean backSide) {
 
 		double minDistance = Double.POSITIVE_INFINITY;
 		Surface minSurface = null;
@@ -114,7 +114,7 @@ public class Scene implements IInitable {
 		Point3D intersection = new Point3D(ray.p);
 		intersection.mac(minDistance, ray.v);
 
-		return new Hit(intersection, minSurface, minDistance);
+		return new Intersection(intersection, minSurface, minDistance);
 	}
 	
 	/**
@@ -155,11 +155,11 @@ public class Scene implements IInitable {
 	 *            Hitting ray
 	 * @return
 	 */
-	public Vec calcColor(Hit hit, Ray ray, int level, double backgroundX, 
+	public Vec calcColor(Intersection hit, Ray ray, int level, double backgroundX, 
 			double backgroundY) {
 
 		Ray outRay;
-		Hit newHit;
+		Intersection newHit;
 		Vec recursionResult;
 
 		// no hit
@@ -262,7 +262,7 @@ public class Scene implements IInitable {
 	}
 	
 	// sigma: (Kd(N*L) + Ks(V*R)^n )Sl*Il
-	private Vec calcSumOfLights(Hit hit,Vec Ks, Vec N, Vec V, double n) {
+	private Vec calcSumOfLights(Intersection hit,Vec Ks, Vec N, Vec V, double n) {
 		
 		Vec sumOfLights = new Vec();
 		
@@ -277,7 +277,7 @@ public class Scene implements IInitable {
 			
 			//check if shadowed
 			Ray shadowedRay = new Ray(hit.intersection,L);
-			Hit shadowedHit = findIntersection(shadowedRay, true);
+			Intersection shadowedHit = findIntersection(shadowedRay, true);
 			//if the point is not shadowed
 			if (shadowedHit == null || 
 					shadowedHit.distance >= Lightdistance){			
