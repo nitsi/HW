@@ -19,6 +19,7 @@ public class Camera implements IInitable {
 	private static final String NO_DIRECTION = "direction attr!";
 	private static final String NO_UP_DIRECTION = "up-direction attr!";
 	private static final String NO_SCREEN_DIST = "screen-dist attr!";
+	private static final String LINEAR_DEPENDANCY = "Both directions are linear dependant!";
 
 	private Point3D g_eye;
 
@@ -40,39 +41,42 @@ public class Camera implements IInitable {
 
 			this.g_eye = new Point3D(attributes.get("eye"));
 
-			if (attributes.containsKey("direction")) {
-				g_dirTo = new Vec(attributes.get("direction"));
-			} else {
-				g_dirTo = Point3D.vecBetweenTwoPoints(new Point3D(attributes.get("loot-at")), g_eye);
-			}
 			/**
-			 * will set the direction to the received attribute, otherwise will set as the vec between two points
+			 * will set the direction to the received attribute, otherwise will
+			 * set as the vector between two points
 			 */
+
 			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vecBetweenTwoPoints(
 					new Point3D(attributes.get("loot-at")), g_eye);
-			
+
 			Vec i_tempUpDirection = new Vec(attributes.get("up-direction"));
+
 			g_rightDirection = Vec.crossProd(g_dirTo, i_tempUpDirection);
-			if (!(Vec.dotProd(g_dirTo, i_tempUpDirection) == 0)) {
-				g_upDirection = Vec.crossProd(g_dirTo, g_rightDirection);
-			} else {
-				g_upDirection = i_tempUpDirection;
+			/**
+			 * will set the upDirection to the cross product of g_dirTo and the
+			 * tempUpDirection attribute if the dot product is zero, otherwise
+			 * will set as the cross product of g_dirTo and g_rightDirection
+			 * 
+			 */
+			g_upDirection = Vec.dotProd(g_dirTo, i_tempUpDirection) == 0 ? i_tempUpDirection : Vec.crossProd(g_dirTo, g_rightDirection);
+
+			// will set the screen width to "2" if the attribute is not set
+			g_screenWidth = attributes.containsKey("screen-width") ? Double.parseDouble(attributes.get("screen-width")) : 2;
+
+			g_centerCoordinate3D = Point3D.add(Vec.scale(g_screenDist, g_dirTo), g_eye);
+
+			if (Vec.isLinearDependant(g_dirTo, g_upDirection)) {
+				throw new IllegalArgumentException(LINEAR_DEPENDANCY);
 			}
-			if (!attributes.containsKey("screen-width")) {
-				g_screenWidth = 2;
-			} else {
-				g_screenWidth = Double.parseDouble(attributes.get("screen-width"));
-			}
+
+			g_screenDist = Double.parseDouble(attributes.get("screen-dist"));
+
+			// normalizing and negating
+			g_upDirection.normalize();
+			g_upDirection.negate();
+			g_rightDirection.normalize();
+			g_dirTo.normalize();
 		}
-		g_centerCoordinate3D = Point3D.add(Vec.scale(g_screenDist, g_dirTo), g_eye);
-		if (Vec.isLinearDependant(g_dirTo, g_upDirection)) {
-			throw new IllegalArgumentException("direction and up-direction are linearDependant");
-		}
-		g_screenDist = Double.parseDouble(attributes.get("screen-dist"));
-		g_upDirection.normalize();
-		g_upDirection.negate();
-		g_rightDirection.normalize();
-		g_dirTo.normalize();
 
 	}
 
@@ -107,23 +111,27 @@ public class Camera implements IInitable {
 	}
 
 	/**
-	 * Transforms image xy coordinates to view pane xyz coordinates. Returns the
-	 * ray that goes through it.
+	 * Transforms image's X,Y coordinates to pane's X,Y,Z coordinates.
 	 * 
 	 * @param x
 	 * @param y
-	 * @return
+	 * @param height
+	 * @param width
+	 * @return - piercing ray
 	 */
 
-	public Ray constructRayThroughPixel(double x, double y, double height, double width) {
-		double pixSize = g_screenWidth / width;
-		Point3D centerCoordinate2D = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
-		// the center of the view plane
-		Vec rightProgress = Vec.scale(x - centerCoordinate2D.x, Vec.scale(pixSize, g_rightDirection));
-		Vec upProgress = Vec.scale(y - centerCoordinate2D.y, Vec.scale(pixSize, g_upDirection));
-		Point3D destinationPixelIn3D = Point3D.add(upProgress, Point3D.add(rightProgress, g_centerCoordinate3D));
-		Vec vectorBetweenDestinationPixelAndAye = Point3D.vecBetweenTwoPoints(destinationPixelIn3D, g_eye);
-		return new Ray(g_eye, vectorBetweenDestinationPixelAndAye);
+	public Ray generatePixelPiercingRay(double x, double y, double height, double width) {
+		double i_pixelSize = g_screenWidth / width;
+		// init view pane center
+		Point3D i_2DcenterCoordinate = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
+
+		Vec i_rightDirectionProgress = Vec.scale(x - i_2DcenterCoordinate.x, Vec.scale(i_pixelSize, g_rightDirection));
+		Vec i_upDirectionProgress = Vec.scale(y - i_2DcenterCoordinate.y, Vec.scale(i_pixelSize, g_upDirection));
+
+		Point3D i_destinationPixel3DFormat = Point3D.add(i_upDirectionProgress, Point3D.add(i_rightDirectionProgress, g_centerCoordinate3D));
+		
+		Vec i_vectorBetweenDestPixelAndEye = Point3D.vecBetweenTwoPoints(i_destinationPixel3DFormat, g_eye);
+		return new Ray(g_eye, i_vectorBetweenDestPixelAndEye);
 	}
 
 	public Point3D getEye() {

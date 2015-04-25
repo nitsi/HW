@@ -361,6 +361,6 @@ public class Scene implements IInitable {
 	}
 
 	public Ray castRay(double x, double y, double height, double width) {
-		return camera.constructRayThroughPixel(x, y, height, width);
+		return camera.generatePixelPiercingRay(x, y, height, width);
 	}
 }
