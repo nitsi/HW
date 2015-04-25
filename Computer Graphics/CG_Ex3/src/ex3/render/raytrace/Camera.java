@@ -8,8 +8,6 @@ package ex3.render.raytrace;
 
 import java.util.Map;
 
-
-
 /**
  * Camera class represents the camera view in the scene
  * 
@@ -39,44 +37,56 @@ public class Camera implements IInitable {
 
 	public void init(Map<String, String> attributes) throws IllegalArgumentException {
 
-		if (!attributes.containsKey("eye")) {
-			throw new IllegalArgumentException("pleas enter aye coordinate");
+		// Some necessary input tests
+		if (!attributes.containsKey("direction") && !attributes.containsKey("look-at")) {
+			throw new IllegalArgumentException(MISSING + NO_LOOK_AT + NO_DIRECTION);
 		}
+
+		if (!attributes.containsKey("up-direction")) {
+			throw new IllegalArgumentException(MISSING + NO_UP_DIRECTION);
+		}
+
+		if (!attributes.containsKey("eye")) {
+			throw new IllegalArgumentException(MISSING + NO_EYE_CORDS);
+		}
+
+		if (!attributes.containsKey("screen-dist")) {
+			throw new IllegalArgumentException(MISSING + NO_SCREEN_DIST);
+		}
+
+		// will construct Point3D with null if eye attribute doesn't exist
 		g_eye = new Point3D(attributes.get("eye"));
 
-		if (!attributes.containsKey("look-at") && !attributes.containsKey("direction")) {
-			throw new IllegalArgumentException("missing direction or look-at attributes");
-		}
+		// already handled null exception for the Double.parse
+		g_screenDist = Double.parseDouble(attributes.get("screen-dist"));
+
 		if (attributes.containsKey("direction")) {
 			g_dirTo = new Vec(attributes.get("direction"));
 		} else {
-			g_dirTo = Point3D.vectorBetweenTwoPoints(new Point3D(attributes.get("loot-at")), g_eye);
-		}
-		if (!attributes.containsKey("up-direction")) {
-			throw new IllegalArgumentException("missing up-direction");
-		}
-		Vec tempUp = new Vec(attributes.get("up-direction"));
-		g_rightDirection = Vec.crossProd(g_dirTo, tempUp);
-		if (!(Vec.dotProd(g_dirTo, tempUp) == 0)) {
-			g_upDirection = Vec.crossProd(g_dirTo, g_rightDirection);
-		} else {
-			g_upDirection = tempUp;
-		}
-		if (!attributes.containsKey("screen-dist")) {
-			throw new IllegalArgumentException("missing screen-dist");
-		} else {
-			g_screenDist = Double.parseDouble(attributes.get("screen-dist"));
+			// Instantiate new Point3D with null if no "direction" attribute is
+			// present
+			g_dirTo = Point3D.vectorBetweenTwoPoints(new Point3D(), g_eye);
 		}
 
-		if (!attributes.containsKey("screen-width")) {
-			g_screenWidth = 2;
+		Vec i_upDirection = new Vec(attributes.get("up-direction"));
+
+		g_rightDirection = Vec.crossProd(g_dirTo, i_upDirection);
+		
+		// check for orthogonal vectors
+		if (Vec.dotProd(g_dirTo, i_upDirection) == 0) {
+			g_upDirection = i_upDirection;
 		} else {
-			g_screenWidth = Double.parseDouble(attributes.get("screen-width"));
+			g_upDirection = Vec.crossProd(g_dirTo, g_rightDirection);
 		}
+		// Instantiate screen width to 2 if attribute doesn't exist
+		g_screenWidth = attributes.containsKey("screen-width") ? Double.parseDouble(attributes.get("screen-width")) : 2;
 		g_centerCoordinate3D = Point3D.add(Vec.scale(g_screenDist, g_dirTo), g_eye);
+
+		// test vectors linear dependency
 		if (Vec.isLinearDependant(g_dirTo, g_upDirection)) {
-			throw new IllegalArgumentException("direction and up-direction are linearDependant");
+			throw new IllegalArgumentException(LINEAR_DEPENDANCY);
 		}
+		// normalize and negate vectors
 		g_upDirection.normalize();
 		g_upDirection.negate();
 		g_rightDirection.normalize();
@@ -95,7 +105,8 @@ public class Camera implements IInitable {
 
 	public Ray generatePixelPiercingRay(double x, double y, double height, double width) {
 		double i_pixelSize = g_screenWidth / width;
-		// init view pane center
+
+		// initialize view pane center
 		Point3D i_2DcenterCoordinate = new Point3D(Math.floor(width / 2), Math.floor(height / 2), 0);
 
 		Vec i_rightDirectionProgress = Vec.scale(x - i_2DcenterCoordinate.x, Vec.scale(i_pixelSize, g_rightDirection));
