@@ -15,7 +15,7 @@ public class Sphere extends Surface{
 	}
 	
 	@Override
-	public Vec getNormalAtLocation(Point3D p) {
+	public Vec getNormalInPoint(Point3D p) {
 		
 		Vec normal;
 		normal = Point3D.vectorBetweenTwoPoints(center, p);

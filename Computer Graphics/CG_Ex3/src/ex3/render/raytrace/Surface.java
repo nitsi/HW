@@ -57,7 +57,7 @@ public abstract class Surface implements IInitable{
 			reflectance = Double.parseDouble(attributes.get("reflectance"));
 		}
 	}
-	public abstract Vec getNormalAtLocation(Point3D p);
+	public abstract Vec getNormalInPoint(Point3D p);
 
 	public Vec getAmbiant() {
 		return mltAmbient;
