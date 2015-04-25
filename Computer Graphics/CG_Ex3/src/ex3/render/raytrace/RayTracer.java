@@ -1,3 +1,9 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
+
 package ex3.render.raytrace;
 
 import java.awt.Color;
@@ -10,42 +16,46 @@ import ex3.render.IRenderer;
 
 public class RayTracer implements IRenderer {
 
-	private Scene scene;
-	private int width;
-	private int height;
+	private static final boolean DEBUG = false;
+
+	private Scene g_currentScene;
+	private int g_width;
+	private int g_height;
 
 	/**
-	 * Inits the renderer with scene description and sets the target canvas to
-	 * size (width X height). After init renderLine may be called
+	 * Instantiates the current renderer using scene description Will set the
+	 * canvas to (Width x Height) dimensions.
 	 * 
-	 * @param sceneDesc
-	 *            Description data structure of the scene
+	 * @param sceneDescription
+	 *            contains scene data
 	 * @param width
-	 *            Width of the canvas
+	 *            Canvas width
 	 * @param height
-	 *            Height of the canvas
-	 * @param path
-	 *            File path to the location of the scene. Should be used as a
-	 *            basis to load external resources (e.g. background image)
+	 *            Canvas height
+	 * @param filePath
+	 * 
+	 *            Path to scene's location. Should reference external files like
+	 *            background
 	 */
-	@Override
-	public void init(SceneDescriptor sceneDesc, int width, int height, File path) {
-		// you can initialize your scene object here
-		this.height = height;
-		this.width = width;
-		scene = new Scene();
-		scene.init(sceneDesc.getSceneAttributes());
-		for (Element e : sceneDesc.getObjects()) {
-			scene.addObjectByName(e.getName(), e.getAttributes());
-		}
 
-		scene.setCameraAttributes(sceneDesc.getCameraAttributes());
+	@Override
+	public void init(SceneDescriptor sceneDescription, int width, int height, File filePath) {
+		// Initialize scene objects
+		this.g_height = height;
+		this.g_width = width;
+		this.g_currentScene = new Scene();
+		this.g_currentScene.init(sceneDescription.getSceneAttributes());
+
+		for (Element sceneElement : sceneDescription.getObjects()) {
+			g_currentScene.addObjectByName(sceneElement.getName(), sceneElement.getAttributes());
+		}
+		// Initialize camera data
+		g_currentScene.setCameraAttributes(sceneDescription.getCameraAttributes());
 
 	}
 
 	/**
-	 * Renders the given line to the given canvas. Canvas is of the exact size
-	 * given to init. This method must be called only after init.
+	 * Renders the given line to the given canvas. Invoked ONLY after this.init
 	 * 
 	 * @param canvas
 	 *            BufferedImage containing the partial image
@@ -54,38 +64,32 @@ public class RayTracer implements IRenderer {
 	 */
 	@Override
 	public void renderLine(BufferedImage canvas, int line) {
+		int i_R, i_G, i_B;
+		for (int i = 0; i < g_width; i++) {
 
-		for (int i = 0; i < width; i++) {
-			if (i ==  width / 4  && line == height / 4 - 20 ) {
-				System.out.println("haaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			Ray i_RenderingRay = g_currentScene.castRay(i, line, g_height, g_width);
+			Vec i_SceneCol = g_currentScene.calcColor(i_RenderingRay, 0);
+
+			// verify X Y Z values for further usage
+
+			// Logic : if col.t bigger than one, set as one, otherwise if
+			// smaller than zero set as zero other wise keep current value
+
+			i_SceneCol.x = i_SceneCol.x > 1 ? 1 : (i_SceneCol.x < 0 ? 0 : i_SceneCol.x);
+			i_SceneCol.y = i_SceneCol.y > 1 ? 1 : (i_SceneCol.y < 0 ? 0 : i_SceneCol.y);
+			i_SceneCol.z = i_SceneCol.z > 1 ? 1 : (i_SceneCol.z < 0 ? 0 : i_SceneCol.z);
+			if (DEBUG) {
+				System.out.println("i: " + i + "line: " + line);
 			}
-			Ray ray = scene.castRay(i, line, height, width);
-			Vec col = scene.calcColor(ray, 0);
-			if (col.x > 1) {
-				col.x = 1;
-			}
-			if (col.x < 0) {
-				col.x = 0;
-			}
-			if (col.y > 1) {
-				col.y = 1;
-			}
-			if (col.y < 0) {
-				col.y = 0;
-			}
-			if (col.z > 1) {
-				col.z = 1;
-			}
-			if (col.z < 0) {
-				col.z = 0;
-			}
-			System.out.println("i: " + i + "line: " + line);
-			Color realCol = new Color((int) (col.x * 255), (int) (col.y * 255),
-					(int) (col.z * 255));
-//			if (i ==  width / 4  && line == height / 4 - 20 ) {
-//				realCol = new Color(255, 255, 255);
-//			}
-			canvas.setRGB(i, line, realCol.getRGB());
+			// Calculate RGB values
+			i_R = (int) (i_SceneCol.x * 255);
+			i_G = (int) (i_SceneCol.y * 255);
+			i_B = (int) (i_SceneCol.z * 255);
+
+			Color i_CalculatedColor = new Color(i_R, i_G, i_B);
+
+			// inject colors to canvas
+			canvas.setRGB(i, line, i_CalculatedColor.getRGB());
 		}
 	}
 
