@@ -1,4 +1,4 @@
-package CG_ex3_partial.src.ex3.parser;
+package ex3.parser;
 
 import java.io.IOException;
 import java.io.StringReader;

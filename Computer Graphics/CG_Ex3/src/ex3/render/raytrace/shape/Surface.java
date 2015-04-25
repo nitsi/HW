@@ -1,12 +1,12 @@
-package CG_ex3_partial.src.ex3.render.raytrace.shape;
+package ex3.render.raytrace.shape;
 
 import java.util.Map;
 
-import CG_ex3_partial.src.ex3.render.raytrace.IInitable;
-import CG_ex3_partial.src.math.Point3D;
+import math.Point3D;
+import math.Vec;
+import ex3.render.raytrace.IInitable;
 //import CG_ex3_partial.src.math.Point3D;
 //import CG_ex3_partial.src.math.Vec;
-import CG_ex3_partial.src.math.Vec;
 
 public abstract class Surface implements IInitable{
 

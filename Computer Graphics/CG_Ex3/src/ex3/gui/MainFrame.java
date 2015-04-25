@@ -1,4 +1,4 @@
-package CG_ex3_partial.src.ex3.gui;
+package ex3.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -27,9 +27,9 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import CG_ex3_partial.src.ex3.parser.SceneDescriptor;
-import CG_ex3_partial.src.ex3.render.IRenderer;
-import CG_ex3_partial.src.ex3.render.RendererFactory;
+import ex3.parser.SceneDescriptor;
+import ex3.render.IRenderer;
+import ex3.render.RendererFactory;
 
 
 /**

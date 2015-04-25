@@ -1,4 +1,4 @@
-package CG_ex3_partial.src.ex3.gui;
+package ex3.gui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

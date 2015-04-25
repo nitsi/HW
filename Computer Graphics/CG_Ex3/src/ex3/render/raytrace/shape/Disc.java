@@ -1,9 +1,9 @@
-package CG_ex3_partial.src.ex3.render.raytrace.shape;
+package ex3.render.raytrace.shape;
 
 import java.util.Map;
 
-import CG_ex3_partial.src.math.Point3D;
-import CG_ex3_partial.src.math.Vec;
+import math.Point3D;
+import math.Vec;
 
 public class Disc extends Sphere{
 

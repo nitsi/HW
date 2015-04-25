@@ -1,9 +1,9 @@
-package CG_ex3_partial.src.ex3.render;
+package ex3.render;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import CG_ex3_partial.src.ex3.parser.SceneDescriptor;
+import ex3.parser.SceneDescriptor;
 
 
 /**

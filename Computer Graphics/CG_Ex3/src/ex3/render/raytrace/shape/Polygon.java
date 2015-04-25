@@ -1,11 +1,11 @@
-package CG_ex3_partial.src.ex3.render.raytrace.shape;
+package ex3.render.raytrace.shape;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import CG_ex3_partial.src.math.Point3D;
-import CG_ex3_partial.src.math.Vec;
+import math.Point3D;
+import math.Vec;
 
 public class Polygon extends Surface{
 

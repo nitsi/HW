@@ -1,21 +1,21 @@
-package CG_ex3_partial.src.ex3.render.raytrace;
+package ex3.render.raytrace;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import CG_ex3_partial.src.ex3.render.raytrace.light.Light;
-import CG_ex3_partial.src.ex3.render.raytrace.light.OmniLight;
-import CG_ex3_partial.src.ex3.render.raytrace.light.dirLight;
-import CG_ex3_partial.src.ex3.render.raytrace.light.SpotLight;
-import CG_ex3_partial.src.ex3.render.raytrace.shape.Disc;
-import CG_ex3_partial.src.ex3.render.raytrace.shape.Intersection;
-import CG_ex3_partial.src.ex3.render.raytrace.shape.Polygon;
-import CG_ex3_partial.src.ex3.render.raytrace.shape.Sphere;
-import CG_ex3_partial.src.ex3.render.raytrace.shape.Surface;
-import CG_ex3_partial.src.math.Point3D;
-import CG_ex3_partial.src.math.Ray;
-import CG_ex3_partial.src.math.Vec;
+import math.Point3D;
+import math.Ray;
+import math.Vec;
+import ex3.render.raytrace.light.Light;
+import ex3.render.raytrace.light.OmniLight;
+import ex3.render.raytrace.light.SpotLight;
+import ex3.render.raytrace.light.dirLight;
+import ex3.render.raytrace.shape.Disc;
+import ex3.render.raytrace.shape.Intersection;
+import ex3.render.raytrace.shape.Polygon;
+import ex3.render.raytrace.shape.Sphere;
+import ex3.render.raytrace.shape.Surface;
 
 /**
  * A Scene class containing all the scene objects including camera, lights and

@@ -1,15 +1,14 @@
-package CG_ex3_partial.src.ex3.render.raytrace;
+package ex3.render.raytrace;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import CG_ex3_partial.src.ex3.parser.Element;
-import CG_ex3_partial.src.ex3.parser.SceneDescriptor;
-import CG_ex3_partial.src.ex3.render.IRenderer;
-import CG_ex3_partial.src.ex3.render.raytrace.shape.Intersection;
-import CG_ex3_partial.src.math.Ray;
-import CG_ex3_partial.src.math.Vec;
+import math.Ray;
+import math.Vec;
+import ex3.parser.Element;
+import ex3.parser.SceneDescriptor;
+import ex3.render.IRenderer;
 
 public class RayTracer implements IRenderer {
 

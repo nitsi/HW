@@ -1,10 +1,10 @@
-package CG_ex3_partial.src.ex3.render.raytrace;
+package ex3.render.raytrace;
 
 import java.util.Map;
 
-import CG_ex3_partial.src.math.Point3D;
-import CG_ex3_partial.src.math.Ray;
-import CG_ex3_partial.src.math.Vec;
+import math.Point3D;
+import math.Ray;
+import math.Vec;
 
 /**
  * Represents the scene's camera.

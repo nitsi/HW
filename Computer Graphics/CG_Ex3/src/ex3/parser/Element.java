@@ -1,4 +1,4 @@
-package CG_ex3_partial.src.ex3.parser;
+package ex3.parser;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,8 +1,8 @@
-package CG_ex3_partial.src.ex3;
+package ex3;
 
 import java.io.File;
 
-import CG_ex3_partial.src.ex3.gui.MainFrame;
+import ex3.gui.MainFrame;
 
 /**
  * You basically don't need to add things here to the this package

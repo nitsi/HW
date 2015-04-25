@@ -1,10 +1,9 @@
-package CG_ex3_partial.src.ex3.render.raytrace.light;
+package ex3.render.raytrace.light;
 
 import java.util.Map;
-import java.util.Scanner;
 
-import CG_ex3_partial.src.math.Point3D;
-import CG_ex3_partial.src.math.Vec;
+import math.Point3D;
+import math.Vec;
 
 public class OmniLight extends Light{
 

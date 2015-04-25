@@ -1,4 +1,4 @@
-package CG_ex3_partial.src.math;
+package math;
 
 import java.util.Scanner;
 

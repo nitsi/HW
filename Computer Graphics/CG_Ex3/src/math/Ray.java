@@ -1,4 +1,4 @@
-package CG_ex3_partial.src.math;
+package math;
 
 
 public class Ray {
