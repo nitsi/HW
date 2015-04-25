@@ -12,13 +12,10 @@ public abstract class Light implements IInitable {
 
 	protected Vec g_color;
 
-	public abstract Vec getIntansityLight(Point3D p);
+	public abstract Vec getIntansityLight(Point3D point);
 
-	public static boolean isLight(String s) {
+	public static boolean isLight(String inputString) {
 
-		if (s.equals("dir-light") || s.equals("omni-light") || s.equals("spot-light")) {
-			return true;
-		}
-		return false;
+		return (inputString.equals("dir-light") || inputString.equals("spot-light") || inputString.equals("omni-light")) ? true : false;
 	}
 }
