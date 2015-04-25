@@ -1,9 +1,6 @@
-package ex3.render.raytrace.light;
+package ex3.render.raytrace;
 
 import java.util.Map;
-
-import math.Point3D;
-import math.Vec;
 
 public class OmniLight extends Light{
 

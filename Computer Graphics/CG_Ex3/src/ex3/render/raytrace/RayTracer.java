@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import math.Ray;
-import math.Vec;
 import ex3.parser.Element;
 import ex3.parser.SceneDescriptor;
 import ex3.render.IRenderer;

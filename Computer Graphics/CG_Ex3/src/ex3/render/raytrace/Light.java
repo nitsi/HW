@@ -1,8 +1,5 @@
-package ex3.render.raytrace.light;
+package ex3.render.raytrace;
 
-import math.Point3D;
-import math.Vec;
-import ex3.render.raytrace.IInitable;
 /*
  * Represent a point light
  */

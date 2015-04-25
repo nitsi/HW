@@ -1,4 +1,4 @@
-package math;
+package ex3.render.raytrace;
 
 import java.util.Scanner;
 

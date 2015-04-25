@@ -1,8 +1,5 @@
-package ex3.render.raytrace.shape;
+package ex3.render.raytrace;
 
-import math.Point3D;
-import math.Ray;
-import math.Vec;
 
 public class Intersection {
 	
