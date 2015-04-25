@@ -79,9 +79,10 @@ public class RayTracer implements IRenderer {
 			i_SceneCol.y = i_SceneCol.y > 1 ? 1 : (i_SceneCol.y < 0 ? 0 : i_SceneCol.y);
 			i_SceneCol.z = i_SceneCol.z > 1 ? 1 : (i_SceneCol.z < 0 ? 0 : i_SceneCol.z);
 			if (DEBUG) {
-				System.out.println("i: " + i + "line: " + line);
+				System.out.println("i: " + i + " line: " + line);
 			}
-			// Calculate RGB values
+			// Calculate RGB values,cast to integer only after calculate the
+			// product or we lose decent value hence less color
 			i_R = (int) (i_SceneCol.x * 255);
 			i_G = (int) (i_SceneCol.y * 255);
 			i_B = (int) (i_SceneCol.z * 255);
