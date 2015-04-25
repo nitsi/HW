@@ -63,15 +63,16 @@ public class Polygon extends Surface {
 			throw new IllegalArgumentException(INVALID_POLYGON_SIZE);
 		}
 
-		// Sort the points in the map using RB trees(TreeMap implementation)
+		g_PolygonPointsArray = new Point3D[g_PolygonSize];
 
+		// Sort the points in the map using RB trees(TreeMap implementation)
 		Map<String, String> i_PolygonPointsSortedMap = new TreeMap<String, String>(i_PolygonPointsMap);
 
 		// Generate the points array with the polygon size data
 		g_PolygonPointsArray = new Point3D[g_PolygonSize];
 
 		// Insert data from the map to array
-		String i_pointIndexString = null;
+		String i_pointIndexString;
 		for (int i = 0; i < g_PolygonSize; i++) {
 			i_pointIndexString = "p" + i;
 			g_PolygonPointsArray[i] = new Point3D(i_PolygonPointsSortedMap.get(i_pointIndexString));
