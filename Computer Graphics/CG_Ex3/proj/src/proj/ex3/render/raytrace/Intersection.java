@@ -1,7 +1,5 @@
 package proj.ex3.render.raytrace;
 
-import java.awt.Polygon;
-
 import proj.ex3.math.Point3D;
 import proj.ex3.math.Ray;
 import proj.ex3.math.Vec;

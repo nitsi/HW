@@ -1,30 +1,24 @@
-/*
-Computer Graphics - Exercise 3
-Matan Gidnian	200846905
-Aviad Hahami	302188347
-*/
-
 package proj.ex3.render.raytrace;
+
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import proj.ex3.render.raytrace.Intersection;
-
 import proj.ex3.math.Ray;
+import proj.ex3.math.Vec;
 import proj.ex3.parser.Element;
-import proj.ex3.render.raytrace.Scene;
-
 import proj.ex3.parser.SceneDescriptor;
 import proj.ex3.render.IRenderer;
 
+
+
+
 public class RayTracer implements IRenderer {
 
-
-	protected int width;
-	protected int height;
-	protected Scene scene;
+	private Scene scene;
+	private int width;
+	private int height;
 
 	/**
 	 * Inits the renderer with scene description and sets the target canvas to
@@ -42,32 +36,18 @@ public class RayTracer implements IRenderer {
 	 */
 	@Override
 	public void init(SceneDescriptor sceneDesc, int width, int height, File path) {
-		
-		this.width = width;
+		// you can initialize your scene object here
 		this.height = height;
-		
-		this.scene = new Scene();
-		this.scene.init(sceneDesc.getSceneAttributes());
-
-		this.scene.camera.init(sceneDesc.getCameraAttributes());
-
+		this.width = width;
+		scene = new Scene();
+		scene.init(sceneDesc.getSceneAttributes());
 		for (Element e : sceneDesc.getObjects()) {
-			this.scene.addObjectByName(e.getName(), e.getAttributes());
+			scene.addObjectByName(e.getName(), e.getAttributes());
 		}
-		
-		// Original code, we sill have to see how we implement missing parts as we did the code our
-		// way... so we should check if we can just drop it.
-//		BufferedImage canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-//		for (int i = 0; i < height; i++) {
-//			renderLine(canvas, i);
-//		}
-//		scene.setCameraAttributes(sceneDesc.getCameraAttributes());
 
-		// loads the background image if needed
-		if (scene.backgroundTex != null) {
-			scene.getBackgroundTexture(path, width, height);
-		}
-	}	
+		scene.setCameraAttributes(sceneDesc.getCameraAttributes());
+
+	}
 
 	/**
 	 * Renders the given line to the given canvas. Canvas is of the exact size
@@ -80,81 +60,39 @@ public class RayTracer implements IRenderer {
 	 */
 	@Override
 	public void renderLine(BufferedImage canvas, int line) {
-		int y = line;
-		for (int x = 0; x < width; ++x) {
-			if (scene.superSampWidth == 1)
-				canvas.setRGB(x, y, 
-						castRay(x, height - y - 1, canvas).getRGB());
-			else
-				canvas.setRGB(x, y, 
-						castRaySupSamp(x, height - y - 1, canvas).getRGB());
-		}
-	}
 
-	/**
-	 * Super sampling ray tracing. - Bonus
-	 * @param x current x coordinate
-	 * @param y current y coordinate
-	 * @param canvas current scene canvas
-	 * @return the Color in position (x,y).
-	 */
-	private Color castRaySupSamp(int x, int y, BufferedImage canvas) {
-		double sampleWidth = scene.superSampWidth;
-		double sampleHeight = scene.superSampWidth;
-		double pixIndexI = -(sampleWidth/2);
-		double pixIndexJ = -(sampleHeight/2);
-		
-		Color colorAtPix;
-		int green = 0;
-		int red = 0;
-		int blue = 0;
-		
-		// Calculate where to construct the ray.
-		for (;pixIndexI <= sampleWidth/2; pixIndexI++) {
-			for (;pixIndexJ <= sampleHeight/2; pixIndexJ++) {
-				if (pixIndexI != 0 && pixIndexJ !=0) {
-					double newX = x + (1/sampleWidth)*pixIndexI;
-					double newY = y + (1/sampleWidth)*pixIndexJ;
-					Ray ray = scene.camera.constructRayThroughPixel
-							(newX, newY, canvas.getWidth(),
-									canvas.getHeight());
-					
-					Intersection hit = scene.findIntersection(ray, false);
-
-					if (hit == null) {
-						colorAtPix = scene.getBackgroundColorAt
-								((int)newX, (int)(height - newY - 1));
-					} else {
-						colorAtPix = scene.calcColor
-								(hit, ray, 0, newX, 
-										height - newY - 1).toColor();
-					}
-
-					blue += colorAtPix.getBlue();
-					red += colorAtPix.getRed();
-					green += colorAtPix.getGreen();
-				}
+		for (int i = 0; i < width; i++) {
+			if (i ==  width / 4  && line == height / 4 - 20 ) {
+				System.out.println("haaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 			}
+			Ray ray = scene.castRay(i, line, height, width);
+			Vec col = scene.calcColor(ray, 0);
+			if (col.x > 1) {
+				col.x = 1;
+			}
+			if (col.x < 0) {
+				col.x = 0;
+			}
+			if (col.y > 1) {
+				col.y = 1;
+			}
+			if (col.y < 0) {
+				col.y = 0;
+			}
+			if (col.z > 1) {
+				col.z = 1;
+			}
+			if (col.z < 0) {
+				col.z = 0;
+			}
+			System.out.println("i: " + i + "line: " + line);
+			Color realCol = new Color((int) (col.x * 255), (int) (col.y * 255),
+					(int) (col.z * 255));
+//			if (i ==  width / 4  && line == height / 4 - 20 ) {
+//				realCol = new Color(255, 255, 255);
+//			}
+			canvas.setRGB(i, line, realCol.getRGB());
 		}
-		return new Color((int)(red / scene.superSampWidth), 
-				(int)(green / scene.superSampWidth), 
-				(int)(blue / scene.superSampWidth));
 	}
 
-	/**
-	 * Regular ray tracing
-	 * @param x current x coordinate
-	 * @param y current y coordinate
-	 * @param canvas current scene canvas
-	 * @return the Color in position (x,y).
-	 */
-	private Color castRay(int x, int y, BufferedImage canvas) {
-		Ray ray = scene.camera.constructRayThroughPixel
-				(x, y, canvas.getWidth(), canvas.getHeight());
-		Intersection hit = scene.findIntersection(ray, false);
-		if (hit == null) {
-			return scene.getBackgroundColorAt(x, height - y - 1);
-		}
-		return scene.calcColor(hit, ray, 0, x, height - y - 1).toColor();
-	}
 }

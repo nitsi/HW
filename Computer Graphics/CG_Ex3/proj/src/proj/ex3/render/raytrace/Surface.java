@@ -1,10 +1,5 @@
-package proj.ex3.render.raytrace;
-
-import java.util.Map;
-
-import proj.ex3.math.Point3D;
-import proj.ex3.math.Vec;
-
+package proj.ex3.render.raytrace;
+import java.util.Map;import proj.ex3.math.Point3D;import proj.ex3.math.Vec;
 public abstract class Surface implements IInitable {
 
 	protected Vec mltDifuse;

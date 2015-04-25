@@ -1,214 +1,296 @@
-/*
-Computer Graphics - Exercise 3
-Matan Gidnian	200846905
-Aviad Hahami	302188347
-*/
-
 package proj.ex3.render.raytrace;
 
-import java.awt.Color;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
-import proj.ex3.math.*;
-
-
+import proj.ex3.math.Point3D;
+import proj.ex3.math.Ray;
+import proj.ex3.math.Vec;
 
 /**
  * A Scene class containing all the scene objects including camera, lights and
- * surfaces.
+ * surfaces. Some suggestions for code are in comment If you uncomment these
+ * lines you'll need to implement some new types like Surface
  * 
+ * You can change all methods here this is only a suggestion! This is your
+ * world, add members methods as you wish
  */
 public class Scene implements IInitable {
-	
-	private static final double ACCELERATION = 0;
-	private static final double SUPPER_SAMP_WIDTH = 1;
-
-	protected Vec backgroundCol = null;
-	protected String backgroundTex = null;
-	protected double maxRecursionLevel;
-	protected Vec ambientLight = null;
-	
-	protected double superSampWidth;
-	protected double useAcceleration;
 
 	protected List<Surface> surfaces;
 	protected List<Light> lights;
 	protected Camera camera;
-	protected BufferedImage backgroundImage;
+	private Vec backgroundCol;
+	private String backgroundTex;
+	private int maxRecursionLevel;
+	private Vec ambientLight;
 
-
-	/**
-	 * constructor
-	 */
 	public Scene() {
-		this.backgroundCol = new Vec(0, 0, 0);
-		this.maxRecursionLevel = 10;
-		this.ambientLight = new Vec(0, 0, 0);
-		
-		this.surfaces = new LinkedList<Surface>();
-		this.lights = new LinkedList<Light>();
-		this.camera = new Camera();
-		
-		this.backgroundTex = null;
-		this.backgroundImage = null;
-		
-		this.superSampWidth = SUPPER_SAMP_WIDTH;
-		this.useAcceleration = ACCELERATION;
+
+		surfaces = new LinkedList<Surface>();
+		lights = new LinkedList<Light>();
+		camera = new Camera();
 	}
 
-	@Override
 	public void init(Map<String, String> attributes) {
-		if (attributes.containsKey("background-col")) {
-			this.backgroundCol = new Vec(attributes.get("background-col"));
+
+		if (!attributes.containsKey("background-col") && !attributes.containsKey("background-tex")) {
+			backgroundCol = new Vec("0 0 0");
+		} else if (attributes.containsKey("background-tex")) {
+			backgroundTex = attributes.get("background-tex");
+		} else {
+			backgroundCol = new Vec(attributes.get("background-col"));
 		}
-		if (attributes.containsKey("background-tex")) {
-			this.backgroundTex = attributes.get("background-tex");
+		if (!attributes.containsKey("max-recursion-level")) {
+			maxRecursionLevel = 10;
+		} else {
+			maxRecursionLevel = Integer.parseInt(attributes.get("max-recursion-level"));
 		}
-		if (attributes.containsKey("ambient-light")) {
-			this.ambientLight = new Vec(attributes.get("ambient-light"));
+		if (!attributes.containsKey("ambient-light")) {
+			ambientLight = new Vec("0 0 0");
+		} else {
+			ambientLight = new Vec(attributes.get("ambient-light"));
 		}
-		if (attributes.containsKey("super-samp-width")){
-			this.superSampWidth = 
-			Double.valueOf(attributes.get("super-samp-width"));
-		}
-		if (attributes.containsKey("max-recursion-level")) {
-			this.maxRecursionLevel =
-			Double.valueOf(attributes.get("max-recursion-level"));
-		}
-		if (attributes.containsKey("use-acceleration")){
-			this.useAcceleration = 
-			Double.valueOf(attributes.get("use-acceleration"));
-		}
+
 	}
-	
+
 	/**
 	 * Send ray return the nearest intersection. Return null if no intersection
 	 * 
 	 * @param ray
 	 * @return
 	 */
-	public Intersection findIntersection(Ray ray, boolean backSide) {
+	public Intersection findIntersection(Ray ray) {
 
-		double minDistance = Double.POSITIVE_INFINITY;
-		Surface minSurface = null;
-		for (Surface surface : surfaces) {
-			double d = surface.nearestIntersection(ray, backSide);
-			if (minDistance > d && d > 0.0001) {
-				minDistance = d;
-				minSurface = surface;
+		double minDistance = Double.MAX_VALUE;
+		Point3D minPoint = null;
+		Surface surface = null;
+		for (Surface shape : surfaces) {
+
+			if (shape instanceof Polygon) {
+				Point3D p = Intersection.rayPolygonIntersection(ray, (Polygon) shape);
+				if (p == null) {
+					continue;
+				}
+				if (Point3D.distance(ray.p, p) < minDistance && Point3D.distance(ray.p, p) > 0.001) {
+					minDistance = Point3D.distance(ray.p, p);
+					minPoint = p;
+					surface = shape;
+				}
+			}
+			if (shape instanceof Disc) {
+				Point3D p = Intersection.rayDiscIntersection(ray, (Disc) shape);
+				if (p == null) {
+					continue;
+				}
+				if (Point3D.distance(ray.p, p) < minDistance && Point3D.distance(ray.p, p) > 0.001) {
+					minDistance = Point3D.distance(ray.p, p);
+					minPoint = p;
+					surface = shape;
+				}
+			}
+			if (shape instanceof Sphere) {
+				Point3D p = Intersection.raySphereIntersection(ray, (Sphere) shape);
+				if (p == null) {
+					continue;
+				}
+				if (Point3D.distance(ray.p, p) < minDistance && Point3D.distance(ray.p, p) > 0.001) {
+					minDistance = Point3D.distance(ray.p, p);
+					minPoint = p;
+					surface = shape;
+				}
 			}
 		}
-
-		if (Double.isInfinite(minDistance))
+		if (minPoint == null && surface == null) {
 			return null;
-
-		Point3D intersection = new Point3D(ray.p);
-		intersection.mac(minDistance, ray.v);
-
-		return new Intersection(intersection, minSurface, minDistance);
-	}
-	
-	/**
-	 * loads background image
-	 * @param backgroundImagePath
-	 * @param width
-	 * @param height
-	 */
-	public void getBackgroundTexture(File backgroundImagePath, int width, int height) {
-		try {
-			this.backgroundImage = ImageIO.read
-					(new File(backgroundImagePath.getParent() + 
-							File.separatorChar + backgroundTex));
-			AffineTransform transformer = new AffineTransform();
-
-			double transformedWidth = 
-					(double) width / backgroundImage.getWidth();
-			double transformedHeight = 
-					(double) height / backgroundImage.getHeight();
-			transformer.scale(transformedWidth, transformedHeight);
-
-			AffineTransformOp transformOperation = 
-					new AffineTransformOp(transformer, 
-							AffineTransformOp.TYPE_BILINEAR);
-			backgroundImage = transformOperation.filter(backgroundImage, null);
-
-		} catch (IOException e) {
-			System.out.println("Problem with background image.");
 		}
+		return new Intersection(surface, minPoint);
+	}
+
+	public Vec calcColor(Ray ray, int level) {
+
+		if (level == maxRecursionLevel) {
+			return new Vec(0, 0, 0);
+		}
+
+		Intersection intersection = findIntersection(ray);
+
+		if (intersection == null) {
+			return backgroundCol;
+		}
+
+		Vec color = new Vec();
+
+		color.add(calcEmissionColor(intersection));
+
+		color.add(calcAmbientColor(intersection));
+
+		for (Light light : lights) {
+			Ray shootRayToLight = null;
+			double distanceToLight = 0;
+			if (light instanceof dirLight) {
+				distanceToLight = Double.MAX_VALUE;
+				Vec OpDirection = ((dirLight) light).getDirection();
+				OpDirection.negate();
+				shootRayToLight = new Ray(intersection.getPoint(), OpDirection);
+			}
+			if (light instanceof SpotLight) {
+				distanceToLight = Point3D.distance(((SpotLight) light).getPosition(), intersection.getPoint());
+				shootRayToLight = new Ray(intersection.getPoint(), Point3D.vecBetweenTowPoints(((SpotLight) light).getPosition(),
+						intersection.getPoint()));
+			}
+			if (light instanceof OmniLight) {
+				distanceToLight = Point3D.distance(((OmniLight) light).getPosition(), intersection.getPoint());
+				shootRayToLight = new Ray(intersection.getPoint(), Point3D.vecBetweenTowPoints(((OmniLight) light).getPosition(),
+						intersection.getPoint()));
+			}
+			Intersection intersectionWithobject = findIntersection(shootRayToLight);
+			if (intersectionWithobject != null) {
+				double distanceToNewIntersection = Point3D.distance(shootRayToLight.p, intersectionWithobject.getPoint());
+				if (distanceToLight > distanceToNewIntersection + 0.0001 && distanceToNewIntersection > 0.0001) {
+					continue;
+				}
+			}
+			color.add(calcDiffuseColor(intersection, light));
+			color.add(calcSpecularColor(intersection, light, ray));
+
+		}
+		Vec normal = intersection.getSurface().getNormalInPoint(intersection.getPoint());
+		Ray reflectionRay = new Ray(intersection.getPoint(), ray.v.reflect(normal));
+		double KS = intersection.getSurface().getReflectance();
+		Vec reflectionColor = calcColor(reflectionRay, level + 1);
+		color.add(Vec.scale(KS, reflectionColor));
+
+		return color;
 	}
 
 	/**
-	 * Calculates the color at a given intersection point
+	 * Calculate the amount of ambient color at the intersection point.
 	 * 
-	 * @param hit
-	 *            The intersection point and surface
-	 * @param ray
-	 *            Hitting ray
-	 * @return
+	 * @param intersection
+	 *            point
+	 * @return ambient factor
 	 */
-	public Vec calcColor(Intersection hit, Ray ray, int level, double backgroundX, 
-			double backgroundY) {
+	private Vec calcAmbientColor(Intersection intersection) {
+		return Vec.scale(intersection.getSurface().getAmbiant(), ambientLight);
+	}
 
-		Ray outRay;
-		Intersection newHit;
-		Vec recursionResult;
+	/**
+	 * Calculate the amount of diffuse color at the intersection point, by the
+	 * specified light source.
+	 * 
+	 * @param intersection
+	 *            point
+	 * @return diffuse factor
+	 */
+	private Vec calcDiffuseColor(Intersection intersection, Light light) {
 
-		// no hit
-		if (hit == null) {
-			Color backColor = getBackgroundColorAt((int)backgroundX, 
-					(int)backgroundY);
-			double red = (double)backColor.getRed() / 255;
-			double green = (double)backColor.getGreen() / 255;
-			double blue = (double)backColor.getBlue() / 255;
-			return new Vec(red, green, blue);
+		Surface object = intersection.getSurface();
+		Point3D point = intersection.getPoint();
+
+		// Find the normal at the intersection point
+		Vec normalAtIntersectionPoint = object.getNormalInPoint(point);
+
+		// Find the vector between the intersection point
+		// and the light source, and IL at that point
+		Vec L = null;
+		Vec IL = null;
+		if (light instanceof dirLight) {
+			dirLight dLight = (dirLight) light;
+			L = dLight.getDirection();
+			L.negate();
+			IL = dLight.getIntansityLight(point);
+		} else if (light instanceof OmniLight) {
+			OmniLight oLight = (OmniLight) light;
+			L = Point3D.vecBetweenTowPoints(point, oLight.getPosition());
+			if (object instanceof Polygon) {
+				L.negate();
+			}
+			IL = oLight.getIntansityLight(point);
+		} else {
+			SpotLight sLight = (SpotLight) light;
+			L = Point3D.vecBetweenTowPoints(point, sLight.getPosition());
+			IL = sLight.getIntansityLight(point);
 		}
+		L.normalize();
 
-		// recursion reached its end
-		if (level == this.maxRecursionLevel) {
-			return new Vec();
+		// Calculate the dot product between them
+		double dotProduct = Vec.dotProd(normalAtIntersectionPoint, L);
+
+		// Get the surface's diffuse coefficient
+		Vec KD = object.getDifuse();
+		double angel = Math.max(0, dotProduct);
+		// Calculate ID
+		Vec ID = Vec.scale(KD, Vec.scale(angel, IL));
+
+		return ID;
+
+	}
+
+	/**
+	 * Calculate the amount of specular color at the intersection point, by the
+	 * specified light source.
+	 * 
+	 * @param intersection
+	 *            point
+	 * @return specular factor
+	 */
+	private Vec calcSpecularColor(Intersection intersection, Light light, Ray ray) {
+
+		Surface object = intersection.getSurface();
+		Point3D intersectionPoint = intersection.getPoint();
+
+		// Find the normal at the intersection point
+		Vec normalAtIntersectionPoint = object.getNormalInPoint(intersectionPoint);
+
+		// Find the vector between the intersection point
+		// and the light source, and IL at that point
+		Vec L = null;
+		Vec IL = null;
+		if (light instanceof dirLight) {
+			dirLight dLight = (dirLight) light;
+			L = dLight.getDirection();
+			L.negate();
+			IL = dLight.getIntansityLight(intersectionPoint);
+		} else if (light instanceof OmniLight) {
+			OmniLight oLight = (OmniLight) light;
+			L = Point3D.vecBetweenTowPoints(intersectionPoint, oLight.getPosition());
+			IL = oLight.getIntansityLight(intersectionPoint);
+		} else {
+			SpotLight sLight = (SpotLight) light;
+			L = Point3D.vecBetweenTowPoints(intersectionPoint, sLight.getPosition());
+			IL = sLight.getIntansityLight(intersectionPoint);
 		}
+		L.normalize();
 
-		Vec I = new Vec(); // I from the equation - final result
-		Material material = hit.surface.material; // material
-		Vec Ie = material.emission; // material emission
-		Vec Ia = this.ambientLight; // global ambient
-		Vec Ka = material.ambient; // material ambient
-		Vec Ks = material.specular; // material specular
-		double Kr = material.reflectance; // material reflection
-		double n = material.shininess; // material shininess
-		Point3D intersection = hit.intersection;
-		Vec N; // intersection normal
-		Vec V; // intersection to eye
-		Vec lightSigmaResult;
+		// Reflect L in relation to N
+		Vec R = L.reflect(normalAtIntersectionPoint);
+		R.normalize();
+		Vec eyeLookAtPoint = Point3D.vecBetweenTowPoints(ray.p, intersectionPoint);
+		eyeLookAtPoint.normalize();
+		// Calculate the dot product between them
+		double dotProduct = Math.max(0, Vec.dotProd(eyeLookAtPoint, R));
 
-		// I = Ie + Ka * Ia
-		I.add(Vec.add(Ie, Vec.scale(Ka, Ia)));
+		// Raise it to the power of n
+		double dotProductN = Math.pow(dotProduct, object.getShininess());
 
-		// lights sigma: I += sigma
-		N = hit.surface.normalAt(intersection, ray);
-		V = ray.v.clone();		
-		lightSigmaResult = calcSumOfLights(hit, Ks, N, V, n);
-		I.add(lightSigmaResult);
+		// Get the surface's specular coefficient
+		Vec KS = object.getSpecular();
 
-		// recursion
-		Vec outVec = ray.v.reflect(N);
-		outVec.normalize();
-		outRay = new Ray(intersection, outVec);
-		newHit = findIntersection(outRay, false);
-		recursionResult = 
-				calcColor(newHit, outRay, level + 1, backgroundX, backgroundY);
-		I.mac(Kr, recursionResult);
-		
-		return I;
+		double angel = Math.max(dotProductN, 0);
+
+		// Calculate IS
+		Vec IS = Vec.scale(KS, Vec.scale(angel, IL));
+		return IS;
+
+	}
+
+	private Vec calcEmissionColor(Intersection intersection) {
+
+		Surface s = intersection.getSurface();
+		Vec v = s.getEmission();
+		return v;
 	}
 
 	/**
@@ -220,117 +302,51 @@ public class Scene implements IInitable {
 	 *            Object's attributes
 	 */
 	public void addObjectByName(String name, Map<String, String> attributes) {
-		if (name == "sphere") {
-			Surface surface = new Sphere();
-			surface.init(attributes);
-			this.surfaces.add(surface);
-		}
-		
-		if(name == "trimesh"){
-			Trimesh trimesh = new Trimesh();
-			trimesh.init(attributes);
-			LinkedList<Triangle> trianglesList = trimesh.getTriangles();
-			for(Triangle triangle: trianglesList){
-				this.surfaces.add(triangle);
+		// here is some code example for adding a surface or a light.
+		// you can change everything and if you don't want this method, delete
+		// it
+
+		name.toLowerCase();
+
+		Surface surface = null;
+		Light light = null;
+
+		if (Light.isLight(name)) {
+
+			if ("omni-light".equals(name)) {
+				light = new OmniLight();
+				light = new OmniLight(attributes);
 			}
+			if ("dir-light".equals(name)) {
+				light = new dirLight();
+				light = new dirLight(attributes);
+			}
+			if ("spot-light".equals(name)) {
+				light = new SpotLight();
+				light = new SpotLight(attributes);
+			}
+			lights.add(light);
+		} else {
+			if ("sphere".equals(name)) {
+				surface = new Sphere();
+				surface = new Sphere(attributes);
+			} else if ("disc".equals(name)) {
+				surface = new Disc();
+				surface = new Disc(attributes);
+			} else {
+				surface = new Polygon();
+				surface = new Polygon(attributes);
+			}
+			surfaces.add(surface);
 		}
-		
-		if (name == "disc") {
-			Disc disc = new Disc();
-			disc.init(attributes);
-			this.surfaces.add(disc);
-		}
-		
-		if(name == "omni-light"){
-			omniLight light = new omniLight();			
-			light.init(attributes);
-			this.lights.add(light);
-		}
-		
-		if(name == "spot-light"){
-			SpotLight light = new SpotLight();			
-			light.init(attributes);
-			this.lights.add(light);
-		}
-		
-		if(name == "dir-light"){
-			dirLight light = new dirLight();			
-			light.init(attributes);
-			this.lights.add(light);
-		}
-		
-	}
-	
-	// sigma: (Kd(N*L) + Ks(V*R)^n )Sl*Il
-	private Vec calcSumOfLights(Intersection hit,Vec Ks, Vec N, Vec V, double n) {
-		
-		Vec sumOfLights = new Vec();
-		
-		for (int i = 0 ; i < lights.size() ; i++) {			
-			
-			Light light = lights.get(i);			
-			
-			//Vector to Light 
-			Vec L = Vec.sub(light.pos, hit.intersection);
-			double Lightdistance = L.length();
-			L.normalize(); 
-			
-			//check if shadowed
-			Ray shadowedRay = new Ray(hit.intersection,L);
-			Intersection shadowedHit = findIntersection(shadowedRay, true);
-			//if the point is not shadowed
-			if (shadowedHit == null || 
-					shadowedHit.distance >= Lightdistance){			
-				//diffuse
-				Vec Kd = new Vec();
-				//calc. teta in order to find the right diffuse
-				double teta = Vec.dotProd(N, L);
-				if(teta > 0){
-					Surface surface = hit.surface;
-					//if the surface is rectangle we need to check
-					//diffuse at a specific point for checkers type surface   
-					Kd = Vec.scale(teta, surface.material.diffuse);
-					
-				}
-				//Specular
-				Vec R = L.reflect(N);
-				V.normalize();
-				double VR = Vec.dotProd(V, R);
-				if (VR >= 0) {
-					Vec specular = Vec.scale(Math.pow(VR , n), Ks);
-					Kd.add(specular);
-				}
-				Vec vecFromPoint =
-						new Vec(hit.intersection.x
-								, hit.intersection.y, hit.intersection.z);
-				Kd.scale(light.getLightAtPoint(vecFromPoint));
-				sumOfLights.add(Kd);
-			}			
-		}
-		
-		return sumOfLights;			
 	}
 
-	/**
-	 * returns the color of the background at a wanted point
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	protected Color getBackgroundColorAt(int x, int y) {
-
-		if (this.backgroundImage != null) {
-			return new Color(this.backgroundImage.getRGB(x, y));
-		}
-
-		return new Color((int)(this.backgroundCol.x * 255),
-				(int)(this.backgroundCol.y * 255),
-				(int)(this.backgroundCol.z * 255));
+	public void setCameraAttributes(Map<String, String> attributes) {
+		this.camera = new Camera();
+		this.camera.init(attributes);
 	}
-	// Well, same comment from upper part.
-	// We probably don't need it the way we implemented, but we will check if we can delete this
-//	public void setCameraAttributes(Map<String, String> attributes) {
-//		//TODO uncomment after implementing camera interface if you like
-//		this.camera.init(attributes);
-//	}
+
+	public Ray castRay(double x, double y, double height, double width) {
+		return camera.constructRayThroughPixel(x, y, height, width);
+	}
 }
