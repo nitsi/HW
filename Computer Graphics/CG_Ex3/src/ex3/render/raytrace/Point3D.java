@@ -89,6 +89,7 @@ public class Point3D {
 	 * @param p
 	 * @return vector between a given point and this
 	 */
+	public Vec vectorBetweenTwoPoints(Point3D p) {
 		return new Vec(p.x - this.x, p.y - this.y, p.z - this.z);
 	}
 
