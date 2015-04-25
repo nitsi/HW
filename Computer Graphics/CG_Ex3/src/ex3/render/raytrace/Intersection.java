@@ -1,3 +1,8 @@
+/*
+Computer Graphics - Exercise 3
+Matan Gidnian	200846905
+Aviad Hahami	302188347
+ */
 package ex3.render.raytrace;
 
 public class Intersection {
@@ -132,9 +137,9 @@ public class Intersection {
 		// Find the intersection of the ray with the surface plane
 
 		Vec i_RayToSurfaceDistance = Point3D.vectorBetweenTwoPoints(pointOnSurface, ray.p);
-		
+
 		double i_RayToSurfaceNormal = Vec.dotProd(i_RayToSurfaceDistance, surfaceNormal);
-		
+
 		double i_RayToSurfaceNormalDivision = i_RayToSurfaceNormal / i_RaySurfaceIntersection;
 		return Point3D.add(Vec.scale(i_RayToSurfaceNormalDivision, ray.v), ray.p);
 
