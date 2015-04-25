@@ -18,7 +18,7 @@ public class Sphere extends Surface{
 	public Vec getNormalInPoint(Point3D p) {
 		
 		Vec normal;
-		normal = Point3D.vecBetweenTwoPoints(center, p);
+		normal = Point3D.vectorBetweenTwoPoints(center, p);
 		normal.normalize();
 		return normal;
 	}

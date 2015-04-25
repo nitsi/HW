@@ -31,8 +31,7 @@ public class Scene implements IInitable {
 
 	public void init(Map<String, String> attributes) {
 
-		if (!attributes.containsKey("background-col")
-				&& !attributes.containsKey("background-tex")) {
+		if (!attributes.containsKey("background-col") && !attributes.containsKey("background-tex")) {
 			backgroundCol = new Vec("0 0 0");
 		} else if (attributes.containsKey("background-tex")) {
 			backgroundTex = attributes.get("background-tex");
@@ -66,8 +65,7 @@ public class Scene implements IInitable {
 		for (Surface shape : surfaces) {
 
 			if (shape instanceof Polygon) {
-				Point3D p = Intersection.rayPolygonIntersection(ray,
-						(Polygon) shape);
+				Point3D p = Intersection.intersection_RayAndPolygon(ray, (Polygon) shape);
 				if (p == null) {
 					continue;
 				}
@@ -78,7 +76,7 @@ public class Scene implements IInitable {
 				}
 			}
 			if (shape instanceof Disc) {
-				Point3D p = Intersection.rayDiscIntersection(ray, (Disc) shape);
+				Point3D p = Intersection.intersection_RayAndDisc(ray, (Disc) shape);
 				if (p == null) {
 					continue;
 				}
@@ -89,8 +87,7 @@ public class Scene implements IInitable {
 				}
 			}
 			if (shape instanceof Sphere) {
-				Point3D p = Intersection.raySphereIntersection(ray,
-						(Sphere) shape);
+				Point3D p = Intersection.intersection_RayAndSphere(ray, (Sphere) shape);
 				if (p == null) {
 					continue;
 				}
@@ -109,11 +106,10 @@ public class Scene implements IInitable {
 
 	public Vec calcColor(Ray ray, int level) {
 
-		
 		if (level == maxRecursionLevel) {
 			return new Vec(0, 0, 0);
 		}
-		
+
 		Intersection intersection = findIntersection(ray);
 
 		if (intersection == null) {
@@ -136,29 +132,19 @@ public class Scene implements IInitable {
 				shootRayToLight = new Ray(intersection.getPoint(), OpDirection);
 			}
 			if (light instanceof SpotLight) {
-				distanceToLight = Point3D.distance(
-						((SpotLight) light).getPosition(),
-						intersection.getPoint());
-				shootRayToLight = new Ray(intersection.getPoint(),
-						Point3D.vecBetweenTwoPoints(
-								((SpotLight) light).getPosition(),
-								intersection.getPoint()));
+				distanceToLight = Point3D.distance(((SpotLight) light).getPosition(), intersection.getPoint());
+				shootRayToLight = new Ray(intersection.getPoint(), Point3D.vectorBetweenTwoPoints(((SpotLight) light).getPosition(),
+						intersection.getPoint()));
 			}
 			if (light instanceof OmniLight) {
-				distanceToLight = Point3D.distance(
-						((OmniLight) light).getPosition(),
-						intersection.getPoint());
-				shootRayToLight = new Ray(intersection.getPoint(),
-						Point3D.vecBetweenTwoPoints(
-								((OmniLight) light).getPosition(),
-								intersection.getPoint()));
+				distanceToLight = Point3D.distance(((OmniLight) light).getPosition(), intersection.getPoint());
+				shootRayToLight = new Ray(intersection.getPoint(), Point3D.vectorBetweenTwoPoints(((OmniLight) light).getPosition(),
+						intersection.getPoint()));
 			}
 			Intersection intersectionWithobject = findIntersection(shootRayToLight);
 			if (intersectionWithobject != null) {
-				double distanceToNewIntersection = Point3D.distance(
-						shootRayToLight.p, intersectionWithobject.getPoint());
-				if (distanceToLight > distanceToNewIntersection + 0.0001
-						&& distanceToNewIntersection > 0.0001) {
+				double distanceToNewIntersection = Point3D.distance(shootRayToLight.p, intersectionWithobject.getPoint());
+				if (distanceToLight > distanceToNewIntersection + 0.0001 && distanceToNewIntersection > 0.0001) {
 					continue;
 				}
 			}
@@ -169,7 +155,7 @@ public class Scene implements IInitable {
 		Vec normal = intersection.getSurface().getNormalInPoint(intersection.getPoint());
 		Ray reflectionRay = new Ray(intersection.getPoint(), ray.v.reflect(normal));
 		double KS = intersection.getSurface().getReflectance();
-		Vec reflectionColor = calcColor(reflectionRay, level+1);
+		Vec reflectionColor = calcColor(reflectionRay, level + 1);
 		color.add(Vec.scale(KS, reflectionColor));
 
 		return color;
@@ -213,14 +199,14 @@ public class Scene implements IInitable {
 			IL = dLight.getIntansityLight(point);
 		} else if (light instanceof OmniLight) {
 			OmniLight oLight = (OmniLight) light;
-			L = Point3D.vecBetweenTwoPoints(point, oLight.getPosition());
+			L = Point3D.vectorBetweenTwoPoints(point, oLight.getPosition());
 			if (object instanceof Polygon) {
 				L.negate();
 			}
 			IL = oLight.getIntansityLight(point);
 		} else {
 			SpotLight sLight = (SpotLight) light;
-			L = Point3D.vecBetweenTwoPoints(point, sLight.getPosition());
+			L = Point3D.vectorBetweenTwoPoints(point, sLight.getPosition());
 			IL = sLight.getIntansityLight(point);
 		}
 		L.normalize();
@@ -252,8 +238,7 @@ public class Scene implements IInitable {
 		Point3D intersectionPoint = intersection.getPoint();
 
 		// Find the normal at the intersection point
-		Vec normalAtIntersectionPoint = object
-				.getNormalInPoint(intersectionPoint);
+		Vec normalAtIntersectionPoint = object.getNormalInPoint(intersectionPoint);
 
 		// Find the vector between the intersection point
 		// and the light source, and IL at that point
@@ -266,13 +251,11 @@ public class Scene implements IInitable {
 			IL = dLight.getIntansityLight(intersectionPoint);
 		} else if (light instanceof OmniLight) {
 			OmniLight oLight = (OmniLight) light;
-			L = Point3D.vecBetweenTwoPoints(intersectionPoint,
-					oLight.getPosition());
+			L = Point3D.vectorBetweenTwoPoints(intersectionPoint, oLight.getPosition());
 			IL = oLight.getIntansityLight(intersectionPoint);
 		} else {
 			SpotLight sLight = (SpotLight) light;
-			L = Point3D.vecBetweenTwoPoints(intersectionPoint,
-					sLight.getPosition());
+			L = Point3D.vectorBetweenTwoPoints(intersectionPoint, sLight.getPosition());
 			IL = sLight.getIntansityLight(intersectionPoint);
 		}
 		L.normalize();
@@ -280,8 +263,7 @@ public class Scene implements IInitable {
 		// Reflect L in relation to N
 		Vec R = L.reflect(normalAtIntersectionPoint);
 		R.normalize();
-		Vec eyeLookAtPoint = Point3D.vecBetweenTwoPoints(ray.p,
-				intersectionPoint);
+		Vec eyeLookAtPoint = Point3D.vectorBetweenTwoPoints(ray.p, intersectionPoint);
 		eyeLookAtPoint.normalize();
 		// Calculate the dot product between them
 		double dotProduct = Math.max(0, Vec.dotProd(eyeLookAtPoint, R));

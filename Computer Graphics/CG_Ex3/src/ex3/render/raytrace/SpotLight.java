@@ -63,7 +63,7 @@ public class SpotLight extends Light {
 
 	public Vec getIntansityLight(Point3D p) {
 
-		Vec locationRelativeToLightSource = Point3D.vecBetweenTwoPoints(p,
+		Vec locationRelativeToLightSource = Point3D.vectorBetweenTwoPoints(p,
 				position);
 		locationRelativeToLightSource.normalize();
 		double angleBetweenObjectAndLight = Math.max(

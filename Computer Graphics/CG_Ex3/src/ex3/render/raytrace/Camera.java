@@ -47,7 +47,7 @@ public class Camera implements IInitable {
 			 * set as the vector between "look-at" attribute and the eye
 			 */
 
-			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vecBetweenTwoPoints(
+			g_dirTo = attributes.containsKey("direction") ? new Vec(attributes.get("direction")) : Point3D.vectorBetweenTwoPoints(
 					new Point3D(attributes.get("loot-at")), g_eye);
 
 			Vec i_tempUpDirection = new Vec(attributes.get("up-direction"));
@@ -132,7 +132,7 @@ public class Camera implements IInitable {
 
 		Point3D i_destinationPixel3DFormat = Point3D.add(i_upDirectionProgress, Point3D.add(i_rightDirectionProgress, g_centerCoordinate3D));
 
-		Vec i_vectorBetweenDestPixelAndEye = Point3D.vecBetweenTwoPoints(i_destinationPixel3DFormat, g_eye);
+		Vec i_vectorBetweenDestPixelAndEye = Point3D.vectorBetweenTwoPoints(i_destinationPixel3DFormat, g_eye);
 		return new Ray(g_eye, i_vectorBetweenDestPixelAndEye);
 	}
 
