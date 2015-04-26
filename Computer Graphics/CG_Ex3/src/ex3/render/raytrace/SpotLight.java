@@ -1,3 +1,8 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
 package ex3.render.raytrace;
 
 import java.util.Map;
@@ -22,8 +27,7 @@ public class SpotLight extends Light {
 	}
 
 	@Override
-	public void init(Map<String, String> attributes)
-			throws IllegalArgumentException {
+	public void init(Map<String, String> attributes) throws IllegalArgumentException {
 
 		if (!attributes.containsKey("color")) {
 			g_color = new Vec(1, 1, 1);
@@ -63,14 +67,11 @@ public class SpotLight extends Light {
 
 	public Vec getLightIntensity(Point3D p) {
 
-		Vec locationRelativeToLightSource = Point3D.vectorBetweenTwoPoints(p,
-				position);
+		Vec locationRelativeToLightSource = Point3D.vectorBetweenTwoPoints(p, position);
 		locationRelativeToLightSource.normalize();
-		double angleBetweenObjectAndLight = Math.max(
-				Vec.dotProd(locationRelativeToLightSource, direction), 0);
+		double angleBetweenObjectAndLight = Math.max(Vec.dotProd(locationRelativeToLightSource, direction), 0);
 		double lengthFromHit = p.distance(position);
-		Vec IL = Vec.scale(1 / (kConst + kLinear * lengthFromHit + kQuadratic
-				* lengthFromHit * lengthFromHit),
+		Vec IL = Vec.scale(1 / (kConst + kLinear * lengthFromHit + kQuadratic * lengthFromHit * lengthFromHit),
 				Vec.scale(angleBetweenObjectAndLight, g_color));
 		return IL;
 	}
