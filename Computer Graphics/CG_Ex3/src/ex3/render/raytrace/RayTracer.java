@@ -70,6 +70,9 @@ public class RayTracer implements IRenderer {
 	public void renderLine(BufferedImage canvas, int line) {
 		int i_R, i_G, i_B;
 		for (int i = 0; i < g_width; i++) {
+			if (i ==  400 && line == 460){
+				System.out.print("");
+			}
 
 			Ray i_RenderingRay = g_currentScene.castRay(i, line, g_height, g_width);
 			Vec i_SceneCol = g_currentScene.calcColor(i_RenderingRay, 0);

@@ -32,7 +32,7 @@ public class DirectionLight extends Light {
 		if (verifyInput(attributes)) {
 			g_color = attributes.containsKey("color") ? new Vec(attributes.get("color")) : new Vec(1, 1, 1);
 			g_directionVector = new Vec(attributes.get("direction"));
-
+			g_directionVector.normalize();
 		}
 	}
 
@@ -54,7 +54,7 @@ public class DirectionLight extends Light {
 	}
 
 	public Vec getDirection() {
-		return g_directionVector;
+		return g_directionVector.clone();
 	}
 
 }

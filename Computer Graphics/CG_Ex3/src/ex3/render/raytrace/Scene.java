@@ -180,7 +180,7 @@ public class Scene implements IInitable {
 
 			if (i_RayObjectIntersection != null) {
 				double i_distanceToIntersection = Point3D.distance(i_castRayTowardsLightSource.g_rayPoint, i_RayObjectIntersection.getPoint());
-				if (i_distanceTowardsLightSource - 0.0001 > i_distanceToIntersection && i_distanceToIntersection >= 0.00011) {
+				if (i_distanceTowardsLightSource - 0.0001 > i_distanceToIntersection && i_distanceToIntersection > 0.001) {
 					continue;
 				}
 			}
