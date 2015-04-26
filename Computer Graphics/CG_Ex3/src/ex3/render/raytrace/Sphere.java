@@ -1,22 +1,28 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
 package ex3.render.raytrace;
 
 import java.util.Map;
 
-public class Sphere extends Surface{
+public class Sphere extends Surface {
 
 	private double radius;
 	private Point3D center;
-	
-	public Sphere(){}
-	
-	public Sphere(Map<String, String> attributes){
+
+	public Sphere() {
+	}
+
+	public Sphere(Map<String, String> attributes) {
 		originInit(attributes);
 		init(attributes);
 	}
-	
+
 	@Override
 	public Vec getNormalAtPoint(Point3D p) {
-		
+
 		Vec normal;
 		normal = Point3D.vectorBetweenTwoPoints(center, p);
 		normal.normalize();
@@ -24,21 +30,19 @@ public class Sphere extends Surface{
 	}
 
 	@Override
-	public void init(Map<String, String> attributes)
-			throws IllegalArgumentException {
-		
-		if (!attributes.containsKey("center")){
+	public void init(Map<String, String> attributes) throws IllegalArgumentException {
+
+		if (!attributes.containsKey("center")) {
 			throw new IllegalArgumentException("missing center point");
-		}else{ 
+		} else {
 			center = new Point3D(attributes.get("center"));
 		}
-		if (!attributes.containsKey("radius")){
+		if (!attributes.containsKey("radius")) {
 			throw new IllegalArgumentException("missing radius");
-		}else{ 
+		} else {
 			radius = Double.parseDouble(attributes.get("radius"));
 		}
-		
-		
+
 	}
 
 	public Point3D getCenter() {

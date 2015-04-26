@@ -1,3 +1,8 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
 package ex3.render.raytrace;
 
 import java.util.LinkedList;
