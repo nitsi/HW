@@ -65,7 +65,7 @@ public class Point3D {
 	 * @return
 	 */
 	public boolean equals(Vec a) {
-		return ((this.x == a.x) && (this.y == a.y) && (this.z == a.z));
+		return ((this.x == a.g_x) && (this.y == a.g_y) && (this.z == a.g_z));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class Point3D {
 	 * @return new Point3D with the new values
 	 */
 	public static Point3D add(Vec v, Point3D p) {
-		return new Point3D(v.x + p.x, v.y + p.y, v.z + p.z);
+		return new Point3D(v.g_x + p.x, v.g_y + p.y, v.g_z + p.z);
 	}
 
 	/**

@@ -1,34 +1,40 @@
+/*
+ Computer Graphics - Exercise 3
+ Matan Gidnian	200846905
+ Aviad Hahami	302188347
+ */
 package ex3.render.raytrace;
 
 import java.util.Scanner;
 
 /**
- * 3D vector class that contains three doubles. Could be used to represent
- * Vectors but also Points and Colors.
  * 
+ * Regular vector 3D class
  */
 public class Vec {
 
-	/**
-	 * Vector data. Allowed to be accessed publicly for performance reasons
-	 */
-	public double x, y, z;
+	public double g_x, g_y, g_z;
 
-	public Vec(String v) {
-		Scanner s = new Scanner(v);
-		x = s.nextDouble();
-		y = s.nextDouble();
-		z = s.nextDouble();
-		s.close();
-	}
-	
 	/**
-	 * Initialize vector to (0,0,0)
+	 * vector constructor off a given string
+	 * 
+	 * @param vectorString
+	 */
+	public Vec(String vectorString) {
+		Scanner i_scanner = new Scanner(vectorString);
+		g_x = i_scanner.nextDouble();
+		g_y = i_scanner.nextDouble();
+		g_z = i_scanner.nextDouble();
+		i_scanner.close();
+	}
+
+	/**
+	 * Generate zero vector (0,0,0)
 	 */
 	public Vec() {
-		x = 0;
-		y = 0;
-		z = 0;
+		this.g_x = 0;
+		this.g_y = 0;
+		this.g_z = 0;
 	}
 
 	/**
@@ -42,9 +48,9 @@ public class Vec {
 	 *            Scalar
 	 */
 	public Vec(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.g_x = x;
+		this.g_y = y;
+		this.g_z = z;
 	}
 
 	/**
@@ -54,9 +60,9 @@ public class Vec {
 	 *            Vector
 	 */
 	public Vec(Vec v) {
-		x = v.x;
-		y = v.y;
-		z = v.z;
+		g_x = v.g_x;
+		g_y = v.g_y;
+		g_z = v.g_z;
 	}
 
 	/**
@@ -78,9 +84,9 @@ public class Vec {
 	 */
 	public void add(Vec a) {
 
-		this.x = a.x + x;
-		this.y = a.y + y;
-		this.z = a.z + z;
+		this.g_x = a.g_x + g_x;
+		this.g_y = a.g_y + g_y;
+		this.g_z = a.g_z + g_z;
 	}
 
 	/**
@@ -91,9 +97,9 @@ public class Vec {
 	 */
 	public void sub(Vec a) {
 
-		a.x = a.x - x;
-		a.y = a.y - y;
-		a.z = a.z - z;
+		a.g_x = a.g_x - g_x;
+		a.g_y = a.g_y - g_y;
+		a.g_z = a.g_z - g_z;
 	}
 
 	/**
@@ -106,9 +112,9 @@ public class Vec {
 	 */
 	public void mac(double s, Vec a) {
 
-		x = x + s * a.x;
-		y = y + s * a.y;
-		z = z + s * a.z;
+		g_x = g_x + s * a.g_x;
+		g_y = g_y + s * a.g_y;
+		g_z = g_z + s * a.g_z;
 	}
 
 	/**
@@ -119,9 +125,9 @@ public class Vec {
 	 */
 	public void scale(double s) {
 
-		x = s * x;
-		y = s * y;
-		z = s * z;
+		g_x = s * g_x;
+		g_y = s * g_y;
+		g_z = s * g_z;
 	}
 
 	/**
@@ -132,9 +138,9 @@ public class Vec {
 	 */
 	public void scale(Vec a) {
 
-		x = x * a.x;
-		y = y * a.y;
-		z = z * a.z;
+		g_x = g_x * a.g_x;
+		g_y = g_y * a.g_y;
+		g_z = g_z * a.g_z;
 	}
 
 	/**
@@ -143,9 +149,9 @@ public class Vec {
 	 * @return Vector
 	 */
 	public void negate() {
-		x = -x;
-		y = -y;
-		z = -z;
+		g_x = -g_x;
+		g_y = -g_y;
+		g_z = -g_z;
 	}
 
 	/**
@@ -155,7 +161,7 @@ public class Vec {
 	 */
 	public double length() {
 
-		return Math.sqrt(x * x + y * y + z * z);
+		return Math.sqrt(g_x * g_x + g_y * g_y + g_z * g_z);
 	}
 
 	/**
@@ -165,7 +171,7 @@ public class Vec {
 	 */
 	public double lengthSquared() {
 
-		return (x * x + y * y + z * z);
+		return (g_x * g_x + g_y * g_y + g_z * g_z);
 	}
 
 	/**
@@ -177,7 +183,7 @@ public class Vec {
 	 */
 	public double dotProd(Vec a) {
 
-		return (a.x * x + a.y * y + a.z * z);
+		return (a.g_x * g_x + a.g_y * g_y + a.g_z * g_z);
 	}
 
 	/**
@@ -191,18 +197,20 @@ public class Vec {
 		double vecLenght = this.length();
 		if (vecLenght == 0)
 			throw new ArithmeticException();
-		else{
-			x = x / vecLenght;
-			y = y / vecLenght;
-			z = z / vecLenght; 
+		else {
+			g_x = g_x / vecLenght;
+			g_y = g_y / vecLenght;
+			g_z = g_z / vecLenght;
 		}
 	}
-	public static boolean isLinearDependant(Vec v, Vec u){
-		if ((v.x / u.x) == (v.y / u.y) && (v.y / u.y) == (v.z / u.z)){
+
+	public static boolean isLinearDependant(Vec v, Vec u) {
+		if ((v.g_x / u.g_x) == (v.g_y / u.g_y) && (v.g_y / u.g_y) == (v.g_z / u.g_z)) {
 			return true;
 		}
 		return false;
 	}
+
 	/**
 	 * Compares to a given vector
 	 * 
@@ -211,7 +219,7 @@ public class Vec {
 	 * @return True if have same values, false otherwise
 	 */
 	public boolean equals(Vec a) {
-		return ((a.x == x) && (a.y == y) && (a.z == z));
+		return ((a.g_x == g_x) && (a.g_y == g_y) && (a.g_z == g_z));
 	}
 
 	/**
@@ -241,8 +249,7 @@ public class Vec {
 	 */
 	public static Vec crossProd(Vec a, Vec b) {
 
-		
-		return new Vec(a.y * b.z - a.z * b.y , a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+		return new Vec(a.g_y * b.g_z - a.g_z * b.g_y, a.g_z * b.g_x - a.g_x * b.g_z, a.g_x * b.g_y - a.g_y * b.g_x);
 	}
 
 	/**
@@ -256,7 +263,7 @@ public class Vec {
 	 */
 	public static Vec add(Vec a, Vec b) {
 		// TODO:
-		return new Vec(a.x + b.x, a.y + b.y, a.z + b.z);
+		return new Vec(a.g_x + b.g_x, a.g_y + b.g_y, a.g_z + b.g_z);
 	}
 
 	/**
@@ -270,7 +277,7 @@ public class Vec {
 	 */
 	public static Vec sub(Vec a, Vec b) {
 		// TODO:
-		return new Vec(a.x - b.x, a.y - b.y, a.z - b.z);
+		return new Vec(a.g_x - b.g_x, a.g_y - b.g_y, a.g_z - b.g_z);
 	}
 
 	/**
@@ -281,9 +288,8 @@ public class Vec {
 	 * @return -1*a
 	 */
 	public static Vec negate(Vec a) {
-		
-		
-		return new Vec (-1 * a.x, -1 * a.y, -1 * a.z);
+
+		return new Vec(-1 * a.g_x, -1 * a.g_y, -1 * a.g_z);
 	}
 
 	/**
@@ -297,7 +303,7 @@ public class Vec {
 	 */
 	public static Vec scale(double s, Vec a) {
 
-		return new Vec (s * a.x, s * a.y, s * a.z);
+		return new Vec(s * a.g_x, s * a.g_y, s * a.g_z);
 	}
 
 	/**
@@ -311,7 +317,7 @@ public class Vec {
 	 */
 	public static Vec scale(Vec a, Vec b) {
 
-		return new Vec (b.x * a.x, b.y * a.y, b.z * a.z);
+		return new Vec(b.g_x * a.g_x, b.g_y * a.g_y, b.g_z * a.g_z);
 	}
 
 	/**
@@ -325,7 +331,7 @@ public class Vec {
 	 */
 	public static boolean equals(Vec a, Vec b) {
 		// TODO:
-		return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
+		return (a.g_x == b.g_x) && (a.g_y == b.g_y) && (a.g_z == b.g_z);
 	}
 
 	/**
@@ -338,18 +344,18 @@ public class Vec {
 	 * @return a.b
 	 */
 	public static double dotProd(Vec a, Vec b) {
-		
-		return (b.x * a.x + b.y * a.y + b.z * a.z);
+
+		return (b.g_x * a.g_x + b.g_y * a.g_y + b.g_z * a.g_z);
 	}
 
 	/**
 	 * Returns a string that contains the values of this vector. The form is
 	 * (x,y,z).
 	 * 
-	 * @return the String representation
+	 * @return the vector as String (X , Y , Z)
 	 */
 	public String toString() {
-		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+		return "(" + this.g_x + " , " + this.g_y + " , " + this.g_z + ")";
 	}
 
 	@Override

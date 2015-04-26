@@ -75,17 +75,17 @@ public class RayTracer implements IRenderer {
 			// Logic : if col.t bigger than one, set as one, otherwise if
 			// smaller than zero set as zero other wise keep current value
 
-			i_SceneCol.x = i_SceneCol.x > 1 ? 1 : (i_SceneCol.x < 0 ? 0 : i_SceneCol.x);
-			i_SceneCol.y = i_SceneCol.y > 1 ? 1 : (i_SceneCol.y < 0 ? 0 : i_SceneCol.y);
-			i_SceneCol.z = i_SceneCol.z > 1 ? 1 : (i_SceneCol.z < 0 ? 0 : i_SceneCol.z);
+			i_SceneCol.g_x = i_SceneCol.g_x > 1 ? 1 : (i_SceneCol.g_x < 0 ? 0 : i_SceneCol.g_x);
+			i_SceneCol.g_y = i_SceneCol.g_y > 1 ? 1 : (i_SceneCol.g_y < 0 ? 0 : i_SceneCol.g_y);
+			i_SceneCol.g_z = i_SceneCol.g_z > 1 ? 1 : (i_SceneCol.g_z < 0 ? 0 : i_SceneCol.g_z);
 			if (DEBUG) {
 				System.out.println("i: " + i + " line: " + line);
 			}
 			// Calculate RGB values,cast to integer only after calculate the
 			// product or we lose decent value hence less color
-			i_R = (int) (i_SceneCol.x * 255);
-			i_G = (int) (i_SceneCol.y * 255);
-			i_B = (int) (i_SceneCol.z * 255);
+			i_R = (int) (i_SceneCol.g_x * 255);
+			i_G = (int) (i_SceneCol.g_y * 255);
+			i_B = (int) (i_SceneCol.g_z * 255);
 
 			Color i_CalculatedColor = new Color(i_R, i_G, i_B);
 
