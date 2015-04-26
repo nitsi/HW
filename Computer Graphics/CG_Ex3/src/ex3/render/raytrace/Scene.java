@@ -238,6 +238,10 @@ public class Scene implements IInitable {
 
 			i_light = i_directionalLight.getDirection();
 			i_light.negate();
+			if (i_intersectingObject instanceof Sphere)
+			{
+				i_light.negate();
+			}
 			i_lightIntensity = i_directionalLight.getLightIntensity(i_intersectionPoint);
 
 		} else if (light instanceof OmniLight) {
@@ -255,7 +259,6 @@ public class Scene implements IInitable {
 		}
 		// normalize result
 		i_light.normalize();
-		i_light.negate();
 
 		// Get dot product of light and intersection point normal
 		double dotProduct = Vec.dotProd(i_normalAtIntersectionPoint, i_light);
@@ -293,7 +296,12 @@ public class Scene implements IInitable {
 
 			i_light = i_directionalLight.getDirection();
 			i_light.negate();
+			if (i_surfaceAtIntersection instanceof Sphere)
+			{
+				i_light.negate();
+			}
 			i_lightIntensity = i_directionalLight.getLightIntensity(i_intersectionPoint);
+
 
 		} else if (light instanceof OmniLight) {
 
@@ -308,7 +316,6 @@ public class Scene implements IInitable {
 		}
 
 		i_light.normalize();
-		i_light.negate();
 
 		// Reflect L with relation to N
 		Vec i_R = i_light.reflect(normalAtIntersectionPoint);

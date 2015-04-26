@@ -50,7 +50,7 @@ public class DirectionLight extends Light {
 	}
 
 	public Vec getLightIntensity(Point3D p) {
-		return g_color;
+		return g_color.clone();
 	}
 
 	public Vec getDirection() {
