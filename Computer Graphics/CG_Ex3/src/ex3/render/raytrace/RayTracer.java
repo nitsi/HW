@@ -70,8 +70,10 @@ public class RayTracer implements IRenderer {
 	public void renderLine(BufferedImage canvas, int line) {
 		int i_R, i_G, i_B;
 		for (int i = 0; i < g_width; i++) {
-			if (i ==  400 && line == 460){
-				System.out.print("");
+			if (DEBUG) {
+				if (i == 400 && line == 460) {
+					System.out.print("");
+				}
 			}
 
 			Ray i_RenderingRay = g_currentScene.castRay(i, line, g_height, g_width);
@@ -85,9 +87,7 @@ public class RayTracer implements IRenderer {
 			i_SceneCol.g_x = i_SceneCol.g_x > 1 ? 1 : (i_SceneCol.g_x < 0 ? 0 : i_SceneCol.g_x);
 			i_SceneCol.g_y = i_SceneCol.g_y > 1 ? 1 : (i_SceneCol.g_y < 0 ? 0 : i_SceneCol.g_y);
 			i_SceneCol.g_z = i_SceneCol.g_z > 1 ? 1 : (i_SceneCol.g_z < 0 ? 0 : i_SceneCol.g_z);
-			if (DEBUG) {
-				System.out.println("i: " + i + " line: " + line);
-			}
+
 			// Calculate RGB values,cast to integer only after calculate the
 			// product or we lose decent value hence less color
 			i_R = (int) (i_SceneCol.g_x * 255);

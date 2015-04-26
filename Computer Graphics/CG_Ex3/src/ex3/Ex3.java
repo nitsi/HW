@@ -20,7 +20,6 @@ public class Ex3 {
 	 * <canvas height> <target image filename>
 	 */
 	public static void main(String[] args) {
-		System.out.println("mine");
 		String sceneFilename = null;
 		String imageFilename = null;
 		int canvasWidth = 480;
