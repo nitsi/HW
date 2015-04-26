@@ -140,6 +140,8 @@ public class Scene implements IInitable {
 		i_colorVector.add(calculateAmbientColor(i_rayIntersection));
 
 		Ray i_castRayTowardsLightSource = null;
+		Point3D i_tempRayPositionHolder = null;
+		Point3D i_tempRayIntersectionHolder = null;
 		double i_distanceTowardsLightSource = 0;
 		for (Light i_lightIterator : g_LightsList) {
 			// act according the objects' instance
@@ -152,38 +154,45 @@ public class Scene implements IInitable {
 
 				i_castRayTowardsLightSource = new Ray(i_rayIntersection.getPoint(), i_rayDirection);
 			}
-
-			if (i_lightIterator instanceof SpotLight) {
-				Point3D i_tempRayPositionHolder = ((SpotLight) i_lightIterator).getPosition();
-				Point3D i_tempRayIntersectionHolder = i_rayIntersection.getPoint();
+			if (i_lightIterator instanceof OmniLight) {
+				i_tempRayPositionHolder = ((OmniLight) i_lightIterator).getPosition();
+				i_tempRayIntersectionHolder = i_rayIntersection.getPoint();
 				i_distanceTowardsLightSource = Point3D.distance(i_tempRayPositionHolder, i_tempRayIntersectionHolder);
 				i_castRayTowardsLightSource = new Ray(i_tempRayIntersectionHolder, Point3D.vectorBetweenTwoPoints(i_tempRayPositionHolder,
 						i_tempRayIntersectionHolder));
 			}
 
-			if (i_lightIterator instanceof OmniLight) {
-				i_distanceTowardsLightSource = Point3D.distance(((OmniLight) i_lightIterator).getPosition(), i_rayIntersection.getPoint());
-				i_castRayTowardsLightSource = new Ray(i_rayIntersection.getPoint(), Point3D.vectorBetweenTwoPoints(
-						((OmniLight) i_lightIterator).getPosition(), i_rayIntersection.getPoint()));
+			if (i_lightIterator instanceof SpotLight) {
+				i_tempRayPositionHolder = ((SpotLight) i_lightIterator).getPosition();
+				i_tempRayIntersectionHolder = i_rayIntersection.getPoint();
+
+				i_distanceTowardsLightSource = Point3D.distance(i_tempRayPositionHolder, i_tempRayIntersectionHolder);
+				i_castRayTowardsLightSource = new Ray(i_tempRayIntersectionHolder, Point3D.vectorBetweenTwoPoints(i_tempRayPositionHolder,
+						i_tempRayIntersectionHolder));
 			}
-			Intersection intersectionWithobject = findIntersection(i_castRayTowardsLightSource);
-			if (intersectionWithobject != null) {
-				double distanceToNewIntersection = Point3D.distance(i_castRayTowardsLightSource.g_rayPoint, intersectionWithobject.getPoint());
-				if (i_distanceTowardsLightSource > distanceToNewIntersection + 0.0001 && distanceToNewIntersection > 0.0001) {
+
+			Intersection i_RayObjectIntersection = findIntersection(i_castRayTowardsLightSource);
+
+			if (i_RayObjectIntersection != null) {
+				double i_distanceToIntersection = Point3D.distance(i_castRayTowardsLightSource.g_rayPoint, i_RayObjectIntersection.getPoint());
+				if (i_distanceTowardsLightSource - 0.0001 > i_distanceToIntersection && i_distanceToIntersection >= 0.00011) {
 					continue;
 				}
 			}
-			i_colorVector.add(calcDiffuseColor(i_rayIntersection, i_lightIterator));
-			i_colorVector.add(calcSpecularColor(i_rayIntersection, i_lightIterator, ray));
+
+			// append calculated colors to the vector
+			i_colorVector.add(calculateDiffuseColor(i_rayIntersection, i_lightIterator));
+			i_colorVector.add(calculateSpecularColor(i_rayIntersection, i_lightIterator, ray));
 
 		}
 
-		Vec normal = i_rayIntersection.getSurface().getNormalAtPoint(i_rayIntersection.getPoint());
-		Ray reflectionRay = new Ray(i_rayIntersection.getPoint(), ray.g_rayDirection.reflect(normal));
+		Vec i_rayIntersectionNormal = i_rayIntersection.getSurface().getNormalAtPoint(i_rayIntersection.getPoint());
+		Ray i_intersectionReflectionRay = new Ray(i_rayIntersection.getPoint(), ray.g_rayDirection.reflect(i_rayIntersectionNormal));
 
-		double KS = i_rayIntersection.getSurface().getReflectance();
-		Vec reflectionColor = calcColor(reflectionRay, recursionLevel + 1);
-		i_colorVector.add(Vec.scale(KS, reflectionColor));
+		double i_rayIntersectionReflectance = i_rayIntersection.getSurface().getReflectance();
+		Vec i_intersectionReflectionColor = calcColor(i_intersectionReflectionRay, recursionLevel + 1);
+		// append to our colors vector
+		i_colorVector.add(Vec.scale(i_rayIntersectionReflectance, i_intersectionReflectionColor));
 
 		return i_colorVector;
 	}
@@ -207,47 +216,50 @@ public class Scene implements IInitable {
 	 *            point
 	 * @return diffuse factor
 	 */
-	private Vec calcDiffuseColor(Intersection intersection, Light light) {
+	private Vec calculateDiffuseColor(Intersection intersection, Light light) {
 
-		Surface object = intersection.getSurface();
-		Point3D point = intersection.getPoint();
+		Surface i_intersectingObject = intersection.getSurface();
+		Point3D i_intersectionPoint = intersection.getPoint();
 
-		// Find the normal at the intersection point
-		Vec normalAtIntersectionPoint = object.getNormalAtPoint(point);
+		// get intersection point's normal
+		Vec i_normalAtIntersectionPoint = i_intersectingObject.getNormalAtPoint(i_intersectionPoint);
 
-		// Find the vector between the intersection point
-		// and the light source, and IL at that point
-		Vec L = null;
-		Vec IL = null;
+		// Calculate the vector between the intersection point and the light
+		// source
+		Vec i_light, i_lightIntensity = null;
+
 		if (light instanceof DirectionLight) {
-			DirectionLight dLight = (DirectionLight) light;
-			L = dLight.getDirection();
-			L.negate();
-			IL = dLight.getLightIntensity(point);
+			DirectionLight i_directionalLight = (DirectionLight) light;
+
+			i_light = i_directionalLight.getDirection();
+			i_light.negate();
+			i_lightIntensity = i_directionalLight.getLightIntensity(i_intersectionPoint);
+
 		} else if (light instanceof OmniLight) {
-			OmniLight oLight = (OmniLight) light;
-			L = Point3D.vectorBetweenTwoPoints(point, oLight.getPosition());
-			if (object instanceof Polygon) {
-				L.negate();
+			OmniLight i_omniLight = (OmniLight) light;
+			i_light = Point3D.vectorBetweenTwoPoints(i_intersectionPoint, i_omniLight.getPosition());
+			// we negate the light in case of Polygon
+			if (i_intersectingObject instanceof Polygon) {
+				i_light.negate();
 			}
-			IL = oLight.getLightIntensity(point);
+			i_lightIntensity = i_omniLight.getLightIntensity(i_intersectionPoint);
 		} else {
-			SpotLight sLight = (SpotLight) light;
-			L = Point3D.vectorBetweenTwoPoints(point, sLight.getPosition());
-			IL = sLight.getLightIntensity(point);
+			SpotLight i_spotLight = (SpotLight) light;
+			i_light = Point3D.vectorBetweenTwoPoints(i_intersectionPoint, i_spotLight.getPosition());
+			i_lightIntensity = i_spotLight.getLightIntensity(i_intersectionPoint);
 		}
-		L.normalize();
+		// normalize result
+		i_light.normalize();
 
-		// Calculate the dot product between them
-		double dotProduct = Vec.dotProd(normalAtIntersectionPoint, L);
+		// Get dot product of light and intersection point normal
+		double dotProduct = Vec.dotProd(i_normalAtIntersectionPoint, i_light);
 
-		// Get the surface's diffuse coefficient
-		Vec KD = object.getDifuse();
-		double angel = Math.max(0, dotProduct);
-		// Calculate ID
-		Vec ID = Vec.scale(KD, Vec.scale(angel, IL));
+		// get diffuse coefficient
+		Vec i_surfaceDiffuseCoeff = i_intersectingObject.getDifuse();
+		double i_dotProductAngel = Math.max(0, dotProduct);
 
-		return ID;
+		// return calculated ID
+		return Vec.scale(i_surfaceDiffuseCoeff, Vec.scale(i_dotProductAngel, i_lightIntensity));
 
 	}
 
@@ -259,7 +271,7 @@ public class Scene implements IInitable {
 	 *            point
 	 * @return specular factor
 	 */
-	private Vec calcSpecularColor(Intersection intersection, Light light, Ray ray) {
+	private Vec calculateSpecularColor(Intersection intersection, Light light, Ray ray) {
 
 		Surface object = intersection.getSurface();
 		Point3D intersectionPoint = intersection.getPoint();
