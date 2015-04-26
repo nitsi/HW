@@ -7,6 +7,12 @@ package ex3.render.raytrace;
 
 import java.util.Map;
 
+/**
+ * Implements Surface, representing a sphere
+ * 
+ * 
+ *
+ */
 public class Sphere extends Surface {
 	private static final String MISSING = "missing: ";
 	private static final String NO_RADIUS = "radius attr!";

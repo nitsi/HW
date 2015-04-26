@@ -7,6 +7,12 @@ package ex3.render.raytrace;
 
 import java.util.Map;
 
+/**
+ * Direction Light extends Light, used to calculate directional light in scene
+ * 
+ * 
+ *
+ */
 public class DirectionLight extends Light {
 
 	private static final String MISSING = "missing: ";

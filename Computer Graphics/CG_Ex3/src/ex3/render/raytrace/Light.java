@@ -5,8 +5,10 @@
  */
 package ex3.render.raytrace;
 
-/*
- * Represent a point light
+/**
+ * Abstract class, Implements IInitable,Used to represent light in scene
+ * 
+ *
  */
 public abstract class Light implements IInitable {
 

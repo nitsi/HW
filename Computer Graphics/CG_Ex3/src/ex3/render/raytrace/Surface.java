@@ -7,6 +7,12 @@ package ex3.render.raytrace;
 
 import java.util.Map;
 
+/**
+ * Abstract class. Implements IInitable. Representing a surface
+ * 
+
+ *
+ */
 public abstract class Surface implements IInitable {
 
 	protected Vec g_materialDifuse;
@@ -33,8 +39,9 @@ public abstract class Surface implements IInitable {
 	}
 
 	protected void originInit(Map<String, String> attributes) {
-		
-		// populate variables according to attributes checks, if attributes doesn't exist -> we use fallback value
+
+		// populate variables according to attributes checks, if attributes
+		// doesn't exist -> we use fallback value
 		g_materialDifuse = attributes.containsKey("mtl-diffuse") ? new Vec(attributes.get("mtl-diffuse")) : new Vec(0.7, 0.7, 0.7);
 		g_materialSpecular = attributes.containsKey("mtl-specular") ? new Vec(attributes.get("mtl-specular")) : new Vec(1, 1, 1);
 		g_materialAmbient = attributes.containsKey("ambient-light") ? new Vec(attributes.get("mtl-ambient")) : new Vec(0.1, 0.1, 0.1);

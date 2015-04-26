@@ -14,6 +14,10 @@ import ex3.parser.Element;
 import ex3.parser.SceneDescriptor;
 import ex3.render.IRenderer;
 
+/**
+ * Main class, implements IRenderer
+ * 
+ */
 public class RayTracer implements IRenderer {
 
 	private static final boolean DEBUG = false;

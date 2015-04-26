@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Polygon extends Surface, represents general polygon in space
+ * 
+ *
+ */
 public class Polygon extends Surface {
 
 	private static final String INVALID_POLYGON_SIZE = "Invalid polygon size!";

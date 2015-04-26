@@ -7,6 +7,11 @@ package ex3.render.raytrace;
 
 import java.util.Scanner;
 
+/**
+ * Represents a point in 3D space
+ * 
+ *
+ */
 public class Point3D {
 
 	public double x, y, z;

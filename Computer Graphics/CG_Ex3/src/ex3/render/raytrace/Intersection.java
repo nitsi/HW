@@ -5,6 +5,11 @@ Aviad Hahami	302188347
  */
 package ex3.render.raytrace;
 
+/**
+ * Intersection class used to calculate light and surface intersections
+ * 
+ *
+ */
 public class Intersection {
 
 	private Point3D g_point;
@@ -90,7 +95,8 @@ public class Intersection {
 	public static Point3D intersection_RayAndPolygon(Ray ray, Polygon polygon) {
 
 		// Test whether the ray intersects with the polygon's plane
-		Point3D i_RayAndPolygonSurfaceIntersection = intersection_RayAndSurface(ray, polygon.getNormalAtPoint(null), polygon.getPolygonPointAtIndex(0));
+		Point3D i_RayAndPolygonSurfaceIntersection = intersection_RayAndSurface(ray, polygon.getNormalAtPoint(null),
+				polygon.getPolygonPointAtIndex(0));
 
 		// if no intersection with the plane, there's no intersection with the
 		// polygon either
@@ -104,7 +110,6 @@ public class Intersection {
 
 			Vec i_firstVector = Point3D.vectorBetweenTwoPoints(polygon.getPolygonPointAtIndex(i), ray.g_rayPoint);
 			Vec i_secondVector = Point3D.vectorBetweenTwoPoints(polygon.getPolygonPointAtIndex((i + 1) % polygon.getSize()), ray.g_rayPoint);
-
 
 			// get the cross product
 			Vec i_vectorsNormal = Vec.crossProd(i_secondVector, i_firstVector);

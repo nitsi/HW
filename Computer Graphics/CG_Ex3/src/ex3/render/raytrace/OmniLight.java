@@ -6,7 +6,10 @@
 package ex3.render.raytrace;
 
 import java.util.Map;
-
+/**
+ * OmniLight extends Light, represents Omnilight in scene
+ *
+ */
 public class OmniLight extends Light {
 
 	private static final String MISSING = "missing: ";

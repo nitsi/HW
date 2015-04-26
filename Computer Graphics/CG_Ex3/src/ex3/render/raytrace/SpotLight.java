@@ -7,6 +7,12 @@ package ex3.render.raytrace;
 
 import java.util.Map;
 
+/**
+ * Spotlight extends Light, represents a spotlight
+ * 
+ * 
+ *
+ */
 public class SpotLight extends Light {
 
 	private static final String MISSING = "missing: ";

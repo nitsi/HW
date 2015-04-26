@@ -7,6 +7,11 @@ package ex3.render.raytrace;
 
 import java.util.Map;
 
+/**
+ * Extends Sphere. used to instansiate discs
+ * 
+ *
+ */
 public class Disc extends Sphere {
 
 	private static final String MISSING = "missing: ";
