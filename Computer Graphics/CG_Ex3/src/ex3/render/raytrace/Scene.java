@@ -269,63 +269,69 @@ public class Scene implements IInitable {
 	 * 
 	 * @param intersection
 	 *            point
-	 * @return specular factor
+	 * @return specular color factor
 	 */
 	private Vec calculateSpecularColor(Intersection intersection, Light light, Ray ray) {
 
-		Surface object = intersection.getSurface();
-		Point3D intersectionPoint = intersection.getPoint();
+		Surface i_surfaceAtIntersection = intersection.getSurface();
+		Point3D i_intersectionPoint = intersection.getPoint();
 
-		// Find the normal at the intersection point
-		Vec normalAtIntersectionPoint = object.getNormalAtPoint(intersectionPoint);
+		// calculate intersection point normal
+		Vec normalAtIntersectionPoint = i_surfaceAtIntersection.getNormalAtPoint(i_intersectionPoint);
 
-		// Find the vector between the intersection point
-		// and the light source, and IL at that point
-		Vec L = null;
-		Vec IL = null;
+		Vec i_light = null;
+		Vec i_lightIntensity = null;
+
 		if (light instanceof DirectionLight) {
-			DirectionLight dLight = (DirectionLight) light;
-			L = dLight.getDirection();
-			L.negate();
-			IL = dLight.getLightIntensity(intersectionPoint);
+			DirectionLight i_directionalLight = (DirectionLight) light;
+
+			i_light = i_directionalLight.getDirection();
+			i_light.negate();
+			i_lightIntensity = i_directionalLight.getLightIntensity(i_intersectionPoint);
+
 		} else if (light instanceof OmniLight) {
-			OmniLight oLight = (OmniLight) light;
-			L = Point3D.vectorBetweenTwoPoints(intersectionPoint, oLight.getPosition());
-			IL = oLight.getLightIntensity(intersectionPoint);
+
+			OmniLight i_omniLight = (OmniLight) light;
+			i_light = Point3D.vectorBetweenTwoPoints(i_intersectionPoint, i_omniLight.getPosition());
+			i_lightIntensity = i_omniLight.getLightIntensity(i_intersectionPoint);
+
 		} else {
-			SpotLight sLight = (SpotLight) light;
-			L = Point3D.vectorBetweenTwoPoints(intersectionPoint, sLight.getPosition());
-			IL = sLight.getLightIntensity(intersectionPoint);
+			SpotLight i_spotLight = (SpotLight) light;
+			i_light = Point3D.vectorBetweenTwoPoints(i_intersectionPoint, i_spotLight.getPosition());
+			i_lightIntensity = i_spotLight.getLightIntensity(i_intersectionPoint);
 		}
-		L.normalize();
 
-		// Reflect L in relation to N
-		Vec R = L.reflect(normalAtIntersectionPoint);
-		R.normalize();
-		Vec eyeLookAtPoint = Point3D.vectorBetweenTwoPoints(ray.g_rayPoint, intersectionPoint);
-		eyeLookAtPoint.normalize();
-		// Calculate the dot product between them
-		double dotProduct = Math.max(0, Vec.dotProd(eyeLookAtPoint, R));
+		i_light.normalize();
 
-		// Raise it to the power of n
-		double dotProductN = Math.pow(dotProduct, object.getShininess());
+		// Reflect L with relation to N
+		Vec i_R = i_light.reflect(normalAtIntersectionPoint);
+		i_R.normalize();
+		Vec i_userPOV = Point3D.vectorBetweenTwoPoints(ray.g_rayPoint, i_intersectionPoint);
+		i_userPOV.normalize();
+		// Calculate the dot product between R and users' point of view
+		double i_userPOVandRdotProd = Math.max(0, Vec.dotProd(i_userPOV, i_R));
 
-		// Get the surface's specular coefficient
-		Vec KS = object.getSpecular();
+		// according to class we raise it to N
+		double dotProductN = Math.pow(i_userPOVandRdotProd, i_surfaceAtIntersection.getShininess());
 
-		double angel = Math.max(dotProductN, 0);
+		Vec i_surfaceSpecularCoeff = i_surfaceAtIntersection.getSpecular();
 
-		// Calculate IS
-		Vec IS = Vec.scale(KS, Vec.scale(angel, IL));
-		return IS;
+		double i_scaleAngel = Math.max(dotProductN, 0);
+
+		// Calculate and return IS
+		return Vec.scale(i_surfaceSpecularCoeff, Vec.scale(i_scaleAngel, i_lightIntensity));
 
 	}
 
+	/**
+	 * 
+	 * @param intersection
+	 * @return emission at intersection point
+	 */
 	private Vec calculateEmissionColor(Intersection intersection) {
 
-		Surface s = intersection.getSurface();
-		Vec v = s.getEmission();
-		return v;
+		Surface i_intersectionSurface = intersection.getSurface();
+		return i_intersectionSurface.getEmission();
 	}
 
 	/**
@@ -340,39 +346,39 @@ public class Scene implements IInitable {
 		// here is some code example for adding a surface or a light.
 		// you can change everything and if you don't want this method, delete
 		// it
+		String i_name = name;
+		i_name.toLowerCase();
 
-		name.toLowerCase();
+		Surface i_surface = null;
+		Light i_light = null;
 
-		Surface surface = null;
-		Light light = null;
+		if (Light.isLight(i_name)) {
 
-		if (Light.isLight(name)) {
-
-			if ("omni-light".equals(name)) {
-				light = new OmniLight();
-				light = new OmniLight(attributes);
+			if ("omni-light".equals(i_name)) {
+				i_light = new OmniLight();
+				i_light = new OmniLight(attributes);
 			}
-			if ("dir-light".equals(name)) {
-				light = new DirectionLight();
-				light = new DirectionLight(attributes);
+			if ("dir-light".equals(i_name)) {
+				i_light = new DirectionLight();
+				i_light = new DirectionLight(attributes);
 			}
-			if ("spot-light".equals(name)) {
-				light = new SpotLight();
-				light = new SpotLight(attributes);
+			if ("spot-light".equals(i_name)) {
+				i_light = new SpotLight();
+				i_light = new SpotLight(attributes);
 			}
-			g_LightsList.add(light);
+			g_LightsList.add(i_light);
 		} else {
-			if ("sphere".equals(name)) {
-				surface = new Sphere();
-				surface = new Sphere(attributes);
-			} else if ("disc".equals(name)) {
-				surface = new Disc();
-				surface = new Disc(attributes);
+			if ("sphere".equals(i_name)) {
+				i_surface = new Sphere();
+				i_surface = new Sphere(attributes);
+			} else if ("disc".equals(i_name)) {
+				i_surface = new Disc();
+				i_surface = new Disc(attributes);
 			} else {
-				surface = new Polygon();
-				surface = new Polygon(attributes);
+				i_surface = new Polygon();
+				i_surface = new Polygon(attributes);
 			}
-			g_SurfacesList.add(surface);
+			g_SurfacesList.add(i_surface);
 		}
 	}
 
