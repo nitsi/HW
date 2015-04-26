@@ -25,7 +25,7 @@ public class Intersection {
 		Vec i_zeroToP0 = Point3D.vectorBetweenTwoPoints(ray.g_rayPoint, sphere.getCenter());
 		double i_ONE = 1;
 		double i_doubleDotProd = 2 * Vec.dotProd(ray.g_rayDirection, i_zeroToP0);
-		double i_distanceDiff = i_zeroToP0.lengthSquared() - (Math.pow(sphere.getRadius(), 2));
+		double i_distanceDiff = i_zeroToP0.squaredMagnitude() - (Math.pow(sphere.getRadius(), 2));
 
 		double i_discriminant = (Math.pow(i_doubleDotProd, 2) - (4 * i_ONE * i_distanceDiff));
 		double i_discriminantSqrt = Math.sqrt(i_discriminant);

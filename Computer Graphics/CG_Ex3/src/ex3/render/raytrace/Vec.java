@@ -13,6 +13,8 @@ import java.util.Scanner;
  */
 public class Vec {
 
+	private static final String VECTOR_MAGNITUDE_IS_ZERO = "Vector magnitude is zero!";
+
 	public double g_x, g_y, g_z;
 
 	/**
@@ -38,14 +40,11 @@ public class Vec {
 	}
 
 	/**
-	 * Initialize vector to given coordinates
+	 * create vector from given X Y Z
 	 * 
 	 * @param x
-	 *            Scalar
 	 * @param y
-	 *            Scalar
 	 * @param z
-	 *            Scalar
 	 */
 	public Vec(double x, double y, double z) {
 		this.g_x = x;
@@ -54,136 +53,127 @@ public class Vec {
 	}
 
 	/**
-	 * Initialize vector values to given vector (copy by value)
+	 * clone given vector to make this a copy of that
 	 * 
-	 * @param v
-	 *            Vector
+	 * @param vector
 	 */
-	public Vec(Vec v) {
-		g_x = v.g_x;
-		g_y = v.g_y;
-		g_z = v.g_z;
+	public Vec(Vec vector) {
+		g_x = vector.g_x;
+		g_y = vector.g_y;
+		g_z = vector.g_z;
 	}
 
 	/**
-	 * Calculates the reflection of the vector in relation to a given surface
-	 * normal. The vector points at the surface and the result points away.
+	 * Calculates a vector's reflection with respect to some surface's normal
 	 * 
-	 * @return The reflected vector
+	 * @param normal
+	 * @return reflected vector
 	 */
 	public Vec reflect(Vec normal) {
-
-		return sub(this, scale(2, (scale((dotProd(normal, this)), normal))));
+		double i_dotProduct = dotProd(normal, this);
+		Vec i_scaledNormal = scale(i_dotProduct, normal);
+		i_scaledNormal = scale(2, i_scaledNormal);
+		return sub(this, i_scaledNormal);
 	}
 
 	/**
-	 * Adds a to vector
+	 * increase this vector using given data
 	 * 
-	 * @param a
-	 *            Vector
+	 * @param vector
 	 */
-	public void add(Vec a) {
+	public void add(Vec vector) {
 
-		this.g_x = a.g_x + g_x;
-		this.g_y = a.g_y + g_y;
-		this.g_z = a.g_z + g_z;
+		this.g_x += vector.g_x;
+		this.g_y += vector.g_y;
+		this.g_z += vector.g_z;
 	}
 
 	/**
-	 * Subtracts from vector
+	 * subtructs this from a given vector
 	 * 
-	 * @param a
-	 *            Vector
+	 * @param vector
 	 */
-	public void sub(Vec a) {
+	public void sub(Vec vector) {
 
-		a.g_x = a.g_x - g_x;
-		a.g_y = a.g_y - g_y;
-		a.g_z = a.g_z - g_z;
+		vector.g_x -= g_x;
+		vector.g_y -= g_y;
+		vector.g_z -= g_z;
 	}
 
 	/**
-	 * Multiplies & Accumulates vector with given vector and a. v := v + s*a
+	 * adds the product of a given vector increase by s
+	 * 
+	 * @param scalar
+	 * @param vector
+	 */
+	public void multiplyAndAdd(double scalar, Vec vector) {
+
+		this.g_x += scalar * vector.g_x;
+		this.g_y += scalar * vector.g_y;
+		this.g_z += scalar * vector.g_z;
+	}
+
+	/**
+	 * scales this vector by a scalar S
 	 * 
 	 * @param s
-	 *            Scalar
-	 * @param a
-	 *            Vector
-	 */
-	public void mac(double s, Vec a) {
-
-		g_x = g_x + s * a.g_x;
-		g_y = g_y + s * a.g_y;
-		g_z = g_z + s * a.g_z;
-	}
-
-	/**
-	 * Multiplies vector with scalar. v := s*v
-	 * 
-	 * @param s
-	 *            Scalar
 	 */
 	public void scale(double s) {
 
-		g_x = s * g_x;
-		g_y = s * g_y;
-		g_z = s * g_z;
+		g_x *= s;
+		g_y *= s;
+		g_z *= s;
 	}
 
 	/**
-	 * Pairwise multiplies with another vector
+	 * scales this vector using given vector's data
 	 * 
 	 * @param a
-	 *            Vector
 	 */
 	public void scale(Vec a) {
 
-		g_x = g_x * a.g_x;
-		g_y = g_y * a.g_y;
-		g_z = g_z * a.g_z;
+		this.g_x *= a.g_x;
+		this.g_y *= a.g_y;
+		this.g_z *= a.g_z;
 	}
 
 	/**
-	 * Inverses vector
-	 * 
-	 * @return Vector
+	 * negates vector
 	 */
 	public void negate() {
-		g_x = -g_x;
-		g_y = -g_y;
-		g_z = -g_z;
+		this.g_x *= -1;
+		this.g_y *= -1;
+		this.g_z *= -1;
 	}
 
 	/**
-	 * Computes the vector's magnitude
+	 * calculates magnitude of this vector
 	 * 
-	 * @return Scalar
+	 * @return
 	 */
-	public double length() {
+	public double magnitude() {
 
-		return Math.sqrt(g_x * g_x + g_y * g_y + g_z * g_z);
+		return Math.sqrt(Math.pow(this.g_x, 2) + Math.pow(this.g_y, 2) + Math.pow(g_z, 2));
 	}
 
 	/**
-	 * Computes the vector's magnitude squared. Used for performance gain.
 	 * 
-	 * @return Scalar
+	 * @return squared magnitude
 	 */
-	public double lengthSquared() {
+	public double squaredMagnitude() {
 
-		return (g_x * g_x + g_y * g_y + g_z * g_z);
+		return (Math.pow(this.g_x, 2) + Math.pow(this.g_y, 2) + Math.pow(g_z, 2));
 	}
 
 	/**
-	 * Computes the dot product between two vectors
+	 * dot product between this and a given vector
 	 * 
-	 * @param a
-	 *            Vector
-	 * @return Scalar
+	 * @param vector
+	 * @return
 	 */
-	public double dotProd(Vec a) {
+	public double dotProduct(Vec vector) {
 
-		return (a.g_x * g_x + a.g_y * g_y + a.g_z * g_z);
+		return (vector.g_x * this.g_x + vector.g_y * this.g_y + vector.g_z * this.g_z);
 	}
 
 	/**
@@ -194,130 +184,130 @@ public class Vec {
 	 */
 	public void normalize() throws ArithmeticException {
 
-		double vecLenght = this.length();
-		if (vecLenght == 0)
-			throw new ArithmeticException();
+		double i_thisVectorMagnitude = this.magnitude();
+		if (i_thisVectorMagnitude == 0)
+			throw new ArithmeticException(VECTOR_MAGNITUDE_IS_ZERO);
 		else {
-			g_x = g_x / vecLenght;
-			g_y = g_y / vecLenght;
-			g_z = g_z / vecLenght;
+			g_x /= i_thisVectorMagnitude;
+			g_y /= i_thisVectorMagnitude;
+			g_z /= i_thisVectorMagnitude;
 		}
 	}
 
-	public static boolean isLinearDependant(Vec v, Vec u) {
-		if ((v.g_x / u.g_x) == (v.g_y / u.g_y) && (v.g_y / u.g_y) == (v.g_z / u.g_z)) {
-			return true;
-		}
-		return false;
+	/**
+	 * Test if two vectors are linear dependent
+	 * 
+	 * @param vectorA
+	 * @param vectorB
+	 * @return
+	 */
+	public static boolean isLinearDependant(Vec vectorA, Vec vectorB) {
+		return ((vectorA.g_x / vectorB.g_x) == (vectorA.g_y / vectorB.g_y) && (vectorA.g_y / vectorB.g_y) == (vectorA.g_z / vectorB.g_z));
+
 	}
 
 	/**
 	 * Compares to a given vector
 	 * 
-	 * @param a
+	 * @param vector
 	 *            Vector
 	 * @return True if have same values, false otherwise
 	 */
-	public boolean equals(Vec a) {
-		return ((a.g_x == g_x) && (a.g_y == g_y) && (a.g_z == g_z));
+	public boolean equals(Vec vector) {
+		return ((vector.g_x == g_x) && (vector.g_y == g_y) && (vector.g_z == g_z));
 	}
 
 	/**
 	 * Returns the angle in radians between this vector and the vector
 	 * parameter; the return value is constrained to the range [0,PI].
 	 * 
-	 * @param v1
+	 * @param vector
 	 *            the other vector
 	 * @return the angle in radians in the range [0,PI]
 	 */
-	public final double angle(Vec v1) {
+	public final double angle(Vec vector) {
 
-		double lenghtOfCurrentVec = this.length();
-		double lenghtOfGivenVec = v1.length();
-		double angleInRadians = Math.abs(Math.acos((this.dotProd(v1) / Math.sqrt(lenghtOfCurrentVec * lenghtOfGivenVec))));
-		return angleInRadians;
+		double lenghtOfCurrentVec = this.magnitude();
+		double lenghtOfGivenVec = vector.magnitude();
+		return Math.abs(Math.acos((this.dotProduct(vector) / Math.sqrt(lenghtOfCurrentVec * lenghtOfGivenVec))));
 	}
 
 	/**
-	 * Computes the cross product between two vectors using the right hand rule
+	 * Right hand rule method :)
 	 * 
-	 * @param a
-	 *            Vector1
-	 * @param b
-	 *            Vector2
-	 * @return Vector1 x Vector2
+	 * @param vectorA
+	 * @param vectorB
+	 * @return Vector1 cross product Vector2
 	 */
-	public static Vec crossProd(Vec a, Vec b) {
-
-		return new Vec(a.g_y * b.g_z - a.g_z * b.g_y, a.g_z * b.g_x - a.g_x * b.g_z, a.g_x * b.g_y - a.g_y * b.g_x);
+	public static Vec crossProd(Vec vectorA, Vec vectorB) {
+		double i_x, i_y, i_z;
+		i_x = vectorA.g_y * vectorB.g_z - vectorA.g_z * vectorB.g_y;
+		i_y = vectorA.g_z * vectorB.g_x - vectorA.g_x * vectorB.g_z;
+		i_z = vectorA.g_x * vectorB.g_y - vectorA.g_y * vectorB.g_x;
+		return new Vec(i_x, i_y, i_z);
 	}
 
 	/**
-	 * Adds vectors a and b
+	 * Sums 2 given vectors
 	 * 
-	 * @param a
+	 * @param vectorA
 	 *            Vector
-	 * @param b
+	 * @param vectorB
 	 *            Vector
-	 * @return a+b
+	 * @return a plus b
 	 */
-	public static Vec add(Vec a, Vec b) {
-		// TODO:
-		return new Vec(a.g_x + b.g_x, a.g_y + b.g_y, a.g_z + b.g_z);
+	public static Vec add(Vec vectorA, Vec vectorB) {
+		return new Vec(vectorA.g_x + vectorB.g_x, vectorA.g_y + vectorB.g_y, vectorA.g_z + vectorB.g_z);
 	}
 
 	/**
-	 * Subtracts vector b from a
+	 * Subtracts two given vectors (first minus second)
 	 * 
-	 * @param a
+	 * @param vectorA
 	 *            Vector
-	 * @param b
+	 * @param vectorB
 	 *            Vector
-	 * @return a-b
+	 * @return a minus b
 	 */
-	public static Vec sub(Vec a, Vec b) {
-		// TODO:
-		return new Vec(a.g_x - b.g_x, a.g_y - b.g_y, a.g_z - b.g_z);
+	public static Vec sub(Vec vectorA, Vec vectorB) {
+		return new Vec(vectorA.g_x - vectorB.g_x, vectorA.g_y - vectorB.g_y, vectorA.g_z - vectorB.g_z);
 	}
 
 	/**
-	 * Inverses vector's direction
+	 * Negates vector's direction
 	 * 
-	 * @param a
+	 * @param vector
 	 *            Vector
 	 * @return -1*a
 	 */
-	public static Vec negate(Vec a) {
-
-		return new Vec(-1 * a.g_x, -1 * a.g_y, -1 * a.g_z);
+	public static Vec negate(Vec vector) {
+		return new Vec(vector.g_x * -1, vector.g_y * -1, vector.g_z * -1);
 	}
 
 	/**
-	 * Scales vector a by scalar s
+	 * Scales given vector by given scalar
 	 * 
-	 * @param s
+	 * @param scalar
 	 *            Scalar
-	 * @param a
+	 * @param vector
 	 *            Vector
 	 * @return s*a
 	 */
-	public static Vec scale(double s, Vec a) {
+	public static Vec scale(double scalar, Vec vector) {
 
-		return new Vec(s * a.g_x, s * a.g_y, s * a.g_z);
+		return new Vec(scalar * vector.g_x, scalar * vector.g_y, scalar * vector.g_z);
 	}
 
 	/**
-	 * Pair-wise scales vector a by vector b
+	 * scales a vector by another one
 	 * 
 	 * @param a
-	 *            Vector
 	 * @param b
-	 *            Vector
-	 * @return a.*b
+	 * @return the new vecotr post scaling
 	 */
 	public static Vec scale(Vec a, Vec b) {
 
-		return new Vec(b.g_x * a.g_x, b.g_y * a.g_y, b.g_z * a.g_z);
+		return new Vec(a.g_x * b.g_x, a.g_y * b.g_y, a.g_z * b.g_z);
 	}
 
 	/**
