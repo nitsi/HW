@@ -255,6 +255,7 @@ public class Scene implements IInitable {
 		}
 		// normalize result
 		i_light.normalize();
+		i_light.negate();
 
 		// Get dot product of light and intersection point normal
 		double dotProduct = Vec.dotProd(i_normalAtIntersectionPoint, i_light);
@@ -307,6 +308,7 @@ public class Scene implements IInitable {
 		}
 
 		i_light.normalize();
+		i_light.negate();
 
 		// Reflect L with relation to N
 		Vec i_R = i_light.reflect(normalAtIntersectionPoint);
