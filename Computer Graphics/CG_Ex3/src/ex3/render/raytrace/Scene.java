@@ -353,19 +353,18 @@ public class Scene implements IInitable {
 		Light i_light = null;
 
 		if (Light.isLight(i_name)) {
-
-			if ("omni-light".equals(i_name)) {
-				i_light = new OmniLight();
-				i_light = new OmniLight(attributes);
-			}
+			// ALL OF THE LIGHTS!
 			if ("dir-light".equals(i_name)) {
 				i_light = new DirectionLight();
 				i_light = new DirectionLight(attributes);
-			}
-			if ("spot-light".equals(i_name)) {
+			} else if ("omni-light".equals(i_name)) {
+				i_light = new OmniLight();
+				i_light = new OmniLight(attributes);
+			} else {
 				i_light = new SpotLight();
 				i_light = new SpotLight(attributes);
 			}
+			// append to lights list
 			g_LightsList.add(i_light);
 		} else {
 			if ("sphere".equals(i_name)) {
@@ -378,15 +377,30 @@ public class Scene implements IInitable {
 				i_surface = new Polygon();
 				i_surface = new Polygon(attributes);
 			}
+			// append to surface list
 			g_SurfacesList.add(i_surface);
 		}
 	}
 
+	/**
+	 * sets a new camera with the inputed attributes
+	 * 
+	 * @param attributes
+	 */
 	public void setCameraAttributes(Map<String, String> attributes) {
 		this.g_MainCamera = new Camera();
 		this.g_MainCamera.init(attributes);
 	}
 
+	/**
+	 * casts a ray through a pixel
+	 * 
+	 * @param x
+	 * @param y
+	 * @param height
+	 * @param width
+	 * @return Ray object casted using the given data
+	 */
 	public Ray castRay(double x, double y, double height, double width) {
 		return g_MainCamera.generatePixelPiercingRay(x, y, height, width);
 	}
