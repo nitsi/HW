@@ -113,63 +113,79 @@ public class Scene implements IInitable {
 		return (i_minimalPoint != null || i_currentSurface != null) ? new Intersection(i_currentSurface, i_minimalPoint) : null;
 	}
 
-	public Vec calcColor(Ray ray, int level) {
+	/**
+	 * 
+	 * @param ray
+	 * @param recursionLevel
+	 * @return calculated color
+	 */
+	public Vec calcColor(Ray ray, int recursionLevel) {
 
-		if (level == g_MaximumRecursionDepth) {
+		if (recursionLevel == g_MaximumRecursionDepth) {
 			return new Vec(0, 0, 0);
 		}
 
-		Intersection intersection = findIntersection(ray);
+		Intersection i_rayIntersection = findIntersection(ray);
 
-		if (intersection == null) {
+		// if no intersection we return background
+		if (i_rayIntersection == null) {
 			return g_BackgroundCol;
 		}
 
-		Vec color = new Vec();
+		Vec i_colorVector = new Vec();
 
-		color.add(calcEmissionColor(intersection));
+		// calculate Emission and Ambient color values
+		i_colorVector.add(calculateEmissionColor(i_rayIntersection));
 
-		color.add(calcAmbientColor(intersection));
+		i_colorVector.add(calculateAmbientColor(i_rayIntersection));
 
-		for (Light light : g_LightsList) {
-			Ray shootRayToLight = null;
-			double distanceToLight = 0;
-			if (light instanceof DirectionLight) {
-				distanceToLight = Double.MAX_VALUE;
-				Vec OpDirection = ((DirectionLight) light).getDirection();
-				OpDirection.negate();
-				shootRayToLight = new Ray(intersection.getPoint(), OpDirection);
+		Ray i_castRayTowardsLightSource = null;
+		double i_distanceTowardsLightSource = 0;
+		for (Light i_lightIterator : g_LightsList) {
+			// act according the objects' instance
+			if (i_lightIterator instanceof DirectionLight) {
+				i_distanceTowardsLightSource = Double.MAX_VALUE;
+
+				Vec i_rayDirection = ((DirectionLight) i_lightIterator).getDirection();
+				// negate it
+				i_rayDirection.negate();
+
+				i_castRayTowardsLightSource = new Ray(i_rayIntersection.getPoint(), i_rayDirection);
 			}
-			if (light instanceof SpotLight) {
-				distanceToLight = Point3D.distance(((SpotLight) light).getPosition(), intersection.getPoint());
-				shootRayToLight = new Ray(intersection.getPoint(), Point3D.vectorBetweenTwoPoints(((SpotLight) light).getPosition(),
-						intersection.getPoint()));
+
+			if (i_lightIterator instanceof SpotLight) {
+				Point3D i_tempRayPositionHolder = ((SpotLight) i_lightIterator).getPosition();
+				Point3D i_tempRayIntersectionHolder = i_rayIntersection.getPoint();
+				i_distanceTowardsLightSource = Point3D.distance(i_tempRayPositionHolder, i_tempRayIntersectionHolder);
+				i_castRayTowardsLightSource = new Ray(i_tempRayIntersectionHolder, Point3D.vectorBetweenTwoPoints(i_tempRayPositionHolder,
+						i_tempRayIntersectionHolder));
 			}
-			if (light instanceof OmniLight) {
-				distanceToLight = Point3D.distance(((OmniLight) light).getPosition(), intersection.getPoint());
-				shootRayToLight = new Ray(intersection.getPoint(), Point3D.vectorBetweenTwoPoints(((OmniLight) light).getPosition(),
-						intersection.getPoint()));
+
+			if (i_lightIterator instanceof OmniLight) {
+				i_distanceTowardsLightSource = Point3D.distance(((OmniLight) i_lightIterator).getPosition(), i_rayIntersection.getPoint());
+				i_castRayTowardsLightSource = new Ray(i_rayIntersection.getPoint(), Point3D.vectorBetweenTwoPoints(
+						((OmniLight) i_lightIterator).getPosition(), i_rayIntersection.getPoint()));
 			}
-			Intersection intersectionWithobject = findIntersection(shootRayToLight);
+			Intersection intersectionWithobject = findIntersection(i_castRayTowardsLightSource);
 			if (intersectionWithobject != null) {
-				double distanceToNewIntersection = Point3D.distance(shootRayToLight.g_rayPoint, intersectionWithobject.getPoint());
-				if (distanceToLight > distanceToNewIntersection + 0.0001 && distanceToNewIntersection > 0.0001) {
+				double distanceToNewIntersection = Point3D.distance(i_castRayTowardsLightSource.g_rayPoint, intersectionWithobject.getPoint());
+				if (i_distanceTowardsLightSource > distanceToNewIntersection + 0.0001 && distanceToNewIntersection > 0.0001) {
 					continue;
 				}
 			}
-			color.add(calcDiffuseColor(intersection, light));
-			color.add(calcSpecularColor(intersection, light, ray));
+			i_colorVector.add(calcDiffuseColor(i_rayIntersection, i_lightIterator));
+			i_colorVector.add(calcSpecularColor(i_rayIntersection, i_lightIterator, ray));
 
 		}
 
-		Vec normal = intersection.getSurface().getNormalAtPoint(intersection.getPoint());
-		Ray reflectionRay = new Ray(intersection.getPoint(), ray.g_rayDirection.reflect(normal));
+		Vec normal = i_rayIntersection.getSurface().getNormalAtPoint(i_rayIntersection.getPoint());
+		Ray reflectionRay = new Ray(i_rayIntersection.getPoint(), ray.g_rayDirection.reflect(normal));
 
-		double KS = intersection.getSurface().getReflectance();
-		Vec reflectionColor = calcColor(reflectionRay, level + 1);
-		color.add(Vec.scale(KS, reflectionColor));
+		double KS = i_rayIntersection.getSurface().getReflectance();
+		Vec reflectionColor = calcColor(reflectionRay, recursionLevel + 1);
+		i_colorVector.add(Vec.scale(KS, reflectionColor));
 
-		return color;
+		return i_colorVector;
 	}
 
 	/**
@@ -179,7 +195,7 @@ public class Scene implements IInitable {
 	 *            point
 	 * @return ambient factor
 	 */
-	private Vec calcAmbientColor(Intersection intersection) {
+	private Vec calculateAmbientColor(Intersection intersection) {
 		return Vec.scale(intersection.getSurface().getAmbiant(), g_AmbientLight);
 	}
 
@@ -293,7 +309,7 @@ public class Scene implements IInitable {
 
 	}
 
-	private Vec calcEmissionColor(Intersection intersection) {
+	private Vec calculateEmissionColor(Intersection intersection) {
 
 		Surface s = intersection.getSurface();
 		Vec v = s.getEmission();
