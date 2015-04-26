@@ -14,106 +14,115 @@ import java.util.Map;
  */
 public class Scene implements IInitable {
 
-	protected List<Surface> surfaces;
-	protected List<Light> lights;
-	protected Camera camera;
-	private Vec backgroundCol;
-	private String backgroundTex;
-	private int maxRecursionLevel;
-	private Vec ambientLight;
+	protected List<Surface> g_SurfacesList;
+	protected List<Light> g_LightsList;
+	protected Camera g_MainCamera;
+	private Vec g_BackgroundCol;
+	private String g_BackgroundTexture;
+	private int g_MaximumRecursionDepth;
+	private Vec g_AmbientLight;
 
+	/**
+	 * construct an empty scene object
+	 */
 	public Scene() {
-
-		surfaces = new LinkedList<Surface>();
-		lights = new LinkedList<Light>();
-		camera = new Camera();
+		g_SurfacesList = new LinkedList<Surface>();
+		g_LightsList = new LinkedList<Light>();
+		g_MainCamera = new Camera();
 	}
 
+	/**
+	 * initialization method, receives attributes map
+	 */
 	public void init(Map<String, String> attributes) {
+		// if we got texture, we take it. otherwise we check if we didn't
+		// receive "background-col". if so, we create new vector with 0,0,0
+		// otherwise we save the data in g_backgroundCol
 
-		if (!attributes.containsKey("background-col") && !attributes.containsKey("background-tex")) {
-			backgroundCol = new Vec("0 0 0");
-		} else if (attributes.containsKey("background-tex")) {
-			backgroundTex = attributes.get("background-tex");
+		if (attributes.containsKey("background-tex")) {
+			g_BackgroundTexture = attributes.get("background-tex");
+		} else if (!attributes.containsKey("background-col")) {
+			g_BackgroundCol = new Vec("0 0 0");
 		} else {
-			backgroundCol = new Vec(attributes.get("background-col"));
+			g_BackgroundCol = new Vec(attributes.get("background-col"));
 		}
-		if (!attributes.containsKey("max-recursion-level")) {
-			maxRecursionLevel = 10;
-		} else {
-			maxRecursionLevel = Integer.parseInt(attributes.get("max-recursion-level"));
-		}
-		if (!attributes.containsKey("ambient-light")) {
-			ambientLight = new Vec("0 0 0");
-		} else {
-			ambientLight = new Vec(attributes.get("ambient-light"));
-		}
+		// set recursion depth and ambient light according to input test
+		g_MaximumRecursionDepth = attributes.containsKey("max-recursion-level") ? Integer.parseInt(attributes.get("max-recursion-level")) : 10;
+		g_AmbientLight = attributes.containsKey("ambient-light") ? new Vec(attributes.get("ambient-light")) : new Vec("0 0 0");
 
 	}
 
 	/**
-	 * Send ray return the nearest intersection. Return null if no intersection
 	 * 
 	 * @param ray
-	 * @return
+	 * @return the nearest intersection to the given ray, null if no such
 	 */
 	public Intersection findIntersection(Ray ray) {
 
-		double minDistance = Double.MAX_VALUE;
-		Point3D minPoint = null;
-		Surface surface = null;
-		for (Surface shape : surfaces) {
+		double i_minimalDistance = Double.MAX_VALUE;
+		Point3D i_minimalPoint = null;
+		Surface i_currentSurface = null;
+		double i_tempDistaceHolder = 0.0;
 
-			if (shape instanceof Polygon) {
-				Point3D p = Intersection.intersection_RayAndPolygon(ray, (Polygon) shape);
-				if (p == null) {
+		for (Surface i_surfaceIterator : g_SurfacesList) {
+			if (i_surfaceIterator instanceof Polygon) {
+
+				Point3D i_polygonCastedRayIntersection = Intersection.intersection_RayAndPolygon(ray, (Polygon) i_surfaceIterator);
+				// means no intersection
+				if (i_polygonCastedRayIntersection == null) {
 					continue;
 				}
-				if (Point3D.distance(ray.g_rayPoint, p) < minDistance && Point3D.distance(ray.g_rayPoint, p) > 0.001) {
-					minDistance = Point3D.distance(ray.g_rayPoint, p);
-					minPoint = p;
-					surface = shape;
+				// hold the distance in variable for further injection
+
+				i_tempDistaceHolder = Point3D.distance(ray.g_rayPoint, i_polygonCastedRayIntersection);
+
+				if (i_tempDistaceHolder < i_minimalDistance && i_tempDistaceHolder > 0.001) {
+
+					i_minimalDistance = i_tempDistaceHolder;
+					i_minimalPoint = i_polygonCastedRayIntersection;
+					i_currentSurface = i_surfaceIterator;
 				}
 			}
-			if (shape instanceof Disc) {
-				Point3D p = Intersection.intersection_RayAndDisc(ray, (Disc) shape);
-				if (p == null) {
+			if (i_surfaceIterator instanceof Disc) {
+				Point3D i_discCastedRayIntersection = Intersection.intersection_RayAndDisc(ray, (Disc) i_surfaceIterator);
+				if (i_discCastedRayIntersection == null) {
 					continue;
 				}
-				if (Point3D.distance(ray.g_rayPoint, p) < minDistance && Point3D.distance(ray.g_rayPoint, p) > 0.001) {
-					minDistance = Point3D.distance(ray.g_rayPoint, p);
-					minPoint = p;
-					surface = shape;
+				i_tempDistaceHolder = Point3D.distance(ray.g_rayPoint, i_discCastedRayIntersection);
+
+				if (i_tempDistaceHolder < i_minimalDistance && i_tempDistaceHolder > 0.001) {
+
+					i_minimalDistance = i_tempDistaceHolder;
+					i_minimalPoint = i_discCastedRayIntersection;
+					i_currentSurface = i_surfaceIterator;
 				}
 			}
-			if (shape instanceof Sphere) {
-				Point3D p = Intersection.intersection_RayAndSphere(ray, (Sphere) shape);
-				if (p == null) {
+			if (i_surfaceIterator instanceof Sphere) {
+				Point3D i_sphereCastedRayIntersection = Intersection.intersection_RayAndSphere(ray, (Sphere) i_surfaceIterator);
+				if (i_sphereCastedRayIntersection == null) {
 					continue;
 				}
-				if (Point3D.distance(ray.g_rayPoint, p) < minDistance && Point3D.distance(ray.g_rayPoint, p) > 0.001) {
-					minDistance = Point3D.distance(ray.g_rayPoint, p);
-					minPoint = p;
-					surface = shape;
+				i_tempDistaceHolder = Point3D.distance(ray.g_rayPoint, i_sphereCastedRayIntersection);
+				if (i_tempDistaceHolder < i_minimalDistance && i_tempDistaceHolder > 0.001) {
+					i_minimalDistance = i_tempDistaceHolder;
+					i_minimalPoint = i_sphereCastedRayIntersection;
+					i_currentSurface = i_surfaceIterator;
 				}
 			}
 		}
-		if (minPoint == null && surface == null) {
-			return null;
-		}
-		return new Intersection(surface, minPoint);
+		return (i_minimalPoint != null || i_currentSurface != null) ? new Intersection(i_currentSurface, i_minimalPoint) : null;
 	}
 
 	public Vec calcColor(Ray ray, int level) {
 
-		if (level == maxRecursionLevel) {
+		if (level == g_MaximumRecursionDepth) {
 			return new Vec(0, 0, 0);
 		}
 
 		Intersection intersection = findIntersection(ray);
 
 		if (intersection == null) {
-			return backgroundCol;
+			return g_BackgroundCol;
 		}
 
 		Vec color = new Vec();
@@ -122,7 +131,7 @@ public class Scene implements IInitable {
 
 		color.add(calcAmbientColor(intersection));
 
-		for (Light light : lights) {
+		for (Light light : g_LightsList) {
 			Ray shootRayToLight = null;
 			double distanceToLight = 0;
 			if (light instanceof DirectionLight) {
@@ -171,7 +180,7 @@ public class Scene implements IInitable {
 	 * @return ambient factor
 	 */
 	private Vec calcAmbientColor(Intersection intersection) {
-		return Vec.scale(intersection.getSurface().getAmbiant(), ambientLight);
+		return Vec.scale(intersection.getSurface().getAmbiant(), g_AmbientLight);
 	}
 
 	/**
@@ -323,7 +332,7 @@ public class Scene implements IInitable {
 				light = new SpotLight();
 				light = new SpotLight(attributes);
 			}
-			lights.add(light);
+			g_LightsList.add(light);
 		} else {
 			if ("sphere".equals(name)) {
 				surface = new Sphere();
@@ -335,16 +344,16 @@ public class Scene implements IInitable {
 				surface = new Polygon();
 				surface = new Polygon(attributes);
 			}
-			surfaces.add(surface);
+			g_SurfacesList.add(surface);
 		}
 	}
 
 	public void setCameraAttributes(Map<String, String> attributes) {
-		this.camera = new Camera();
-		this.camera.init(attributes);
+		this.g_MainCamera = new Camera();
+		this.g_MainCamera.init(attributes);
 	}
 
 	public Ray castRay(double x, double y, double height, double width) {
-		return camera.generatePixelPiercingRay(x, y, height, width);
+		return g_MainCamera.generatePixelPiercingRay(x, y, height, width);
 	}
 }
