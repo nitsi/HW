@@ -23,8 +23,8 @@ public class Ex3 {
 		System.out.println("mine");
 		String sceneFilename = null;
 		String imageFilename = null;
-		int canvasWidth = 960;
-		int canvasHeight = 720;
+		int canvasWidth = 800;
+		int canvasHeight = 600;
 
 		if (args.length > 0) {
 			sceneFilename = args[0];
