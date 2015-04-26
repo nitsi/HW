@@ -311,31 +311,30 @@ public class Vec {
 	}
 
 	/**
-	 * Compares vector a to vector b
+	 * Compares two given vectors
 	 * 
-	 * @param a
+	 * @param vectorA
 	 *            Vector
-	 * @param b
+	 * @param vectorB
 	 *            Vector
 	 * @return a==b
 	 */
-	public static boolean equals(Vec a, Vec b) {
-		// TODO:
-		return (a.g_x == b.g_x) && (a.g_y == b.g_y) && (a.g_z == b.g_z);
+	public static boolean equals(Vec vectorA, Vec vectorB) {
+		return (vectorA.g_x == vectorB.g_x) && (vectorA.g_y == vectorB.g_y) && (vectorA.g_z == vectorB.g_z);
 	}
 
 	/**
-	 * Dot product of a and b
+	 * Dot product of two given vectors
 	 * 
-	 * @param a
+	 * @param vectorA
 	 *            Vector
-	 * @param b
+	 * @param vectorB
 	 *            Vector
-	 * @return a.b
+	 * @return vectorA dot product vectorB
 	 */
-	public static double dotProd(Vec a, Vec b) {
+	public static double dotProd(Vec vectorA, Vec vectorB) {
 
-		return (b.g_x * a.g_x + b.g_y * a.g_y + b.g_z * a.g_z);
+		return (vectorB.g_x * vectorA.g_x + vectorB.g_y * vectorA.g_y + vectorB.g_z * vectorA.g_z);
 	}
 
 	/**
