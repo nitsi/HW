@@ -1,10 +1,7 @@
-all: test sleeper
+all: myshell
 
 clean:
-	rm test sleeper
+	rm myshell
 
-test: test.c
-	gcc -Wall -o test test.c
-
-sleeper: sleeper.c
-	gcc -Wall -o sleeper sleeper.c
+myshell: myshell.c
+	gcc -Wall -o myshell myshell.c
