@@ -1,3 +1,8 @@
+/* Operating Systems - Exercise 3
+ * Matan Gidnian
+ * 200846905
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
