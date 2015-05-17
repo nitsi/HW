@@ -55,21 +55,80 @@ namespace Reversi
 
         internal void PrintCurrentState()
         {
-            //Generate top letters
+
+            generateTopLetters();
+            generateNewLine();
+            generateLineSeparators();
+            generateNewLine();
             for (int i = 0; i < m_BoardSize; i++)
             {
-                Console.Write(" " + m_Alphabet[i] + "  ");
+                generateLineNumber(i);
+                for (int j = 0; j < m_BoardSize; j++)
+                {
+                    generateColumnSeparator();
+                    generateCellContent(i, j);
+                    generateColumnSeparator();
+                }
+                generateNewLine();
+                generateLineSeparators();
+                generateNewLine();
             }
 
-            enterNewLine();
+        }
 
+        private void generateCellContent(int i, int j)
+        {
+            Pions i_TempPionContent = m_Board[i, j];
+            if (i_TempPionContent == Pions.EMPTY)
+            {
+                Console.Write(" ");
+            }
+            else if (i_TempPionContent == Pions.BLACK)
+            {
+                Console.Write("X");
+            }
+            else
+            {
+                Console.Write("O");
+            }
+
+        }
+
+        private void generateColumnSeparator()
+        {
+            Console.Write(" | ");
+        }
+
+        private void generateLineNumber(int i)
+        {
+            Console.Write(i + " |");
+        }
+
+        private void generateLineSeparators()
+        {
+            generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
-                Console.Write("=== ");
+                Console.Write("=======");
             }
         }
 
-        private void enterNewLine()
+        private void generateBorderSpan()
+        {
+            Console.Write("    ");
+        }
+
+        private void generateTopLetters()
+        {
+            //Generate top letters
+            generateBorderSpan();
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                Console.Write("  " + m_Alphabet[i] + "   ");
+            }
+        }
+
+        private void generateNewLine()
         {
             Console.WriteLine();
         }
