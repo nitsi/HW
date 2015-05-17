@@ -35,8 +35,23 @@ namespace Reversi
 
                 //Pick board size
                 m_BoardSize = getBoardSize();
+                GameBoard i_GameBoard = new GameBoard(m_BoardSize);
 
+                Console.WriteLine("Great! All set-up! \nPress any key to start \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                Console.ReadLine();
+
+                //Let's clear the screen
+                clearScreen(); 
+
+            
+                //From that point we can play
+                //while(m_)
             }
+        }
+
+        private void clearScreen()
+        {
+            Ex02.ConsoleUtils.Screen.Clear();
         }
 
         private int getBoardSize()
