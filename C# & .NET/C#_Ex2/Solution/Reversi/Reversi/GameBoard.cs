@@ -14,6 +14,9 @@ namespace Reversi
             this.m_BoardSize = m_BoardSize;
         }
 
-        public bool GotMoreValidMoves { get; set; }
+        internal bool GotMoreValidMoves()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

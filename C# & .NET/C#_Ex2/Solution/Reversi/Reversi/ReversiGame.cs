@@ -9,7 +9,11 @@ namespace Reversi
         User,
         Computer
     }
-
+    enum CurrentPlayer
+    {
+        PlayerOne,
+        PlayerTwo
+    }
     class ReversiGame
     {
         UserPlayer m_PlayerOne;
@@ -24,6 +28,8 @@ namespace Reversi
                 //Get players with lazy declaration
                 m_PlayerOne = new UserPlayer(0);
                 String i_UserChoice = getChoiceFromConsole();
+
+                //Should fix this
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
                     ComputerPlayer io_PlayerTwo = new ComputerPlayer(0);
@@ -42,14 +48,22 @@ namespace Reversi
 
                 //Let's clear the screen
                 clearScreen();
-
-                while (i_GameBoard.GotMoreValidMoves)
+                CurrentPlayer m_CurrentPlayer = CurrentPlayer.PlayerOne;
+                while (i_GameBoard.GotMoreValidMoves())
                 {
-
+                    i_GameBoard.PrintCurrentState();
+                    if (m_CurrentPlayer == CurrentPlayer.PlayerOne)
+                    {
+                        //if first player
+                    }
+                    else
+                    {
+                        //if second
+                    }
                 }
-            
+
                 //From that point we can play
-                
+
             }
         }
 
