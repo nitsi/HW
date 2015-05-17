@@ -32,17 +32,17 @@ namespace Reversi
             while (i_PlayGameFlag)
             {
                 //Get players with lazy declaration
-                m_PlayerOne = new UserPlayer(0, Colors.Black.ToString());
+                m_PlayerOne = new UserPlayer(Colors.Black.ToString());
                 String i_UserChoice = getChoiceFromConsole();
 
                 //Should fix this, Currently has no PC
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
-                    m_PlayerTwo = new UserPlayer(0, Colors.White.ToString());
+                    m_PlayerTwo = new UserPlayer(Colors.White.ToString());
                 }
                 else
                 {
-                    m_PlayerTwo = new UserPlayer(0, Colors.White.ToString());
+                    m_PlayerTwo = new UserPlayer(Colors.White.ToString());
                 }
 
                 //Pick board size

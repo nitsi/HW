@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ComputerPlayer.cs" />
     <Compile Include="GameBoard.cs" />
+    <Compile Include="Pion.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReversiGame.cs" />
