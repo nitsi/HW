@@ -1,6 +1,7 @@
 *.class
 /bin
 /obj
+/Debug
 
 *.cache
 
