@@ -20,3 +20,6 @@ C:\Users\Yairo\Dropbox\Yair & Nir\C#\B13 Ex02 Nir 201638822 Yair 201334448\B13_E
 C:\Users\Nir\Desktop\Dropbox\Yair & Nir\C#\B13 Ex02 Nir 201638822 Yair 201334448\B13_Ex02_1\obj\x86\Debug\B13_Ex02_1.csprojResolveAssemblyReference.cache
 C:\Users\Nir\Desktop\Dropbox\Yair & Nir\C#\B13 Ex02 Nir 201638822 Yair 201334448\B13_Ex02_1\bin\Debug\B13_Ex02_1.exe
 C:\Users\Nir\Desktop\Dropbox\Yair & Nir\C#\B13 Ex02 Nir 201638822 Yair 201334448\B13_Ex02_1\bin\Debug\B13_Ex02_1.pdb
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_1\obj\x86\Debug\B13_Ex02_1.exe
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_1\obj\x86\Debug\B13_Ex02_1.pdb
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_1\obj\x86\Debug\B13_Ex02_1.csprojResolveAssemblyReference.cache

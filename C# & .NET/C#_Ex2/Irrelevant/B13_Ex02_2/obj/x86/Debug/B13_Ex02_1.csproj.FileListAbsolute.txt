@@ -29,3 +29,8 @@ C:\Users\Yair\Desktop\C#\B13_Ex02_2\bin\Debug\B13_Ex02_2.pdb
 C:\Users\Yair\Desktop\C#\B13_Ex02_2\bin\Debug\Ex02.ConsoleUtils.dll
 C:\Users\Nir\Desktop\Dropbox\Yair & Nir\C#\B13 Ex02 Nir 201638822 Yair 201334448\B13_Ex02_2\obj\x86\Debug\B13_Ex02_2.exe
 C:\Users\Nir\Desktop\Dropbox\Yair & Nir\C#\B13 Ex02 Nir 201638822 Yair 201334448\B13_Ex02_2\obj\x86\Debug\B13_Ex02_2.pdb
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_2\obj\x86\Debug\B13_Ex02_2.exe
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_2\obj\x86\Debug\B13_Ex02_2.pdb
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_2\bin\Debug\B13_Ex02_2.exe
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_2\bin\Debug\B13_Ex02_2.pdb
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\B13_Ex02_2\obj\x86\Debug\B13_Ex02_1.csprojResolveAssemblyReference.cache
