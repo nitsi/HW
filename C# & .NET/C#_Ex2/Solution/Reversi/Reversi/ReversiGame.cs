@@ -93,6 +93,7 @@ namespace Reversi
 
                     // change player
                     m_CurrentPlayer = m_CurrentPlayer == CurrentPlayer.PlayerOne ? CurrentPlayer.PlayerTwo : CurrentPlayer.PlayerOne;
+                    clearScreen();
                 }
 
                 // This point means someone won
