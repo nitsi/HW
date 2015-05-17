@@ -14,6 +14,11 @@ namespace Reversi
         PlayerOne,
         PlayerTwo
     }
+    enum Colors
+    {
+        Black,
+        White
+    }
     class ReversiGame
     {
         UserPlayer m_PlayerOne;
@@ -26,17 +31,17 @@ namespace Reversi
             if (i_PlayGameFlag)
             {
                 //Get players with lazy declaration
-                m_PlayerOne = new UserPlayer(0);
+                m_PlayerOne = new UserPlayer(0, Colors.Black.ToString());
                 String i_UserChoice = getChoiceFromConsole();
 
                 //Should fix this
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
-                    ComputerPlayer io_PlayerTwo = new ComputerPlayer(0);
+                    ComputerPlayer io_PlayerTwo = new ComputerPlayer(0, Colors.White.ToString());
                 }
                 else
                 {
-                    UserPlayer io_PlayerTwo = new UserPlayer(0);
+                    UserPlayer io_PlayerTwo = new UserPlayer(0, Colors.White.ToString());
                 }
 
                 //Pick board size
@@ -55,10 +60,20 @@ namespace Reversi
                     if (m_CurrentPlayer == CurrentPlayer.PlayerOne)
                     {
                         //if first player
+                        String i_Move = m_PlayerOne.GetMove();
+                        if (i_GameBoard.CheckIfValid(i_Move))
+                        {
+                            i_GameBoard.AppendMove(m_PlayerOne.Color);
+                        }
                     }
                     else
                     {
                         //if second
+                        String i_Move = m_PlayerTwo.GetMove();
+                        if (i_GameBoard.CheckIfValid(i_Move))
+                        {
+                            i_GameBoard.AppendMove(m_PlayerOne.Color);
+                        }
                     }
                 }
 
