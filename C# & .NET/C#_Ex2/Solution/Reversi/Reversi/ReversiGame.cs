@@ -39,12 +39,7 @@ namespace Reversi
                 m_PlayerOne = new UserPlayer(Colors.BLACK.ToString());
                 string i_UserChoice = getChoiceFromConsole();
 
-<<<<<<< Updated upstream
-                // FIXME
-                // Should fix this, Currently has no PC
-=======
                 // TODO:  Should fix this, Currently has no PC
->>>>>>> Stashed changes
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
                     // THIS SHOULD BE COMPUTER PLAYER, FIX THIS !
