@@ -41,11 +41,15 @@ namespace Reversi
                 Console.ReadLine();
 
                 //Let's clear the screen
-                clearScreen(); 
+                clearScreen();
 
+                while (i_GameBoard.GotMoreValidMoves)
+                {
+
+                }
             
                 //From that point we can play
-                //while(m_)
+                
             }
         }
 
@@ -59,7 +63,7 @@ namespace Reversi
             Console.WriteLine("Nice, Let's move on !");
             while (true)
             {
-                Console.WriteLine("Please pick a booard size. Choose 6,8 or higher");
+                Console.WriteLine("Please pick a board size. Choose 6,8 or higher");
                 int i_UserInput;
                 if (Int32.TryParse(Console.ReadLine(), out i_UserInput))
                 {

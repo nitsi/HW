@@ -11,8 +11,9 @@ namespace Reversi
 
         public GameBoard(int m_BoardSize)
         {
-            // TODO: Complete member initialization
             this.m_BoardSize = m_BoardSize;
         }
+
+        public bool GotMoreValidMoves { get; set; }
     }
 }

@@ -15,5 +15,10 @@ namespace Reversi
             // TODO: Complete member initialization
             this.m_AmountOfPoints = p;
         }
+
+        internal bool HasMoves()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
