@@ -28,6 +28,7 @@ namespace Reversi
         UserPlayer m_PlayerTwo;
         int m_BoardSize;
 
+        // make public
         internal void Play(bool i_PlayGameFlag)
         {
             // initiation process
@@ -38,8 +39,12 @@ namespace Reversi
                 m_PlayerOne = new UserPlayer(Colors.BLACK.ToString());
                 string i_UserChoice = getChoiceFromConsole();
 
+<<<<<<< Updated upstream
                 // FIXME
                 // Should fix this, Currently has no PC
+=======
+                // TODO:  Should fix this, Currently has no PC
+>>>>>>> Stashed changes
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
                     // THIS SHOULD BE COMPUTER PLAYER, FIX THIS !
@@ -52,6 +57,7 @@ namespace Reversi
 
                 // Pick board size
                 m_BoardSize = getBoardSize();
+                //TODO: change i_
                 GameBoard i_GameBoard = new GameBoard(m_BoardSize);
 
                 Console.WriteLine("Great! All set-up! \nPress any key to start \n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -62,9 +68,11 @@ namespace Reversi
 
                 // Player one start
                 CurrentPlayer m_CurrentPlayer = CurrentPlayer.PlayerOne;
+                //TODO: Valid moves should tell us which player has no moves, or even if both does not have moves
                 while (i_GameBoard.GotMoreValidMoves())
                 {
                     i_GameBoard.PrintCurrentState();
+                    //TODO: Clean double coding
                     if (m_CurrentPlayer == CurrentPlayer.PlayerOne)
                     {
                         // if first player
@@ -76,6 +84,7 @@ namespace Reversi
                                 i_GameBoard.AppendMove(m_PlayerOne.Color);
                                 break;
                             }
+                            // TODO: Add more lines to the print, as he asked in his file
                             Console.WriteLine("Invalid move!");
                         }
                     }
@@ -90,7 +99,7 @@ namespace Reversi
                                 i_GameBoard.AppendMove(m_PlayerOne.Color);
                                 break; // Exit loop
                             }
-
+                            // TODO: Add more lines to the print, as he asked in his file
                             Console.WriteLine("Invalid move!");
                         }
                     }
@@ -101,8 +110,10 @@ namespace Reversi
                 }
 
                 // This point means someone won
+                //TODO: change i_
                 string i_CalculatedWinner = i_GameBoard.CalculateWinner();
 
+                //TODO: Change strings to eNums
                 if (i_CalculatedWinner == m_PlayerOne.Color)
                 {
                     showWinnerMessage("Player One");
@@ -157,6 +168,7 @@ namespace Reversi
             Ex02.ConsoleUtils.Screen.Clear();
         }
 
+        //TODO: Change to 6 or 8 strictly
         private int getBoardSize()
         {
             Console.WriteLine("Nice, Let's move on !");

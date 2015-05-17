@@ -1,12 +1,11 @@
 *.class
 /bin
-C# & .NET/C#_Ex1/Ex01 MatanGidnian 200846905 AviadHahami 302188347/B15_Ex01_5/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
-
-C# & .NET/C#_Ex1/Ex01 MatanGidnian 200846905 AviadHahami 302188347/B15_Ex01_4/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
-
-C# & .NET/C#_Ex1/Ex01 MatanGidnian 200846905 AviadHahami 302188347/B15_Ex01_4/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
-*.Cache
+/obj
 
 *.cache
 
 *.db
+
+*.pdb
+
+*.exe

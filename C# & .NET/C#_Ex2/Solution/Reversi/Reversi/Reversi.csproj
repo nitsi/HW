@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ex02.ConsoleUtils">
-      <HintPath>..\..\..\..\..\..\..\..\..\..\temp\Ex02.ConsoleUtils.dll</HintPath>
+      <HintPath>C:\Temp\Ex02.ConsoleUtils.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

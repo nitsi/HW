@@ -5,3 +5,10 @@ C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\ob
 C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.exe
 C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.pdb
 C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bin\Debug\Ex02.ConsoleUtils.dll
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bin\Debug\Reversi.exe.config
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bin\Debug\Reversi.exe
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bin\Debug\Reversi.pdb
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bin\Debug\Ex02.ConsoleUtils.dll
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.csprojResolveAssemblyReference.cache
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.exe
+\\psf\Home\Documents\workspace\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.pdb
