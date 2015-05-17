@@ -9,6 +9,7 @@ namespace Reversi
     {
         private string m_PlayerColor;
 
+        //TODO: change io_
         public UserPlayer(string i_PlayerColor)
         {
             // TODO: Complete member initialization

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Reversi
 {
     enum Pions
     {
+        //TODO: get rif of comments
         BLACK, // marks black
         WHITE, // marks white
         EMPTY
@@ -15,8 +18,10 @@ namespace Reversi
         private int m_BoardSize;
         private Pions[,] m_Board;
 
+        //TODO: Lower letters to 8 letters
         private string m_Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+        //TODO: change to io
         public GameBoard(int i_BoardSize)
         {
             m_BoardSize = i_BoardSize;
@@ -35,6 +40,7 @@ namespace Reversi
                 }
             }
 
+            //TODO: vhange i
             int i_BoardMiddle = m_BoardSize / 2;
 
             // Append BLACK
@@ -51,6 +57,7 @@ namespace Reversi
             return true;
         }
 
+        //TODO: replace methos writeline with internal C# writeline
         internal void PrintCurrentState()
         {
             generateTopLetters();
@@ -64,6 +71,7 @@ namespace Reversi
                 {
                     generateColumnSeparator();
                     generateCellContent(i, j);
+
                 }
 
                 generateNewLine();
@@ -72,8 +80,10 @@ namespace Reversi
             }
         }
 
+        //TODO: change to meaningful names
         private void generateCellContent(int i, int j)
         {
+            //TODO: change i_
             Pions i_TempPionContent = m_Board[i, j];
             if (i_TempPionContent == Pions.EMPTY)
             {
@@ -101,6 +111,7 @@ namespace Reversi
 
         private void generateLineSeparators()
         {
+            //TODO: replace with regular print add comment above
             generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
@@ -116,6 +127,7 @@ namespace Reversi
         private void generateTopLetters()
         {
             // Generate top letters
+            //TODO: replace with regular print add comment above
             generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
