@@ -64,7 +64,7 @@ namespace Reversi
                 // Player one start
                 CurrentPlayer m_CurrentPlayer = CurrentPlayer.PlayerOne;
                 //TODO: Valid moves should tell us which player has no moves, or even if both does not have moves
-                while (i_GameBoard.GotMoreValidMoves())
+                while (i_GameBoard.GotMoreValidMoves(CurrentPlayer.PlayerOne))
                 {
                     i_GameBoard.PrintCurrentState();
                     //TODO: Clean double coding

@@ -52,9 +52,9 @@ namespace Reversi
             m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Pions.WHITE;
         }
 
-        internal bool GotMoreValidMoves()
+        internal bool GotMoreValidMoves(CurrentPlayer currentPlayer)
         {
-            return true;
+            throw new NotImplementedException();
         }
 
         //TODO: replace methos writeline with internal C# writeline
@@ -148,8 +148,8 @@ namespace Reversi
         internal void AppendMove(object p)
         {
             throw new NotImplementedException();
-            //  insert given value to array
-            // re-eval the array
+            // insert given value to array
+            // re-eval the m_Board
         }
 
         internal string CalculateWinner()
@@ -174,5 +174,7 @@ namespace Reversi
             }
             return i_BlackPoints > i_WhitePoints ? Pions.BLACK.ToString() : Pions.WHITE.ToString();
         }
+
+
     }
 }
