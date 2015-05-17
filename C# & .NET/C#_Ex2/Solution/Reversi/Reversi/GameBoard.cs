@@ -16,7 +16,7 @@ namespace Reversi
 
         internal bool GotMoreValidMoves()
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         internal void PrintCurrentState()
@@ -32,6 +32,11 @@ namespace Reversi
         internal void AppendMove(object p)
         {
             throw new NotImplementedException();
+        }
+
+        internal string CalculateWinner()
+        {
+            return "Black";
         }
     }
 }

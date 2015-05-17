@@ -8,7 +8,6 @@ namespace Reversi
     class UserPlayer
     {
         private int m_AmountOfPoints;
-        private int p1;
         private string m_PlayerColor;
 
 

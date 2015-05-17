@@ -29,7 +29,7 @@ namespace Reversi
 
             //initiation process
             showWelcomeMessage();
-            if (i_PlayGameFlag)
+            while (i_PlayGameFlag)
             {
                 //Get players with lazy declaration
                 m_PlayerOne = new UserPlayer(0, Colors.Black.ToString());
@@ -94,9 +94,13 @@ namespace Reversi
                 clearScreen();
                 i_PlayGameFlag = askForAnotherGame();
             }
-            Console.WriteLine("Thank you for playing ! \nPress any key to leave....");
-            Console.Read();
-            System.Environment.Exit(0);
+            if (i_PlayGameFlag == false)
+            {
+                Console.WriteLine("Thank you for playing ! \nPress any key to leave....");
+                Console.Read();
+                System.Environment.Exit(0);
+            }
+
         }
 
         private bool askForAnotherGame()
@@ -109,7 +113,7 @@ namespace Reversi
                 {
                     return true;
                 }
-                else if (i_UserInput == "F")
+                else if (i_UserInput == "N")
                 {
                     return false;
                 }
