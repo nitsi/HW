@@ -10,7 +10,7 @@ namespace Reversi
         static void Main(string[] args)
         {
             ReversiGame i_MainGame = new ReversiGame();
-            i_MainGame.start();
+            i_MainGame.Play(true);
         }
     }
 }

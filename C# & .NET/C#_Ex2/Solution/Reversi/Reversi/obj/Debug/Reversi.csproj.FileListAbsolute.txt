@@ -4,3 +4,4 @@ C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bi
 C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.csprojResolveAssemblyReference.cache
 C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.exe
 C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\obj\Debug\Reversi.pdb
+C:\Users\aviadh\Documents\GitHub\HW\C# & .NET\C#_Ex2\Solution\Reversi\Reversi\bin\Debug\Ex02.ConsoleUtils.dll
