@@ -8,10 +8,16 @@ namespace Reversi
     class GameBoard
     {
         private int m_BoardSize;
-
+        private Pion[][] m_Board;
         public GameBoard(int m_BoardSize)
         {
             this.m_BoardSize = m_BoardSize;
+            initBoard();
+        }
+
+        private void initBoard()
+        {
+            throw new NotImplementedException();
         }
 
         internal bool GotMoreValidMoves()
