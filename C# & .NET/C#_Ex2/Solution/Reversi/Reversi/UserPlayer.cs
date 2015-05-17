@@ -7,13 +7,11 @@ namespace Reversi
 {
     class UserPlayer
     {
-        private String m_PlayerColor;
-
+        private string m_PlayerColor;
 
         public UserPlayer(string i_PlayerColor)
         {
             // TODO: Complete member initialization
-           
             this.m_PlayerColor = i_PlayerColor;
         }
 
@@ -22,7 +20,7 @@ namespace Reversi
             throw new NotImplementedException();
         }
 
-        internal String GetMove()
+        internal string GetMove()
         {
             throw new NotImplementedException();
         }
@@ -33,8 +31,6 @@ namespace Reversi
             {
                 return this.m_PlayerColor;
             }
-
-
         }
     }
 }

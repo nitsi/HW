@@ -7,13 +7,13 @@ namespace Reversi
 {
     enum Pions
     {
-        BLACK, //marks black
-        WHITE, //marks white
+        BLACK, // marks black
+        WHITE, // marks white
         EMPTY
     }
+
     class GameBoard
     {
-
         private int m_BoardSize;
         private Pions[,] m_Board;
 
@@ -28,22 +28,22 @@ namespace Reversi
 
         private void initBoard()
         {
-            //init the array with empty
+            // init the array with empty
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
                     m_Board[i, j] = Pions.EMPTY;
                 }
-
             }
 
             int i_BoardMiddle = m_BoardSize / 2;
-            //Append BLACK
+
+            // Append BLACK
             m_Board[i_BoardMiddle, i_BoardMiddle] = Pions.BLACK;
             m_Board[i_BoardMiddle - 1, i_BoardMiddle - 1] = Pions.BLACK;
 
-            //Append WHITE
+            // Append WHITE
             m_Board[i_BoardMiddle - 1, i_BoardMiddle] = Pions.WHITE;
             m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Pions.BLACK;
         }
@@ -55,7 +55,6 @@ namespace Reversi
 
         internal void PrintCurrentState()
         {
-
             generateTopLetters();
             generateNewLine();
             generateLineSeparators();
@@ -69,11 +68,11 @@ namespace Reversi
                     generateCellContent(i, j);
                     generateColumnSeparator();
                 }
+
                 generateNewLine();
                 generateLineSeparators();
                 generateNewLine();
             }
-
         }
 
         private void generateCellContent(int i, int j)
@@ -91,7 +90,6 @@ namespace Reversi
             {
                 Console.Write("O");
             }
-
         }
 
         private void generateColumnSeparator()
@@ -120,7 +118,7 @@ namespace Reversi
 
         private void generateTopLetters()
         {
-            //Generate top letters
+            // Generate top letters
             generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
@@ -145,7 +143,7 @@ namespace Reversi
 
         internal string CalculateWinner()
         {
-            return null;//"Black";
+            return null; // "Black"
         }
     }
 }
