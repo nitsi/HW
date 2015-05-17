@@ -45,7 +45,7 @@ namespace Reversi
 
             // Append WHITE
             m_Board[i_BoardMiddle - 1, i_BoardMiddle] = Pions.WHITE;
-            m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Pions.BLACK;
+            m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Pions.WHITE;
         }
 
         internal bool GotMoreValidMoves()
@@ -66,7 +66,7 @@ namespace Reversi
                 {
                     generateColumnSeparator();
                     generateCellContent(i, j);
-                    generateColumnSeparator();
+
                 }
 
                 generateNewLine();
@@ -99,7 +99,7 @@ namespace Reversi
 
         private void generateLineNumber(int i)
         {
-            Console.Write(i + " |");
+            Console.Write((i + 1) + " )");
         }
 
         private void generateLineSeparators()
@@ -107,7 +107,7 @@ namespace Reversi
             generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
-                Console.Write("=======");
+                Console.Write("====");
             }
         }
 
@@ -122,7 +122,7 @@ namespace Reversi
             generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
-                Console.Write("  " + m_Alphabet[i] + "   ");
+                Console.Write("  " + m_Alphabet[i] + " ");
             }
         }
 
