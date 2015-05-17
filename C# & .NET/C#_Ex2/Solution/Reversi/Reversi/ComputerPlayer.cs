@@ -5,13 +5,11 @@ using System.Text;
 
 namespace Reversi
 {
-    class UserPlayer
+    class ComputerPlayer
     {
         private int m_AmountOfPoints;
 
-        
-
-        public UserPlayer(int p)
+        public ComputerPlayer(int p)
         {
             // TODO: Complete member initialization
             this.m_AmountOfPoints = p;

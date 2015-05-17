@@ -19,9 +19,16 @@ namespace Reversi
             if (i_PlayGameFlag)
             {
                 showWelcomeMessage();
-                m_PlayerOne = new Player(GamerTypes.User);
-                m_PlayerTwo = getChoiceFromConsole() == GamerTypes.User.ToString() ? new Player(GamerTypes.User) : new Player(GamerTypes.Computer);
-
+                m_PlayerOne = new UserPlayer(0);
+                String i_UserChoice = getChoiceFromConsole();
+                if (i_UserChoice == GamerTypes.Computer.ToString())
+                {
+                    ComputerPlayer io_PlayerTwo = new ComputerPlayer(0);
+                }
+                else
+                {
+                    UserPlayer io_PlayerTwo = new UserPlayer(0);
+                }
             }
         }
 
