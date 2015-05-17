@@ -148,6 +148,8 @@ namespace Reversi
         internal void AppendMove(object p)
         {
             throw new NotImplementedException();
+            //  insert given value to array
+            // re-eval the array
         }
 
         internal string CalculateWinner()
