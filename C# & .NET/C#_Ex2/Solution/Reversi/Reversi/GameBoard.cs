@@ -18,5 +18,20 @@ namespace Reversi
         {
             throw new NotImplementedException();
         }
+
+        internal void PrintCurrentState()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal bool CheckIfValid(string i_Move)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void AppendMove(object p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

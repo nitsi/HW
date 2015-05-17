@@ -78,10 +78,56 @@ namespace Reversi
                     }
                 }
 
-                //From that point we can play
+                //This point means someone won
 
+                String i_CalculatedWinner = i_GameBoard.CalculateWinner();
+
+                if (i_CalculatedWinner == m_PlayerOne.Color)
+                {
+                    showWinnerMessage("Player One");
+                }
+                else
+                {
+                    showWinnerMessage("Player Two");
+                }
+
+                clearScreen();
+                i_PlayGameFlag = askForAnotherGame();
             }
+            Console.WriteLine("Thank you for playing ! \nPress any key to leave....");
+            Console.Read();
+            System.Environment.Exit(0);
         }
+
+        private bool askForAnotherGame()
+        {
+            while (true)
+            {
+                Console.WriteLine("Would you like to play again ? (Y/N)");
+                String i_UserInput = Console.ReadLine();
+                if (i_UserInput == "Y")
+                {
+                    return true;
+                }
+                else if (i_UserInput == "F")
+                {
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("Please type in Y/N.....");
+                }
+            }
+
+
+        }
+
+        private void showWinnerMessage(string i_WinnerName)
+        {
+            Console.WriteLine("And the winner is " + i_WinnerName + " !!");
+            Console.WriteLine("Press any key to continue");
+        }
+
 
         private void clearScreen()
         {

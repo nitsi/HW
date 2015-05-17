@@ -10,9 +10,9 @@ namespace Reversi
         private int m_AmountOfPoints;
         private int p1;
         private string m_PlayerColor;
-               
 
-        public UserPlayer(int p,string i_PlayerColor)
+
+        public UserPlayer(int p, string i_PlayerColor)
         {
             // TODO: Complete member initialization
             this.m_AmountOfPoints = p;
@@ -27,6 +27,16 @@ namespace Reversi
         internal String GetMove()
         {
             throw new NotImplementedException();
+        }
+
+        public object Color
+        {
+            get
+            {
+                return this.m_PlayerColor;
+            }
+
+
         }
     }
 }
