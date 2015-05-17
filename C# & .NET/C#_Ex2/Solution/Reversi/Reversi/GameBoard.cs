@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace Reversi
 {
@@ -17,6 +18,9 @@ namespace Reversi
     {
         private int m_BoardSize;
         private Pions[,] m_Board;
+        private ArrayList m_PlayerOneValidMoves;
+        private ArrayList m_PlayerTwoValidMoves;
+
 
         //TODO: Lower letters to 8 letters
         private string m_Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -27,6 +31,12 @@ namespace Reversi
             m_BoardSize = i_BoardSize;
             m_Board = new Pions[m_BoardSize, m_BoardSize];
             initBoard();
+            initMovesTrackers();
+        }
+
+        private void initMovesTrackers()
+        {
+            throw new NotImplementedException();
         }
 
         private void initBoard()
