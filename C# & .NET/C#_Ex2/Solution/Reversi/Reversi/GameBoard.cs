@@ -131,7 +131,7 @@ namespace Reversi
             Console.WriteLine();
         }
 
-        internal bool CheckIfValid(string i_Move)
+        internal bool CheckIfValid(string i_PlayerMove)
         {
             throw new NotImplementedException();
         }

@@ -64,21 +64,35 @@ namespace Reversi
                     if (m_CurrentPlayer == CurrentPlayer.PlayerOne)
                     {
                         // if first player
-                        string i_Move = m_PlayerOne.GetMove();
-                        if (i_GameBoard.CheckIfValid(i_Move))
+                        while (true)
                         {
-                            i_GameBoard.AppendMove(m_PlayerOne.Color);
+                            string i_Move = m_PlayerOne.GetMove();
+                            if (i_GameBoard.CheckIfValid(i_Move))
+                            {
+                                i_GameBoard.AppendMove(m_PlayerOne.Color);
+                                break;
+                            }
+                            Console.WriteLine("Invalid move!");
                         }
                     }
                     else
                     {
                         // if second
-                        string i_Move = m_PlayerTwo.GetMove();
-                        if (i_GameBoard.CheckIfValid(i_Move))
+                        while (true)
                         {
-                            i_GameBoard.AppendMove(m_PlayerOne.Color);
+                            string i_Move = m_PlayerTwo.GetMove();
+                            if (i_GameBoard.CheckIfValid(i_Move))
+                            {
+                                i_GameBoard.AppendMove(m_PlayerOne.Color);
+                                break; // Exit loop
+                            }
+
+                            Console.WriteLine("Invalid move!");
                         }
                     }
+
+                    // change player
+                    m_CurrentPlayer = m_CurrentPlayer == CurrentPlayer.PlayerOne ? CurrentPlayer.PlayerTwo : CurrentPlayer.PlayerOne;
                 }
 
                 // This point means someone won
