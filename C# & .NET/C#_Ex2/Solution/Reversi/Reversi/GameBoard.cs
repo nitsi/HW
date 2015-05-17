@@ -150,9 +150,25 @@ namespace Reversi
             Console.WriteLine();
         }
 
-        internal bool CheckIfValid(string i_PlayerMove)
+        //Assuming we've recieved in the form of "A1" <Char,Number>
+
+        internal bool CheckIfValid(string i_Move, string i_PlayerMove)
         {
-            throw new NotImplementedException();
+            int[] i_PlayerMoveCoords = new int[2]; // used for coorsdinate
+
+            // Get data from player
+            //TODO : change this to object parsing
+            i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
+            i_PlayerMoveCoords[1] = i_PlayerMove[1];
+
+            if (m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Pions.EMPTY)
+            {
+                return false;
+            }
+            else
+            {
+                return !crawler(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) ? false : true;
+            }
         }
 
         internal void AppendMove(object p)
@@ -184,6 +200,7 @@ namespace Reversi
             }
             return i_BlackPoints > i_WhitePoints ? Pions.BLACK.ToString() : Pions.WHITE.ToString();
         }
+
 
 
     }

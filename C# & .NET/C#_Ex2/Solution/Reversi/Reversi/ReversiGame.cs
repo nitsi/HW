@@ -74,7 +74,7 @@ namespace Reversi
                         while (true)
                         {
                             string i_Move = m_PlayerOne.GetMove();
-                            if (i_GameBoard.CheckIfValid(i_Move))
+                            if (i_GameBoard.CheckIfValid(i_Move, m_PlayerOne.Color))
                             {
                                 i_GameBoard.AppendMove(m_PlayerOne.Color);
                                 break;
@@ -89,7 +89,7 @@ namespace Reversi
                         while (true)
                         {
                             string i_Move = m_PlayerTwo.GetMove();
-                            if (i_GameBoard.CheckIfValid(i_Move))
+                            if (i_GameBoard.CheckIfValid(i_Move, m_PlayerTwo.Color))
                             {
                                 i_GameBoard.AppendMove(m_PlayerOne.Color);
                                 break; // Exit loop
