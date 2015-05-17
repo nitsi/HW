@@ -152,7 +152,7 @@ namespace Reversi
 
         //Assuming we've recieved in the form of "A1" <Char,Number>
 
-        internal bool CheckIfValid(string i_Move, string i_PlayerMove)
+        internal bool CheckIfValid(string i_PlayerMove, string i_PlayerColor)
         {
             int[] i_PlayerMoveCoords = new int[2]; // used for coorsdinate
 
@@ -167,8 +167,17 @@ namespace Reversi
             }
             else
             {
-                return !crawler(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) ? false : true;
+                return !crawler(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1], i_PlayerColor) ? false : true;
             }
+        }
+
+        private bool crawler(int i_X, int i_Y, string i_PlayerColor)
+        {
+            for (int i = i_X; i < m_BoardSize - i_X - 1; i++)
+            {
+                //TODO: implement
+            }
+            return true;
         }
 
         internal void AppendMove(object p)
