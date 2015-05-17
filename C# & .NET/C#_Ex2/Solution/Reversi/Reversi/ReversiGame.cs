@@ -22,6 +22,7 @@ namespace Reversi
     class ReversiGame
     {
         UserPlayer m_PlayerOne;
+        UserPlayer m_PlayerTwo;
         int m_BoardSize;
         internal void Play(bool i_PlayGameFlag)
         {
@@ -34,14 +35,14 @@ namespace Reversi
                 m_PlayerOne = new UserPlayer(0, Colors.Black.ToString());
                 String i_UserChoice = getChoiceFromConsole();
 
-                //Should fix this
+                //Should fix this, Currently has no PC
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
-                    ComputerPlayer io_PlayerTwo = new ComputerPlayer(0, Colors.White.ToString());
+                    m_PlayerTwo = new UserPlayer(0, Colors.White.ToString());
                 }
                 else
                 {
-                    UserPlayer io_PlayerTwo = new UserPlayer(0, Colors.White.ToString());
+                    m_PlayerTwo = new UserPlayer(0, Colors.White.ToString());
                 }
 
                 //Pick board size
