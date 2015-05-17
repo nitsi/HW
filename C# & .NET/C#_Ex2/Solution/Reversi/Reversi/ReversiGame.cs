@@ -13,12 +13,15 @@ namespace Reversi
     class ReversiGame
     {
         UserPlayer m_PlayerOne;
-
+        int m_BoardSize;
         internal void Play(bool i_PlayGameFlag)
         {
+
+            //initiation process
+            showWelcomeMessage();
             if (i_PlayGameFlag)
             {
-                showWelcomeMessage();
+                //Get players with lazy declaration
                 m_PlayerOne = new UserPlayer(0);
                 String i_UserChoice = getChoiceFromConsole();
                 if (i_UserChoice == GamerTypes.Computer.ToString())
@@ -29,7 +32,31 @@ namespace Reversi
                 {
                     UserPlayer io_PlayerTwo = new UserPlayer(0);
                 }
+
+                //Pick board size
+                m_BoardSize = getBoardSize();
+
             }
+        }
+
+        private int getBoardSize()
+        {
+            Console.WriteLine("Nice, Let's move on !");
+            while (true)
+            {
+                Console.WriteLine("Please pick a booard size. Choose 6,8 or higher");
+                int i_UserInput;
+                if (Int32.TryParse(Console.ReadLine(), out i_UserInput))
+                {
+                    if (i_UserInput == 6 || i_UserInput >= 8)
+                    {
+                        return i_UserInput;
+                    }
+
+                }
+                Console.WriteLine("Please make sure to insert a valid number");
+            }
+
         }
 
         private void showWelcomeMessage()

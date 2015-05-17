@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Player.cs" />
+    <Compile Include="ComputerPlayer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReversiGame.cs" />
+    <Compile Include="UserPlayer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
