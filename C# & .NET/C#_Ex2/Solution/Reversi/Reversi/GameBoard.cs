@@ -5,22 +5,44 @@ using System.Text;
 
 namespace Reversi
 {
+    enum Pions
+    {
+        BLACK, //marks black
+        WHITE, //marks white
+        EMPTY
+    }
     class GameBoard
     {
+
         private int m_BoardSize;
-        private char[,] m_Board;
+        private Pions[,] m_Board;
         public GameBoard(int i_BoardSize)
         {
             m_BoardSize = i_BoardSize;
-            m_Board = new char[m_BoardSize,m_BoardSize];
+            m_Board = new Pions[m_BoardSize, m_BoardSize];
             initBoard();
         }
 
         private void initBoard()
         {
-            int i_BoardMiddle = m_BoardSize / 2;
+            //init the array with empty
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                for (int j = 0; j < m_BoardSize; j++)
+                {
+                    m_Board[i, j] = Pions.EMPTY;
+                }
 
-            m_Board[i_BoardMiddle, i_BoardMiddle] = 2;
+            }
+
+            int i_BoardMiddle = m_BoardSize / 2;
+            //Append BLACK
+            m_Board[i_BoardMiddle, i_BoardMiddle] = Pions.BLACK;
+            m_Board[i_BoardMiddle - 1, i_BoardMiddle - 1] = Pions.BLACK;
+
+            //Append WHITE
+            m_Board[i_BoardMiddle - 1, i_BoardMiddle] = Pions.WHITE;
+            m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Pions.BLACK;
         }
 
         internal bool GotMoreValidMoves()
