@@ -147,7 +147,7 @@ namespace Reversi
                 int i_UserInput;
                 if (Int32.TryParse(Console.ReadLine(), out i_UserInput))
                 {
-                    if (i_UserInput == 6 || i_UserInput >= 8)
+                    if ((i_UserInput == 6 || i_UserInput >= 8) && i_UserInput <= 25)
                     {
                         return i_UserInput;
                     }

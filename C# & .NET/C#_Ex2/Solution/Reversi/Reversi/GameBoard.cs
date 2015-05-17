@@ -16,6 +16,9 @@ namespace Reversi
 
         private int m_BoardSize;
         private Pions[,] m_Board;
+
+        private string m_Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         public GameBoard(int i_BoardSize)
         {
             m_BoardSize = i_BoardSize;
@@ -47,12 +50,28 @@ namespace Reversi
 
         internal bool GotMoreValidMoves()
         {
-            return false;
+            return true;
         }
 
         internal void PrintCurrentState()
         {
-            throw new NotImplementedException();
+            //Generate top letters
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                Console.Write(" " + m_Alphabet[i] + "  ");
+            }
+
+            enterNewLine();
+
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                Console.Write("=== ");
+            }
+        }
+
+        private void enterNewLine()
+        {
+            Console.WriteLine();
         }
 
         internal bool CheckIfValid(string i_Move)
@@ -67,7 +86,7 @@ namespace Reversi
 
         internal string CalculateWinner()
         {
-            return "Black";
+            return null;//"Black";
         }
     }
 }
