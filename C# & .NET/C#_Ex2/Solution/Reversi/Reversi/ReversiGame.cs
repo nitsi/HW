@@ -18,8 +18,8 @@ namespace Reversi
 
     enum Colors
     {
-        Black,
-        White
+        BLACK,
+        WHITE
     }
 
     class ReversiGame
@@ -35,17 +35,19 @@ namespace Reversi
             while (i_PlayGameFlag)
             {
                 // Get players with lazy declaration
-                m_PlayerOne = new UserPlayer(Colors.Black.ToString());
+                m_PlayerOne = new UserPlayer(Colors.BLACK.ToString());
                 string i_UserChoice = getChoiceFromConsole();
 
+                // FIXME
                 // Should fix this, Currently has no PC
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
-                    m_PlayerTwo = new UserPlayer(Colors.White.ToString());
+                    // THIS SHOULD BE COMPUTER PLAYER, FIX THIS !
+                    m_PlayerTwo = new UserPlayer(Colors.WHITE.ToString());
                 }
                 else
                 {
-                    m_PlayerTwo = new UserPlayer(Colors.White.ToString());
+                    m_PlayerTwo = new UserPlayer(Colors.WHITE.ToString());
                 }
 
                 // Pick board size
@@ -57,6 +59,8 @@ namespace Reversi
 
                 // Let's clear the screen
                 clearScreen();
+
+                // Player one start
                 CurrentPlayer m_CurrentPlayer = CurrentPlayer.PlayerOne;
                 while (i_GameBoard.GotMoreValidMoves())
                 {
@@ -110,6 +114,7 @@ namespace Reversi
 
                 clearScreen();
                 i_PlayGameFlag = askForAnotherGame();
+
             }
 
             if (i_PlayGameFlag == false)

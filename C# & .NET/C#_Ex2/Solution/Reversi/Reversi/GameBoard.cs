@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Reversi
@@ -66,7 +64,6 @@ namespace Reversi
                 {
                     generateColumnSeparator();
                     generateCellContent(i, j);
-
                 }
 
                 generateNewLine();
@@ -143,7 +140,25 @@ namespace Reversi
 
         internal string CalculateWinner()
         {
-            return null; // "Black"
+
+            int i_WhitePoints = 0;
+            int i_BlackPoints = 0;
+
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                for (int j = 0; j < m_BoardSize; j++)
+                {
+                    if (m_Board[i, j] == Pions.WHITE)
+                    {
+                        i_WhitePoints++;
+                    }
+                    else if (m_Board[i, j] == Pions.BLACK)
+                    {
+                        i_BlackPoints++;
+                    }
+                }
+            }
+            return i_BlackPoints > i_WhitePoints ? Pions.BLACK.ToString() : Pions.WHITE.ToString();
         }
     }
 }
