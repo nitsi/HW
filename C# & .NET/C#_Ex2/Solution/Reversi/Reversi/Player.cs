@@ -7,6 +7,7 @@ namespace Reversi
 {
     class Player
     {
+        UserInteraction UI = new UserInteraction();
         private Colors m_PlayerColor;
 
         public Player(Colors o_PlayerColor)
@@ -39,8 +40,7 @@ namespace Reversi
             }
             else
             {
-                System.Console.WriteLine("The input data is not valid");
-                System.Console.WriteLine("Please enter a cell in format Letter,Number. e.g: A3");
+                UI.PrintNeedValidData();
             }
             return !answer;
         }
@@ -55,8 +55,6 @@ namespace Reversi
                 {
                     return i_UserInput;
                 }
-
-                Console.WriteLine("Invalid move!");
             }
         }
 

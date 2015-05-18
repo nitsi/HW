@@ -38,8 +38,8 @@ namespace Reversi
             while (true)
             {
                 // TODO: Print Welcome Message
-                userChoice = getChoiceFromConsole();
-                m_BoardSize = getBoardSize();
+                userChoice = UI.GetChoiceFromConsole();
+                m_BoardSize = UI.GetBoardSize();
                 m_GameBoard.initBoard(m_BoardSize);
 
                 isPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
@@ -54,7 +54,7 @@ namespace Reversi
                 }
                 else
                 {
-                    clearScreen();
+                    UI.ClearScreen();
                 }
             }
         }
@@ -70,7 +70,7 @@ namespace Reversi
 
             while (true)
             {
-                clearScreen();
+                UI.ClearScreen();
                 m_GameBoard.PrintCurrentState();
                 hasMovesP1 = m_GameBoard.GotMoreValidMoves(uPlayer1.Color);
                 hasMovesP2 = m_GameBoard.GotMoreValidMoves(uPlayer2.Color);
@@ -136,45 +136,6 @@ namespace Reversi
                 {
                     Console.WriteLine("Please type in Y/N.....");
                 }
-            }
-        }
-
-        private void clearScreen()
-        {
-            Ex02.ConsoleUtils.Screen.Clear();
-        }
-
-        private int getBoardSize()
-        {
-            while (true)
-            {
-                Console.WriteLine("Please pick a board size. Choose 6,8 or higher");
-                int i_UserInput;
-                if (int.TryParse(Console.ReadLine(), out i_UserInput))
-                {
-                    if (i_UserInput == 6 || i_UserInput == 8)
-                    {
-                        return i_UserInput;
-                    }
-                }
-
-                Console.WriteLine("Please make sure to insert a valid number");
-            }
-        }
-
-        private string getChoiceFromConsole()
-        {
-            string tempStringForIOTests;
-            while (true)
-            {
-                Console.WriteLine("Would you like to play vs a Computer or another User ? (Type Computer or User)");
-                tempStringForIOTests = Console.ReadLine();
-                if (tempStringForIOTests == "User" || tempStringForIOTests == "Computer")
-                {
-                    return tempStringForIOTests;
-                }
-
-                Console.WriteLine("Please type in the key words as shown on CLI");
             }
         }
     }
