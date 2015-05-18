@@ -172,12 +172,55 @@ namespace Reversi
             if (verifyEdges(i_X, i_Y))
             {
 
-                return crawlVertical(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor);
+                return crawlSlash(i_X, i_Y, i_PlayerColor);//crawlVertical(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor);
             }
             else
             {
                 return false;
             }
+        }
+
+        private bool crawlSlash(int i_X, int i_Y, Colors i_PlayerColor)
+        {
+            // Iterative implementation
+            Colors i_CurrentColorFromCell;
+            int i_TempCounterForCrawlers = 0;
+            int i_TempX = i_X + 1;
+            int i_TempY = i_Y - 1;
+            for (int i = 0; i < m_BoardSize * 2; i++)
+            {
+                if (!verifyEdges(i_TempX, i_TempY)) { return false; }
+                i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
+                // Means we hit cell from same color, but it's adjacent
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
+                // Means we hit a cell from another color, but we passed other cells on the way
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers > 0) { return true; }
+                if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+                {
+                    i_TempCounterForCrawlers++;
+                }
+                i_TempX++;
+                i_TempY--;
+            }
+            i_TempCounterForCrawlers = 0;
+            i_TempX = i_X + 1;
+            i_TempY = i_Y - 1;
+            for (int i = 0; i < m_BoardSize * 2; i--)
+            {
+                i_CurrentColorFromCell = m_Board[i_X, i];
+                // Means we hit cell from same color, but it's adjacent
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
+                // Means we hit a cell from another color, but we passed other cells on the way
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers > 0) { return true; }
+                if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+                {
+                    i_TempCounterForCrawlers++;
+                }
+                i_TempX++;
+                i_TempY--;
+            }
+            // If all failed
+            return false;
         }
 
         private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
@@ -213,7 +256,6 @@ namespace Reversi
             // If all failed
             return false;
         }
-
 
         private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor)
         {
@@ -280,10 +322,5 @@ namespace Reversi
             }
             return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
-
-
-
-
-
     }
 }
