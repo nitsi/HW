@@ -71,6 +71,7 @@ namespace Reversi
                     //TODO: Clean double coding
                     if (m_CurrentPlayer == CurrentPlayer.PlayerOne)
                     {
+                        Console.WriteLine("Turn of: X");
                         // if first player
                         while (true)
                         {
@@ -89,6 +90,7 @@ namespace Reversi
                         // if second
                         while (true)
                         {
+                            Console.WriteLine("Turn of: O");
                             string i_Move = m_PlayerTwo.GetMove();
                             if (i_GameBoard.CheckIfValid(i_Move, m_PlayerTwo.Color))
                             {

@@ -146,15 +146,18 @@ namespace Reversi
             // Get data from player
             //TODO : change this to object parsing
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
-            i_PlayerMoveCoords[1] = i_PlayerMove[1];
+            i_PlayerMoveCoords[1] = (int)Char.GetNumericValue(i_PlayerMove[1]);
 
+            i_PlayerMoveCoords[0]--;
+            i_PlayerMoveCoords[1]--;
             if (!verifyEdges(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) || m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Colors.EMPTY)
             {
                 return false;
             }
             else
             {
-                return !crawler(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1], i_PlayerColor) ? false : true;
+                Console.WriteLine("Enter crawler");
+                return crawler(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1], i_PlayerColor);
             }
         }
 
