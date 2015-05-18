@@ -389,6 +389,18 @@ namespace Reversi
             // check if empty
             if (i_CurrentColorFromCell == Colors.EMPTY) { return false; }
 
+            if (i_CurrentColorFromCell == i_GivenColor) { return true; }
+
+            if (propagateTable(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_GivenColor))
+            {
+                m_Board[i_X, i_Y] = i_GivenColor;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
 
