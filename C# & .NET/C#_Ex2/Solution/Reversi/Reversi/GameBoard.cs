@@ -161,7 +161,7 @@ namespace Reversi
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
             i_PlayerMoveCoords[1] = i_PlayerMove[1];
 
-            if (m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Pions.EMPTY)
+            if (!verifyEdges(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) || m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Pions.EMPTY)
             {
                 return false;
             }
@@ -171,13 +171,26 @@ namespace Reversi
             }
         }
 
+        private bool verifyEdges(int p1, int p2)
+        {
+            return ((p1 > 0 && p1 <= m_BoardSize) &&(p2 >0 && p2<=m_BoardSize));
+        }
+
         private bool crawler(int i_X, int i_Y, string i_PlayerColor)
         {
-            for (int i = i_X; i < m_BoardSize - i_X - 1; i++)
+            if (verifyEdges(i_X, i_Y))
             {
-                //TODO: implement
+                return crawlVertical(i_X, i_Y) || crawlHorizontal(i_X, i_Y) || crawlSlash(i_X, i_Y) || crawlBackslash(i_X, i_Y);
             }
-            return true;
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool crawlVertical(int i_X, int i_Y)
+        {
+            throw new NotImplementedException();
         }
 
         internal void AppendMove(object p)
