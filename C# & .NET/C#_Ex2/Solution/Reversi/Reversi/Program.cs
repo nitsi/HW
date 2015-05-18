@@ -11,8 +11,8 @@ namespace Reversi
         static void Main(string[] args)
         {
             //change i_MainGame  to correct name
-            ReversiGame i_MainGame = new ReversiGame();
-            i_MainGame.Play(true);
+            GameRunner mainGame = new GameRunner();
+            mainGame.StartGame();
         }
     }
 }

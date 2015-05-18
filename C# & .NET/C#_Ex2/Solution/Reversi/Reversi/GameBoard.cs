@@ -14,15 +14,15 @@ namespace Reversi
 
         private string m_Alphabet = "ABCDEFGH";
 
-        public GameBoard(int io_BoardSize)
+        private GameBoard()
         {
-            m_BoardSize = io_BoardSize;
-            m_Board = new Colors[m_BoardSize, m_BoardSize];
-            initBoard();
         }
 
-        private void initBoard()
+        public void initBoard(int o_BoardSize)
         {
+            m_BoardSize = o_BoardSize;
+            m_Board = new Colors[m_BoardSize, m_BoardSize];
+
             // init the array with empty
             for (int i = 0; i < m_BoardSize; i++)
             {
