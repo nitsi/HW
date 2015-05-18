@@ -364,11 +364,10 @@ namespace Reversi
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
             Console.WriteLine("updating stuff");
-            List<int[]> i_FlipCandidates = new List<int[]>();
+
             // Update vertical
             propagatePositiveVertical(i_X, i_Y, i_GivenColor);
-
-            //propagateNegativeVertical(i_X, i_Y, i_GivenColor);
+            propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
             //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
             //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
@@ -378,6 +377,15 @@ namespace Reversi
             //// Update backslash
             //propagatePositiveBackslash(i_X, i_Y, i_GivenColor);
             //propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
+        }
+
+        private void propagateNegativeVertical(int i_X, int i_Y, Colors i_GivenColor)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void propagatePositiveVertical(int i_X, int i_Y, Colors i_GivenColor)
+        {
         }
 
         internal Colors CalculateWinner()
