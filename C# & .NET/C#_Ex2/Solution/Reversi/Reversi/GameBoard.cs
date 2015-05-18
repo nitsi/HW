@@ -178,13 +178,24 @@ namespace Reversi
             if (verifyEdges(i_X, i_Y))
             {
 
-                return crawlBackSlash(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor);
+                return crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlBackSlash(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor);//|| crawlHorizontal_old(i_X, i_Y, i_PlayerColor);
             }
             else
             {
                 Console.WriteLine("Main crawler, failed on edges");
                 return false;
             }
+        }
+
+        private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
+        {
+            int i_Zero = 0;
+            return checkIfValidCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero) || checkIfValidCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero);
+        }
+
+        private bool checkIfValidCrawler(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_PlayerColor, int i_Count)
+        {
+            throw new NotImplementedException();
         }
 
         private bool crawlSlash(int i_X, int i_Y, Colors i_PlayerColor)
@@ -279,7 +290,7 @@ namespace Reversi
             return false;
         }
 
-        private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlHorizontal_old(int i_X, int i_Y, Colors i_PlayerColor)
         {
             // Iterative implementation
             Colors i_CurrentColorFromCell;
