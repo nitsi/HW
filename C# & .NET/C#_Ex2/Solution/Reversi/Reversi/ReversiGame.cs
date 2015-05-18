@@ -78,7 +78,7 @@ namespace Reversi
                             string i_Move = m_PlayerOne.GetMove();
                             if (i_GameBoard.CheckIfValid(i_Move, m_PlayerOne.Color))
                             {
-                                i_GameBoard.AppendMove(m_PlayerOne.Color);
+                                i_GameBoard.AppendMove(i_Move,m_PlayerOne.Color);
                                 break;
                             }
                             // TODO: Add more lines to the print, as he asked in his file
@@ -94,7 +94,7 @@ namespace Reversi
                             string i_Move = m_PlayerTwo.GetMove();
                             if (i_GameBoard.CheckIfValid(i_Move, m_PlayerTwo.Color))
                             {
-                                i_GameBoard.AppendMove(m_PlayerOne.Color);
+                                i_GameBoard.AppendMove(i_Move, m_PlayerTwo.Color);
                                 break; // Exit loop
                             }
                             // TODO: Add more lines to the print, as he asked in his file

@@ -251,7 +251,8 @@ namespace Reversi
 
         private bool crawlUp(int i_X, int i_Y, Colors i_CurrentPlayerColor, int io_TempCounterForCrawlers)
         {
-            i_Y++;
+            Console.WriteLine("Crawl up");
+            i_Y--;
             // If we're out of bound we return false
             if (!verifyEdges(i_X, i_Y)) { return false; }
             // Init temp var for ease
@@ -261,21 +262,21 @@ namespace Reversi
             // Not blocking
             if (i_CurrentColorInCell == Colors.EMPTY) { return false; }
             // Adjacent pion
-            if (i_CurrentColorInCell == i_CurrentPlayerColor && io_TempCounterForCrawlers == 0) { return false; }
+            if (i_CurrentColorInCell == i_CurrentPlayerColor && io_TempCounterForCrawlers == 0)
+            {
+                Console.WriteLine("same color, counter zero");
+                return false;
+            }
             // More than one pion on the way
             if (i_CurrentColorInCell == i_CurrentPlayerColor && io_TempCounterForCrawlers > 0) { return true; }
             Console.WriteLine("Go recursion");
             return crawlUp(i_X, i_Y, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
 
         }
-
-        internal void AppendMove(object p)
+        internal void AppendMove(string i_Move, Colors i_GivenColor)
         {
-            throw new NotImplementedException();
-            // insert given value to array
-            // re-eval the m_Board
+            m_Board[(int)Char.GetNumericValue(i_Move[1]) - 1, m_Alphabet.IndexOf(i_Move[0])] = i_GivenColor;
         }
-
         internal Colors CalculateWinner()
         {
 
@@ -298,6 +299,8 @@ namespace Reversi
             }
             return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
+
+
 
 
 
