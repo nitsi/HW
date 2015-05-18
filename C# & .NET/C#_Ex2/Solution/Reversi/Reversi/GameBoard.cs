@@ -404,11 +404,9 @@ namespace Reversi
                 else
                 {
                     i_ReturnCandidates.Add(new int[] { i_TempX, i_Y });
+                    i_TempX++;
                 }
-
             }
-
-            return i_ReturnCandidates;
         }
 
 
