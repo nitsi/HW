@@ -294,6 +294,20 @@ namespace Reversi
             return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
 
-        public List<string> GetListOfEmptyCells() { }
+        public List<string> GetListOfEmptyCells()
+        {
+            List<string> io_ListOfEmptyCells = new List<string>();
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                for (int j = 0; j < m_BoardSize; j++)
+                {
+                    if (m_Board[i, j] == Colors.EMPTY)
+                    {
+                        io_ListOfEmptyCells.Add(m_Alphabet[j] + "" + i);
+                    }
+                }
+            }
+            return io_ListOfEmptyCells;
+        }
     }
 }
