@@ -352,13 +352,28 @@ namespace Reversi
             // Inject new data to array
             m_Board[i_tempX, i_tempY] = i_GivenColor;
 
-            updateFromLocation(i_GivenColor);
+            updateFromLocation(i_tempX, i_tempY, i_GivenColor);
         }
 
-        private void updateFromLocation(Colors i_GivenColor)
+        private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
-            throw new NotImplementedException();
+            // Update vertical
+            Colors i_CurrentColorFromCell;
+            for (int i = i_X + 1; i < m_BoardSize; i++)
+            {
+                if (!verifyEdges(i, i_Y)) { break; }
+                i_CurrentColorFromCell = m_Board[i, i_Y];
+
+                if (i_CurrentColorFromCell == i_GivenColor) { break; }
+                // If it's the enemy
+                if (i_CurrentColorFromCell != Colors.EMPTY && i_CurrentColorFromCell != i_GivenColor)
+                {
+                    m_Board[i, i_Y] = i_GivenColor;
+                }
+            }
         }
+
+
         internal Colors CalculateWinner()
         {
 
