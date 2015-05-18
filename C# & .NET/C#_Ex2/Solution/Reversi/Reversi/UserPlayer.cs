@@ -8,7 +8,8 @@ namespace Reversi
     class UserPlayer
     {
         private Colors m_PlayerColor;
-        private List<int[]> m_PivotPosition;
+        // ????? private List<int[]> m_PivotPosition;
+        private string m_Alphabet = "ABCDEFGH";
 
         //TODO: change io_
         public UserPlayer(Colors i_PlayerColor)
@@ -25,7 +26,16 @@ namespace Reversi
 
         internal string GetMove()
         {
-            throw new NotImplementedException();
+            while (true)
+            {
+                Console.WriteLine("Please enter your move : ");
+                string i_UserInput = Console.ReadLine();
+                if (m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] > -1 && i_UserInput[1] <= 8))
+                {
+                    return i_UserInput;
+                }
+                Console.WriteLine("Please enter proper moves");
+            }
         }
 
         public Colors Color
