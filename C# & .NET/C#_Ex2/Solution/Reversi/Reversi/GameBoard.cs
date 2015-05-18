@@ -91,18 +91,7 @@ namespace Reversi
         {
             //TODO: change i_
             Colors i_TempPionContent = m_Board[i, j];
-            if (i_TempPionContent == Colors.EMPTY)
-            {
-                Console.Write(" ");
-            }
-            else if (i_TempPionContent == Colors.BLACK)
-            {
-                Console.Write("X");
-            }
-            else
-            {
-                Console.Write("O");
-            }
+            UI.GenerateTableCellContet(i_TempPionContent);
         }
 
         private void generateColumnSeparator()
@@ -118,23 +107,18 @@ namespace Reversi
         private void generateLineSeparators()
         {
             //TODO: replace with regular print add comment above
-            generateBorderSpan();
+            UI.generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
                 Console.Write("====");
             }
         }
 
-        private void generateBorderSpan()
-        {
-            Console.Write("    ");
-        }
-
         private void generateTopLetters()
         {
             // Generate top letters
             //TODO: replace with regular print add comment above
-            generateBorderSpan();
+            UI.generateBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
                 Console.Write("  " + m_Alphabet[i] + " ");

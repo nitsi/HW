@@ -62,5 +62,26 @@ namespace Reversi
                 Console.WriteLine("Please type in the key words as shown on CLI");
             }
         }
+
+        public void GenerateTableCellContet(Colors i_TempPionContent)
+        {
+            if (i_TempPionContent == Colors.EMPTY)
+            {
+                Console.Write(" ");
+            }
+            else if (i_TempPionContent == Colors.BLACK)
+            {
+                Console.Write("X");
+            }
+            else
+            {
+                Console.Write("O");
+            }
+        }
+
+        public void generateBorderSpan()
+        {
+            Console.Write("    ");
+        }
     }
 }
