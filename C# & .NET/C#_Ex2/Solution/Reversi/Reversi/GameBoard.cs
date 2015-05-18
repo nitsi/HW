@@ -6,7 +6,9 @@ using System.Collections;
 
 namespace Reversi
 {
-
+    /*
+     * TEST 
+     */
     class GameBoard
     {
         private int m_BoardSize;
