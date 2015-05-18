@@ -364,21 +364,53 @@ namespace Reversi
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
             Console.WriteLine("updating stuff");
-            List<int[]> io_propagationCandidates = new List<int[]>();
-
+            List<int[]> i_FlipCandidates = new List<int[]>();
             // Update vertical
-            propagatePositiveVertical(i_X, i_Y, i_GivenColor);
-            propagateNegativeVertical(i_X, i_Y, i_GivenColor);
+            i_FlipCandidates.AddRange(propagatePositiveVertical(i_X, i_Y, i_GivenColor));
+
+            //propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
-            propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
-            propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
-            // Update slash
-            propagatePositiveSlash(i_X, i_Y, i_GivenColor);
-            propagateNegativeSlash(i_X, i_Y, i_GivenColor);
-            // Update backslash
-            propagatePositiveBackslash(i_X, i_Y, i_GivenColor);
-            propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
+            //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
+            //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
+            //// Update slash
+            //propagatePositiveSlash(i_X, i_Y, i_GivenColor);
+            //propagateNegativeSlash(i_X, i_Y, i_GivenColor);
+            //// Update backslash
+            //propagatePositiveBackslash(i_X, i_Y, i_GivenColor);
+            //propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
         }
+
+        private IEnumerable<int[]> propagatePositiveVertical(int i_X, int i_Y, Colors i_GivenColor)
+        {
+            List<int[]> i_ReturnCandidates = new List<int[]>();
+            int i_TempX = i_X + 1;
+            if (!verifyEdges(i_TempX, i_Y)) { return null; }
+            // Get current color
+            Colors i_CurrentColorFromCell = m_Board[i_TempX, i_Y];
+            while (true)
+            {
+                if (i_CurrentColorFromCell == null)
+                {
+                    return null;
+                }
+                else if (i_CurrentColorFromCell == i_GivenColor && i_ReturnCandidates.Count == 0)
+                {
+                    return null;
+                }
+                else if (i_CurrentColorFromCell == i_GivenColor)
+                {
+                    return i_ReturnCandidates;
+                }
+                else
+                {
+                    i_ReturnCandidates.Add(new int[] { i_TempX, i_Y });
+                }
+
+            }
+
+            return i_ReturnCandidates;
+        }
+
 
 
         internal Colors CalculateWinner()
