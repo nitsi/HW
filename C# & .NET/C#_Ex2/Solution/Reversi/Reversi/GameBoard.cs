@@ -368,25 +368,8 @@ namespace Reversi
             propagatePositiveVertical(i_X, i_Y, i_GivenColor);
             propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
-        }
-
-        private void flipAccordingToGameRuls(int i_X, int i_Y, Colors i_GivenColor)
-        {
-
-            if (!verifyEdges(i_X, i_Y)) { Console.WriteLine("Edges break, [" + i_X + "," + i_Y + "]"); return; }
-            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
-
-            if (i_CurrentColorFromCell == i_GivenColor || i_CurrentColorFromCell == Colors.EMPTY)
-            {
-                Console.WriteLine("same color");
-                return;
-            }
-            // If it's the enemy
-            if (i_CurrentColorFromCell != Colors.EMPTY && i_CurrentColorFromCell != i_GivenColor)
-            {
-                Console.WriteLine("Should change color");
-                m_Board[i_X, i_Y] = i_GivenColor;
-            }
+            propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
+            propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
         }
 
         internal Colors CalculateWinner()
