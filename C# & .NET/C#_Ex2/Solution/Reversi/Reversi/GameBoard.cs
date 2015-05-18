@@ -14,7 +14,7 @@ namespace Reversi
 
         private string m_Alphabet = "ABCDEFGH";
 
-        private GameBoard()
+        public GameBoard()
         {
         }
 

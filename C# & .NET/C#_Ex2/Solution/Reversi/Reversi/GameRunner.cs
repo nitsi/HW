@@ -27,7 +27,7 @@ namespace Reversi
     {
         int m_BoardSize;
         bool isPlayer2PC = true;
-        GameBoard m_GameBoard;
+        GameBoard m_GameBoard = new GameBoard();
 
 
         public void StartGame()
