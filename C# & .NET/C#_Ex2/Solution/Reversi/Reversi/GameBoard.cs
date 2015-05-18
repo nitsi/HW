@@ -368,14 +368,14 @@ namespace Reversi
             dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
             dummy = propagateTable(i_X - 1, -1, i_Y, 0, i_GivenColor);
             // Update Horizontal
-            //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
-            //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
+            dummy = propagateTable(i_X, 0, i_Y + 1, 1, i_GivenColor);
+            dummy = propagateTable(i_X, 0, i_Y - 1, -1, i_GivenColor);
             //// Update slash
-            //propagatePositiveSlash(i_X, i_Y, i_GivenColor);
-            //propagateNegativeSlash(i_X, i_Y, i_GivenColor);
+            dummy = propagateTable(i_X - 1, -1, i_Y + 1, 1, i_GivenColor);
+            dummy = propagateTable(i_X + 1, 1, i_Y - 1, -1, i_GivenColor);
             //// Update backslash
-            //propagatePositiveBackslash(i_X, i_Y, i_GivenColor);
-            //propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
+            dummy = propagateTable(i_X + 1, 1, i_Y + 1, 1, i_GivenColor);
+            dummy = propagateTable(i_X - 1, -1, i_Y - 1, -1, i_GivenColor);
         }
 
         private bool propagateTable(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_GivenColor)
