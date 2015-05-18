@@ -188,19 +188,22 @@ namespace Reversi
 
             Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
             // Means that's the first iteration 
-            if ((i_CurrentColorFromCell == Colors.EMPTY && io_TempCounterForCrawlers == 0) || (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY))
+            if (i_CurrentColorFromCell == Colors.EMPTY && io_TempCounterForCrawlers == 0)
             {
                 //go recursive
-                return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1) || crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1);
-
+                return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers) || crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers);
             }
             // Means we hit cell from same color, but it's adjacent
             if (i_CurrentColorFromCell == i_PlayerColor && io_TempCounterForCrawlers == 0) { return false; }
             // Means we hit a cell from another color, but we passed other cells on the way
             if (i_CurrentColorFromCell == i_PlayerColor && io_TempCounterForCrawlers > 0) { return true; }
+            // Means we hit a cell from opposite color and not on first iteration
+            if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+            {
+                return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1) || crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1);
+            }
             return false;
         }
-
 
         internal void AppendMove(string i_Move, Colors i_GivenColor)
         {
