@@ -30,7 +30,7 @@ namespace Reversi
             {
                 Console.WriteLine("Please enter your move : ");
                 string i_UserInput = Console.ReadLine();
-                if (m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] > -1 && i_UserInput[1] <= 8))
+                if (i_UserInput.Length == 2 && m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] >= 0))
                 {
                     return i_UserInput;
                 }

@@ -24,12 +24,6 @@ namespace Reversi
             m_BoardSize = i_BoardSize;
             m_Board = new Colors[m_BoardSize, m_BoardSize];
             initBoard();
-            initMovesTrackers();
-        }
-
-        private void initMovesTrackers()
-        {
-            throw new NotImplementedException();
         }
 
         private void initBoard()
@@ -57,7 +51,7 @@ namespace Reversi
 
         internal bool GotMoreValidMoves(CurrentPlayer currentPlayer)
         {
-            throw new NotImplementedException();
+            return true;// throw new NotImplementedException();
         }
 
         //TODO: replace methos writeline with internal C# writeline
