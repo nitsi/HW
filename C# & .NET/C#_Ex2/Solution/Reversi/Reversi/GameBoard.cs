@@ -149,14 +149,15 @@ namespace Reversi
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
             i_PlayerMoveCoords[1] = (int)Char.GetNumericValue(i_PlayerMove[1]) - 1;
 
-            if (!verifyEdges(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) || m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Colors.EMPTY)
+            if (!verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) || m_Board[i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]] != Colors.EMPTY)
             {
                 return false;
             }
             else
             {
                 Console.WriteLine("Enter crawler");
-                return crawler(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1], i_PlayerColor);
+                // Flip the variables
+                return crawler(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0], i_PlayerColor);
             }
         }
 
@@ -170,7 +171,8 @@ namespace Reversi
             int io_TempCounterForCrawlers = 0;
             if (verifyEdges(i_X, i_Y))
             {
-                return crawlUp(i_X, i_Y, i_PlayerColor, io_TempCounterForCrawlers) || crawlHorizontal(i_X, i_Y, i_PlayerColor, io_TempCounterForCrawlers) || crawlSlash(i_X, i_Y, i_PlayerColor, io_TempCounterForCrawlers) || crawlBackslash(i_X, i_Y, i_PlayerColor, io_TempCounterForCrawlers);
+                Console.WriteLine("Edges are fine");
+                return true;
             }
             else
             {
@@ -178,101 +180,7 @@ namespace Reversi
             }
         }
 
-        private bool crawlBackslash(int i_X, int i_Y, Colors i_PlayerColor, int io_TempCounterForCrawlers)
-        {// If we're out of bound we return false
-            if (!verifyEdges(i_X, i_Y)) { return false; }
-            // Init temp var for ease
-            Colors i_CurrentColorInCell;
-            i_CurrentColorInCell = m_Board[i_X, i_Y];
-            // If current color in cell is ours, we test if we passed at least one pion. if yes -> return true
-            if (i_CurrentColorInCell == i_PlayerColor)
-            {
-                return io_TempCounterForCrawlers > 0 ? true : false;
-            }
-            // Else if the cell is empty, means we can't block with it. So we return false
-            else if (i_CurrentColorInCell == Colors.EMPTY)
-            {
-                return false;
-            }
-            // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
-            else
-            {
-                return crawlBackslash(i_X + 1, i_Y - 1, i_PlayerColor, io_TempCounterForCrawlers + 1) || crawlBackslash(i_X - 1, i_Y + 1, i_PlayerColor, io_TempCounterForCrawlers + 1);
-            }
-        }
-
-        private bool crawlSlash(int i_X, int i_Y, Colors i_CurrentPlayerColor, int io_TempCounterForCrawlers)
-        {
-            // If we're out of bound we return false
-            if (!verifyEdges(i_X, i_Y)) { return false; }
-            // Init temp var for ease
-            Colors i_CurrentColorInCell;
-            i_CurrentColorInCell = m_Board[i_X, i_Y];
-            // If current color in cell is ours, we test if we passed at least one pion. if yes -> return true
-            if (i_CurrentColorInCell == i_CurrentPlayerColor)
-            {
-                return io_TempCounterForCrawlers > 0 ? true : false;
-            }
-            // Else if the cell is empty, means we can't block with it. So we return false
-            else if (i_CurrentColorInCell == Colors.EMPTY)
-            {
-                return false;
-            }
-            // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
-            else
-            {
-                return crawlSlash(i_X - 1, i_Y - 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1) || crawlSlash(i_X + 1, i_Y + 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
-            }
-        }
-
-        private bool crawlHorizontal(int i_X, int i_Y, Colors i_CurrentPlayerColor, int io_TempCounterForCrawlers)
-        {
-            // If we're out of bound we return false
-            if (!verifyEdges(i_X, i_Y)) { return false; }
-            // Init temp var for ease
-            Colors i_CurrentColorInCell;
-            i_CurrentColorInCell = m_Board[i_X, i_Y];
-            // If current color in cell is ours, we test if we passed at least one pion. if yes -> return true
-            if (i_CurrentColorInCell == i_CurrentPlayerColor)
-            {
-                return io_TempCounterForCrawlers > 0 ? true : false;
-            }
-            // Else if the cell is empty, means we can't block with it. So we return false
-            else if (i_CurrentColorInCell == Colors.EMPTY)
-            {
-                return false;
-            }
-            // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
-            else
-            {
-                return crawlHorizontal(i_X + 1, i_Y, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1) || crawlHorizontal(i_X + 1, i_Y, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
-            }
-        }
-
-        private bool crawlUp(int i_X, int i_Y, Colors i_CurrentPlayerColor, int io_TempCounterForCrawlers)
-        {
-            Console.WriteLine("Crawl up");
-            i_Y--;
-            // If we're out of bound we return false
-            if (!verifyEdges(i_X, i_Y)) { return false; }
-            // Init temp var for ease
-            Colors i_CurrentColorInCell;
-            Console.WriteLine(i_X + " : " + i_Y);
-            i_CurrentColorInCell = m_Board[i_X, i_Y];
-            // Not blocking
-            if (i_CurrentColorInCell == Colors.EMPTY) { return false; }
-            // Adjacent pion
-            if (i_CurrentColorInCell == i_CurrentPlayerColor && io_TempCounterForCrawlers == 0)
-            {
-                Console.WriteLine("same color, counter zero");
-                return false;
-            }
-            // More than one pion on the way
-            if (i_CurrentColorInCell == i_CurrentPlayerColor && io_TempCounterForCrawlers > 0) { return true; }
-            Console.WriteLine("Go recursion");
-            return crawlUp(i_X, i_Y, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
-
-        }
+     
         internal void AppendMove(string i_Move, Colors i_GivenColor)
         {
             m_Board[(int)Char.GetNumericValue(i_Move[1]) - 1, m_Alphabet.IndexOf(i_Move[0])] = i_GivenColor;
