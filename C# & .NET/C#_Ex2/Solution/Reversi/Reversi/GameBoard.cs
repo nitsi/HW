@@ -173,7 +173,7 @@ namespace Reversi
         {
             if (verifyEdges(i_X, i_Y))
             {
-                return crawlVertical(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlBackslash(i_X, i_Y, i_PlayerColor);
+                return crawlRight(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlBackslash(i_X, i_Y, i_PlayerColor);
             }
             else
             {
@@ -181,10 +181,37 @@ namespace Reversi
             }
         }
 
-        private bool crawlVertical(int i_X, int i_Y, Colors i_CurrentPlayerColor)
+        private bool crawlRight(int i_X, int i_Y, Colors i_CurrentPlayerColor)
         {
-            if (!verifyEdges(i_X, i_Y)) return false;
-            if (m_Board[i_X,i_Y] != i_CurrentPlayerColor && m_Board[i_X,i_Y] != Colors.Empty)
+            int i_TempXCordsHolder = i_X + 1;
+            int i_TempYCordsHolder = i_Y;
+            int i_EnemyUnitsCounter = 0;
+            Colors i_CurrentColorInCell;
+            // While in range
+            while (verifyEdges(i_TempXCordsHolder, i_TempYCordsHolder))
+            {
+                i_CurrentColorInCell = m_Board[i_TempXCordsHolder, i_TempYCordsHolder];
+                // Test for enemy spots
+                if (i_CurrentColorInCell != i_CurrentPlayerColor && i_CurrentColorInCell != Colors.EMPTY)
+                {
+                    //Move right & increase count
+                    i_EnemyUnitsCounter++;
+                    i_TempXCordsHolder++;
+
+                    continue;
+                }
+
+                else if (i_CurrentColorInCell == i_CurrentPlayerColor)
+                {
+                    return i_EnemyUnitsCounter == 0 ? false : true;
+                }
+                else // else means the cell is empty
+                {
+                    return false;
+                }
+            }
+            // If we reached this it means we're out of boundries for the edges -> means no room
+            return false;
         }
 
         internal void AppendMove(object p)
