@@ -177,8 +177,10 @@ namespace Reversi
         {
             if (verifyEdges(i_X, i_Y))
             {
-
-                return crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlBackSlash(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor);//|| crawlHorizontal_old(i_X, i_Y, i_PlayerColor);
+                // OLD version
+                //return crawlBackSlash_old(i_X, i_Y, i_PlayerColor) || crawlSlash_old(i_X, i_Y, i_PlayerColor) || crawlVertical_old(i_X, i_Y, i_PlayerColor) || crawlHorizontal_old(i_X, i_Y, i_PlayerColor);
+                // New version
+                return crawlHorizontal(i_X, i_Y, i_PlayerColor);
             }
             else
             {
@@ -190,7 +192,7 @@ namespace Reversi
         private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
         {
             int i_Zero = 0;
-            return validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero) || validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero);
+            return validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero) || validityCrawler(i_X, 0, i_Y - 1, -1, i_PlayerColor, i_Zero);
         }
 
         private bool validityCrawler(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_PlayerColor, int i_Count)
@@ -212,7 +214,7 @@ namespace Reversi
 
         }
 
-        private bool crawlSlash(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlSlash_old(int i_X, int i_Y, Colors i_PlayerColor)
         {
             // Iterative implementation
             Colors i_CurrentColorFromCell;
@@ -258,7 +260,7 @@ namespace Reversi
             return false;
         }
 
-        private bool crawlBackSlash(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlBackSlash_old(int i_X, int i_Y, Colors i_PlayerColor)
         {
             // Iterative implementation
             Colors i_CurrentColorFromCell;
@@ -338,7 +340,7 @@ namespace Reversi
             return false;
         }
 
-        private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlVertical_old(int i_X, int i_Y, Colors i_PlayerColor)
         {
             // Iterative implementation
             Colors i_CurrentColorFromCell;
