@@ -188,16 +188,61 @@ namespace Reversi
             }
         }
 
+        private bool crawlSlash(int i_X, int i_Y, Colors i_PlayerColor)
+        {
+            // Iterative implementation
+            Colors i_CurrentColorFromCell;
+            int i_TempCounterForCrawlers = 0;
+            int i_TempX = i_X;
+            int i_TempY = i_Y;
+            //move back. formula is [x+1,y-1]
+            //13 is the maximal value by pithagoras
+            for (int i = 0; i < 13; i++)
+            {
+                i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
+                // Means we hit cell from same color, but it's adjacent
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
+                // Means we hit a cell from another color, but we passed other cells on the way
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers > 0) { return true; }
+                if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+                {
+                    i_TempCounterForCrawlers++;
+                }
+                i_TempX++;
+                i_TempY--;
+            }
+            i_TempCounterForCrawlers = 0;
+            i_TempX = i_X;
+            i_TempY = i_Y;
+            for (int i = 0; i < 13; i++)
+            {
+                i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
+                // Means we hit cell from same color, but it's adjacent
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
+                // Means we hit a cell from another color, but we passed other cells on the way
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers > 0) { return true; }
+                if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+                {
+                    i_TempCounterForCrawlers++;
+                }
+                i_TempX--;
+                i_TempY++;
+            }
+            // If all failed
+            return false;
+        }
+
         private bool crawlBackSlash(int i_X, int i_Y, Colors i_PlayerColor)
         {
             // Iterative implementation
             Colors i_CurrentColorFromCell;
             int i_TempCounterForCrawlers = 0;
-            int i_TempX = i_X + 1;
-            int i_TempY = i_Y + 1;
-            for (int i = 0; i < m_BoardSize * 2; i++)
+            int i_TempX = i_X;
+            int i_TempY = i_Y;
+            //move back. formula is [x+1,y+1]
+            //13 is the maximal value by pithagoras
+            for (int i = 0; i < 13; i++)
             {
-                if (!verifyEdges(i_TempX, i_TempY)) { return false; Console.Write("backslash crawl, failed on edges"); }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
@@ -211,9 +256,9 @@ namespace Reversi
                 i_TempY++;
             }
             i_TempCounterForCrawlers = 0;
-            i_TempX = i_X - 1;
-            i_TempY = i_Y - 1;
-            for (int i = 0; i < m_BoardSize * 2; i++)
+            i_TempX = i_X;
+            i_TempY = i_Y;
+            for (int i = 0; i < 13; i++)
             {
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
@@ -231,16 +276,16 @@ namespace Reversi
             return false;
         }
 
-        private bool crawlSlash(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlSlash2(int i_X, int i_Y, Colors i_PlayerColor)
         {
             // Iterative implementation
             Colors i_CurrentColorFromCell;
             int i_TempCounterForCrawlers = 0;
-            int i_TempX = i_X + 1;
-            int i_TempY = i_Y - 1;
+            int i_TempX = i_X;// +1;
+            int i_TempY = i_Y;//- 1;
             for (int i = 0; i < m_BoardSize * 2; i++)
             {
-
+                Console.WriteLine("Started iteration. iteration values[" + i_TempX + "," + i_TempY + "]");
                 if (!verifyEdges(i_TempX, i_TempY)) { Console.WriteLine("Failed on down slash crawl, edges. [" + i_TempX + "," + i_TempY + "]"); return false; }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
@@ -253,12 +298,12 @@ namespace Reversi
                 }
                 i_TempX++;
                 i_TempY--;
-                Console.WriteLine("Finished iteration. next iteration values[" + i_TempX + "," + i_TempY + "]");
+
             }
 
             i_TempCounterForCrawlers = 0;
-            i_TempX = i_X - 1;
-            i_TempY = i_Y + 1;
+            i_TempX = i_X;// - 1;
+            i_TempY = i_Y;// +1;
             for (int i = 0; i < m_BoardSize * 2; i++)
             {
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
