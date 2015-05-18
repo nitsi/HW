@@ -11,17 +11,13 @@ namespace Reversi
     {
         private int m_BoardSize;
         private Colors[,] m_Board;
-        private ArrayList m_PlayerOneValidMoves;
-        private ArrayList m_PlayerTwoValidMoves;
 
 
-        //TODO: Lower letters to 8 letters
-        private string m_Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private string m_Alphabet = "ABCDEFGH";
 
-        //TODO: change to io
-        public GameBoard(int i_BoardSize)
+        public GameBoard(int io_BoardSize)
         {
-            m_BoardSize = i_BoardSize;
+            m_BoardSize = io_BoardSize;
             m_Board = new Colors[m_BoardSize, m_BoardSize];
             initBoard();
         }
@@ -49,9 +45,20 @@ namespace Reversi
             m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Colors.WHITE;
         }
 
-        internal bool GotMoreValidMoves(CurrentPlayer currentPlayer)
+        internal bool GotMoreValidMoves(Colors i_currentPlayerColor)
         {
-            return true;// throw new NotImplementedException();
+            bool i_ValidMovesTestFlag = false;
+            for (int i = 0; i < m_BoardSize; i++)
+            {
+                for (int j = 0; j < m_BoardSize; j++)
+                {
+                    if (m_Board[i, j] != Colors.EMPTY) { continue; }
+                    i_ValidMovesTestFlag = crawler(i, j, i_currentPlayerColor);
+                    if (i_ValidMovesTestFlag) { return true; }
+                }
+
+            }
+            return false;
         }
 
         //TODO: replace methos writeline with internal C# writeline
