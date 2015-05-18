@@ -65,7 +65,7 @@ namespace Reversi
                 // Player one start
                 CurrentPlayer m_CurrentPlayer = CurrentPlayer.PlayerOne;
                 //TODO: Valid moves should tell us which player has no moves, or even if both does not have moves
-                while (i_GameBoard.GotMoreValidMoves(CurrentPlayer.PlayerOne))
+                while (i_GameBoard.GotMoreValidMoves(m_PlayerOne.Color) || i_GameBoard.GotMoreValidMoves(m_PlayerTwo.Color))
                 {
                     i_GameBoard.PrintCurrentState();
                     //TODO: Clean double coding
@@ -78,7 +78,7 @@ namespace Reversi
                             string i_Move = m_PlayerOne.GetMove();
                             if (i_GameBoard.CheckIfValid(i_Move, m_PlayerOne.Color))
                             {
-                                i_GameBoard.AppendMove(i_Move,m_PlayerOne.Color);
+                                i_GameBoard.AppendMove(i_Move, m_PlayerOne.Color);
                                 break;
                             }
                             // TODO: Add more lines to the print, as he asked in his file
