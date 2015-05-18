@@ -366,7 +366,7 @@ namespace Reversi
             bool dummy = false;
             // Update vertical
             dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
-            //propagateNegativeVertical(i_X, i_Y, i_GivenColor);
+            dummy = propagateTable(i_X - 1, -1, i_Y, 0, i_GivenColor);
             // Update Horizontal
             //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
             //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
