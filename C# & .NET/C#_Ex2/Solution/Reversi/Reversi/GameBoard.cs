@@ -363,10 +363,10 @@ namespace Reversi
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
             Console.WriteLine("updating stuff");
-
+            bool dummy = false;
             // Update vertical
-            propagatePositiveVertical(i_X, i_Y, i_GivenColor);
-            propagateNegativeVertical(i_X, i_Y, i_GivenColor);
+            dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
+            //propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
             //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
             //propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
@@ -378,14 +378,20 @@ namespace Reversi
             //propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
         }
 
-        private void propagateNegativeVertical(int i_X, int i_Y, Colors i_GivenColor)
+        private bool propagateTable(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_GivenColor)
         {
-            //throw new NotImplementedException();
+            // Check edges
+            if (!verifyEdges(i_X, i_Y)) { return false; }
+
+            // Get current color
+            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+
+            // check if empty
+            if (i_CurrentColorFromCell == Colors.EMPTY) { return false; }
+
         }
 
-        private void propagatePositiveVertical(int i_X, int i_Y, Colors i_GivenColor)
-        {
-        }
+
 
         internal Colors CalculateWinner()
         {
