@@ -284,7 +284,7 @@ namespace Reversi
             // re-eval the m_Board
         }
 
-        internal string CalculateWinner()
+        internal Colors CalculateWinner()
         {
 
             int i_WhitePoints = 0;
@@ -304,7 +304,7 @@ namespace Reversi
                     }
                 }
             }
-            return i_BlackPoints > i_WhitePoints ? Colors.BLACK.ToString() : Colors.WHITE.ToString();
+            return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
 
 

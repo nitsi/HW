@@ -37,18 +37,18 @@ namespace Reversi
             while (i_PlayGameFlag)
             {
                 // Get players with lazy declaration
-                m_PlayerOne = new UserPlayer(Colors.BLACK.ToString());
+                m_PlayerOne = new UserPlayer(Colors.BLACK);
                 string i_UserChoice = getChoiceFromConsole();
 
                 // TODO:  Should fix this, Currently has no PC
                 if (i_UserChoice == GamerTypes.Computer.ToString())
                 {
                     // THIS SHOULD BE COMPUTER PLAYER, FIX THIS !
-                    m_PlayerTwo = new UserPlayer(Colors.WHITE.ToString());
+                    m_PlayerTwo = new UserPlayer(Colors.WHITE);
                 }
                 else
                 {
-                    m_PlayerTwo = new UserPlayer(Colors.WHITE.ToString());
+                    m_PlayerTwo = new UserPlayer(Colors.WHITE);
                 }
 
                 // Pick board size
@@ -107,7 +107,7 @@ namespace Reversi
 
                 // This point means someone won
                 //TODO: change i_
-                string i_CalculatedWinner = i_GameBoard.CalculateWinner();
+                Colors i_CalculatedWinner = i_GameBoard.CalculateWinner();
 
                 //TODO: Change strings to eNums
                 if (i_CalculatedWinner == m_PlayerOne.Color)
