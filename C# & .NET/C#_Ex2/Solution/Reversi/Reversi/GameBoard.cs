@@ -365,25 +365,9 @@ namespace Reversi
         {
             Console.WriteLine("updating stuff");
             // Update vertical
-            for (int i = i_X + 1; i < m_BoardSize; i++)
-            {
-                flipAccordingToGameRuls(i, i_Y, i_GivenColor);
-
-            }
-            for (int i = i_X - 1; i > -1; i--)
-            {
-                flipAccordingToGameRuls(i, i_Y, i_GivenColor);
-            }
+            propagatePositiveVertical(i_X, i_Y, i_GivenColor);
+            propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
-            for (int i = i_Y + 1; i < m_BoardSize; i++)
-            {
-                flipAccordingToGameRuls(i_X, i, i_GivenColor);
-
-            }
-            for (int i = i_Y - 1; i > -1; i--)
-            {
-                flipAccordingToGameRuls(i_X, i, i_GivenColor);
-            }
         }
 
         private void flipAccordingToGameRuls(int i_X, int i_Y, Colors i_GivenColor)
