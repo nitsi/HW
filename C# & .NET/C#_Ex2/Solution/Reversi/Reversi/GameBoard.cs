@@ -293,5 +293,7 @@ namespace Reversi
             }
             return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
+
+        public List<string> GetListOfEmptyCells() { }
     }
 }
