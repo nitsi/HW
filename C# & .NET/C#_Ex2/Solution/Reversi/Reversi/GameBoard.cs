@@ -365,44 +365,35 @@ namespace Reversi
         {
             Console.WriteLine("updating stuff");
             // Update vertical
-            Colors i_CurrentColorFromCell;
             for (int i = i_X + 1; i < m_BoardSize; i++)
             {
-                if (!verifyEdges(i, i_Y)) { Console.WriteLine("Edges break, [" + i + "," + i_Y + "]"); break; }
-                i_CurrentColorFromCell = m_Board[i, i_Y];
+                flipAccordingToGameRuls(i, i_Y, i_GivenColor);
 
-                if (i_CurrentColorFromCell == i_GivenColor || i_CurrentColorFromCell == Colors.EMPTY)
-                {
-                    Console.WriteLine("same color");
-                    break;
-                }
-                // If it's the enemy
-                if (i_CurrentColorFromCell != Colors.EMPTY && i_CurrentColorFromCell != i_GivenColor)
-                {
-                    Console.WriteLine("Should change color");
-                    m_Board[i, i_Y] = i_GivenColor;
-                }
             }
-            for (int i = i_X - 1; i > -1; i++)
+            for (int i = i_X - 1; i > -1; i--)
             {
-                if (!verifyEdges(i, i_Y)) { Console.WriteLine("Edges break, [" + i + "," + i_Y + "]"); break; }
-                i_CurrentColorFromCell = m_Board[i, i_Y];
-
-                if (i_CurrentColorFromCell == i_GivenColor || i_CurrentColorFromCell == Colors.EMPTY)
-                {
-                    Console.WriteLine("same color");
-                    break;
-                }
-                // If it's the enemy
-                if (i_CurrentColorFromCell != Colors.EMPTY && i_CurrentColorFromCell != i_GivenColor)
-                {
-                    Console.WriteLine("Should change color");
-                    m_Board[i, i_Y] = i_GivenColor;
-                }
+                flipAccordingToGameRuls(i, i_Y, i_GivenColor);
             }
-            Console.Read();
         }
 
+        private void flipAccordingToGameRuls(int i_X, int i_Y, Colors i_GivenColor)
+        {
+
+            if (!verifyEdges(i_X, i_Y)) { Console.WriteLine("Edges break, [" + i_X + "," + i_Y + "]"); return; }
+            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+
+            if (i_CurrentColorFromCell == i_GivenColor || i_CurrentColorFromCell == Colors.EMPTY)
+            {
+                Console.WriteLine("same color");
+                return;
+            }
+            // If it's the enemy
+            if (i_CurrentColorFromCell != Colors.EMPTY && i_CurrentColorFromCell != i_GivenColor)
+            {
+                Console.WriteLine("Should change color");
+                m_Board[i_X, i_Y] = i_GivenColor;
+            }
+        }
 
         internal Colors CalculateWinner()
         {
