@@ -8,5 +8,17 @@ namespace Reversi
 {
     class UserInteraction
     {
+        static readonly string ERROR_ = "ERROR: ";
+        static readonly string ERROR_ = "ERROR: ";
+        static readonly string ERROR_ = "ERROR: ";
+        static readonly string ERROR_ = "ERROR: ";
+        static readonly string ERROR_ = "ERROR: ";
+        static readonly string ERROR_ = "ERROR: ";
+        static readonly string ERROR_ = "ERROR: ";
+
+        public UserInteraction()
+        {
+        }
+
     }
 }

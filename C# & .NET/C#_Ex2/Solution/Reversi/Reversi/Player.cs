@@ -9,25 +9,50 @@ namespace Reversi
     {
         private Colors m_PlayerColor;
 
-        //TODO: change io_
         public Player(Colors o_PlayerColor)
         {
             this.m_PlayerColor = o_PlayerColor;
         }
 
-        public string GetMove(int i_BoardSize, Colors i_PlayerColor, GameBoard i_GameBoard)
+        private bool ValidateInput(string i_UserInput, int i_BoardSize, Colors i_PlayerColor, GameBoard i_GameBoard)
         {
             string m_Alphabet = "ABCDEFGH";
+            bool answer = true;
 
+            if(i_UserInput.Equals("Q"))
+            {
+                System.Environment.Exit(0);
+            }
+
+            if (i_UserInput.Length == 2 &&
+                    m_Alphabet.IndexOf(i_UserInput[0]) > -1 && 
+                    (i_UserInput[1] >= 0 && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
+            {
+                if (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor))
+                {
+                    answer = false;
+                }
+                else
+                {
+                    System.Console.WriteLine("The move is not possible as it's not valid for the current board state");
+                }
+            }
+            else
+            {
+                System.Console.WriteLine("The input data is not valid");
+                System.Console.WriteLine("Please enter a cell in format Letter,Number. e.g: A3");
+            }
+            return !answer;
+        }
+
+        public string GetMove(int i_BoardSize, Colors i_PlayerColor, GameBoard i_GameBoard)
+        {
             while (true)
             {
                 Console.WriteLine("Please enter your move : ");
                 string i_UserInput = Console.ReadLine();
-                if (i_UserInput.Length == 2 && m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] >= 0
-                    && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize)
-                    && (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor)))
+                if (ValidateInput(i_UserInput, i_BoardSize, i_PlayerColor, i_GameBoard))
                 {
-                    //TODO: make if more readeable and throw print lines with proper notes regarding user input
                     return i_UserInput;
                 }
 
