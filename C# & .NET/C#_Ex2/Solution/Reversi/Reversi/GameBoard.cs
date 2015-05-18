@@ -182,6 +182,53 @@ namespace Reversi
             }
         }
 
+        private bool crawlBackslash(int i_X, int i_Y, Colors i_PlayerColor, int io_TempCounterForCrawlers)
+        {// If we're out of bound we return false
+            if (!verifyEdges(i_X, i_Y)) { return false; }
+            // Init temp var for ease
+            Colors i_CurrentColorInCell;
+            i_CurrentColorInCell = m_Board[i_X, i_Y];
+            // If current color in cell is ours, we test if we passed at least one pion. if yes -> return true
+            if (i_CurrentColorInCell == i_PlayerColor)
+            {
+                return io_TempCounterForCrawlers > 0 ? true : false;
+            }
+            // Else if the cell is empty, means we can't block with it. So we return false
+            else if (i_CurrentColorInCell == Colors.EMPTY)
+            {
+                return false;
+            }
+            // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
+            else
+            {
+                return crawlBackslash(i_X + 1, i_Y - 1, i_PlayerColor, io_TempCounterForCrawlers + 1) || crawlBackslash(i_X - 1, i_Y + 1, i_PlayerColor, io_TempCounterForCrawlers + 1);
+            }
+        }
+
+        private bool crawlSlash(int i_X, int i_Y, Colors i_CurrentPlayerColor, int io_TempCounterForCrawlers)
+        {
+            // If we're out of bound we return false
+            if (!verifyEdges(i_X, i_Y)) { return false; }
+            // Init temp var for ease
+            Colors i_CurrentColorInCell;
+            i_CurrentColorInCell = m_Board[i_X, i_Y];
+            // If current color in cell is ours, we test if we passed at least one pion. if yes -> return true
+            if (i_CurrentColorInCell == i_CurrentPlayerColor)
+            {
+                return io_TempCounterForCrawlers > 0 ? true : false;
+            }
+            // Else if the cell is empty, means we can't block with it. So we return false
+            else if (i_CurrentColorInCell == Colors.EMPTY)
+            {
+                return false;
+            }
+            // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
+            else
+            {
+                return crawlSlash(i_X - 1, i_Y - 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1) || crawlSlash(i_X + 1, i_Y + 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
+            }
+        }
+
         private bool crawlHorizontal(int i_X, int i_Y, Colors i_CurrentPlayerColor, int io_TempCounterForCrawlers)
         {
             // If we're out of bound we return false
@@ -202,7 +249,7 @@ namespace Reversi
             // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
             else
             {
-                return crawlVertical(i_X, i_Y + 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1) || crawlVertical(i_X, i_Y - 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
+                return crawlHorizontal(i_X, i_Y + 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1) || crawlHorizontal(i_X, i_Y - 1, i_CurrentPlayerColor, io_TempCounterForCrawlers + 1);
             }
         }
 
