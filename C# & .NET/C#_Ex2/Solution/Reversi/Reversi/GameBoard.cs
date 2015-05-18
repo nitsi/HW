@@ -190,12 +190,26 @@ namespace Reversi
         private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
         {
             int i_Zero = 0;
-            return checkIfValidCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero) || checkIfValidCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero);
+            return validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero) || validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero);
         }
 
-        private bool checkIfValidCrawler(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_PlayerColor, int i_Count)
+        private bool validityCrawler(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_PlayerColor, int i_Count)
         {
-            throw new NotImplementedException();
+            // Check in bounds
+            if (!verifyEdges(i_X, i_Y)) { return false; }
+            // Init color
+            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+            // If we hit empty cell
+            if (i_CurrentColorFromCell == Colors.EMPTY) { return false; }
+            if (i_CurrentColorFromCell == i_PlayerColor)
+            {
+                return i_Count == 0 ? false : true;
+            }
+            else // Means it's the opponent color
+            {
+                return validityCrawler(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_PlayerColor, i_Count + 1);
+            }
+
         }
 
         private bool crawlSlash(int i_X, int i_Y, Colors i_PlayerColor)
