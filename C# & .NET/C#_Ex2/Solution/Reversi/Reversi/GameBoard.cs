@@ -380,22 +380,32 @@ namespace Reversi
             //propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
         }
 
-        private IEnumerable<int[]> propagatePositiveVertical(int i_X, int i_Y, Colors i_GivenColor)
+        private List<int[]> propagatePositiveVertical(int i_X, int i_Y, Colors i_GivenColor)
         {
             List<int[]> i_ReturnCandidates = new List<int[]>();
-            int i_TempX = i_X + 1;
-            if (!verifyEdges(i_TempX, i_Y)) { return null; }
+            List<int[]> i_ErrorReturnList = new List<int[]>();
+
+            i_ErrorReturnList.Add(new int[] { -1, -1 });
+            int i_TempX = i_X;
+
             // Get current color
-            Colors i_CurrentColorFromCell = m_Board[i_TempX, i_Y];
+            Colors i_CurrentColorFromCell;
             while (true)
             {
-                if (i_CurrentColorFromCell == null)
+                // Increment X
+                i_TempX++;
+                // Test bounds
+                if (!verifyEdges(i_TempX, i_Y)) { return i_ErrorReturnList; }
+
+                // Get color
+                i_CurrentColorFromCell = m_Board[i_TempX, i_Y];
+                if (i_CurrentColorFromCell == Colors.EMPTY)
                 {
-                    return null;
+                    return i_ErrorReturnList;
                 }
                 else if (i_CurrentColorFromCell == i_GivenColor && i_ReturnCandidates.Count == 0)
                 {
-                    return null;
+                    return i_ErrorReturnList;
                 }
                 else if (i_CurrentColorFromCell == i_GivenColor)
                 {
@@ -404,7 +414,6 @@ namespace Reversi
                 else
                 {
                     i_ReturnCandidates.Add(new int[] { i_TempX, i_Y });
-                    i_TempX++;
                 }
             }
         }
