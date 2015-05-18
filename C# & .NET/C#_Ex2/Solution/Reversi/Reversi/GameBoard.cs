@@ -366,7 +366,7 @@ namespace Reversi
             Console.WriteLine("updating stuff");
             List<int[]> i_FlipCandidates = new List<int[]>();
             // Update vertical
-            i_FlipCandidates.AddRange(propagatePositiveVertical(i_X, i_Y, i_GivenColor));
+            propagatePositiveVertical(i_X, i_Y, i_GivenColor);
 
             //propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
@@ -379,46 +379,6 @@ namespace Reversi
             //propagatePositiveBackslash(i_X, i_Y, i_GivenColor);
             //propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
         }
-
-        private List<int[]> propagatePositiveVertical(int i_X, int i_Y, Colors i_GivenColor)
-        {
-            List<int[]> i_ReturnCandidates = new List<int[]>();
-            List<int[]> i_ErrorReturnList = new List<int[]>();
-
-            i_ErrorReturnList.Add(new int[] { -1, -1 });
-            int i_TempX = i_X;
-
-            // Get current color
-            Colors i_CurrentColorFromCell;
-            while (true)
-            {
-                // Increment X
-                i_TempX++;
-                // Test bounds
-                if (!verifyEdges(i_TempX, i_Y)) { return i_ErrorReturnList; }
-
-                // Get color
-                i_CurrentColorFromCell = m_Board[i_TempX, i_Y];
-                if (i_CurrentColorFromCell == Colors.EMPTY)
-                {
-                    return i_ErrorReturnList;
-                }
-                else if (i_CurrentColorFromCell == i_GivenColor && i_ReturnCandidates.Count == 0)
-                {
-                    return i_ErrorReturnList;
-                }
-                else if (i_CurrentColorFromCell == i_GivenColor)
-                {
-                    return i_ReturnCandidates;
-                }
-                else
-                {
-                    i_ReturnCandidates.Add(new int[] { i_TempX, i_Y });
-                }
-            }
-        }
-
-
 
         internal Colors CalculateWinner()
         {
