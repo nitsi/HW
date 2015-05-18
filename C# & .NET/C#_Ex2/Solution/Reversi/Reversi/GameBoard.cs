@@ -199,6 +199,7 @@ namespace Reversi
             //13 is the maximal value by pithagoras
             for (int i = 0; i < 13; i++)
             {
+                if (!verifyEdges(i_TempX, i_TempY)) { break; }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
@@ -216,6 +217,7 @@ namespace Reversi
             i_TempY = i_Y;
             for (int i = 0; i < 13; i++)
             {
+                if (!verifyEdges(i_TempX, i_TempY)) { break; }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
@@ -243,6 +245,7 @@ namespace Reversi
             //13 is the maximal value by pithagoras
             for (int i = 0; i < 13; i++)
             {
+                if (!verifyEdges(i_TempX, i_TempY)) { break; }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
@@ -260,6 +263,7 @@ namespace Reversi
             i_TempY = i_Y;
             for (int i = 0; i < 13; i++)
             {
+                if (!verifyEdges(i_TempX, i_TempY)) { break; }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
