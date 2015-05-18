@@ -347,8 +347,17 @@ namespace Reversi
 
         internal void AppendMove(string i_Move, Colors i_GivenColor)
         {
-            m_Board[(int)Char.GetNumericValue(i_Move[1]) - 1, m_Alphabet.IndexOf(i_Move[0])] = i_GivenColor;
-            // Update scores?
+            int i_tempX = (int)Char.GetNumericValue(i_Move[1]) - 1;
+            int i_tempY = m_Alphabet.IndexOf(i_Move[0]);
+            // Inject new data to array
+            m_Board[i_tempX, i_tempY] = i_GivenColor;
+
+            updateFromLocation(i_GivenColor);
+        }
+
+        private void updateFromLocation(Colors i_GivenColor)
+        {
+            throw new NotImplementedException();
         }
         internal Colors CalculateWinner()
         {
