@@ -9,14 +9,10 @@ namespace Reversi
     class UserInteraction
     {
         static readonly string ERROR_ = "ERROR: ";
-        static readonly string ERROR_ = "ERROR: ";
-        static readonly string ERROR_ = "ERROR: ";
-        static readonly string ERROR_ = "ERROR: ";
-        static readonly string ERROR_ = "ERROR: ";
-        static readonly string ERROR_ = "ERROR: ";
         static readonly string ERROR_DATA_NOT_VALID = "ERROR: The input data is not valid";
 
-        static readonly string INFO_NEED_NEW_CELL_INPUT = "INFO: Please enter a cell in format Letter,Number. e.g: A3";
+        static readonly string INFO_NEED_NEW_CELL_INPUT = "Please enter a cell in format Letter,Number. e.g: A3";
+        static readonly string INFO_ = "INFO: ";
 
         public UserInteraction()
         {
@@ -37,7 +33,7 @@ namespace Reversi
         {
             while (true)
             {
-                Console.WriteLine("Please pick a board size. Choose 6,8 or higher");
+                Console.WriteLine("Please pick a board size. Choose 6 or 8");
                 int i_UserInput;
                 if (int.TryParse(Console.ReadLine(), out i_UserInput))
                 {
@@ -47,7 +43,7 @@ namespace Reversi
                     }
                 }
 
-                Console.WriteLine("Please make sure to insert a valid number");
+                Console.WriteLine("Please choose 6 or 8 only!");
             }
         }
 
