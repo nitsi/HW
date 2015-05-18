@@ -92,7 +92,7 @@ namespace Reversi
                     {
                         //Player1 logic
                         Console.WriteLine("Turn of P1: X");
-                        string nextMove = GetMove(m_BoardSize, uPlayer1.Color);
+                        string nextMove = uPlayer1.GetMove(m_BoardSize, uPlayer1.Color, m_GameBoard);
                         m_GameBoard.AppendMove(nextMove, uPlayer1.Color);
                         playerOneTurn = false;
                     }
@@ -102,7 +102,7 @@ namespace Reversi
                     //Player2 logic
                     Console.WriteLine("Turn of P2: O");
 
-                    string nextMove = (i_IsPlayer2PC) ? uPlayer2.GetMovePC(m_BoardSize, m_GameBoard) : GetMove(m_BoardSize, uPlayer2.Color);
+                    string nextMove = (i_IsPlayer2PC) ? uPlayer2.GetMovePC(m_BoardSize, m_GameBoard) : uPlayer2.GetMove(m_BoardSize, uPlayer2.Color, m_GameBoard);
                     m_GameBoard.AppendMove(nextMove, uPlayer2.Color);
                     playerOneTurn = true;
                 }
@@ -141,51 +141,6 @@ namespace Reversi
         private void clearScreen()
         {
             Ex02.ConsoleUtils.Screen.Clear();
-        }
-
-        private string GetMove(int i_BoardSize, Colors i_PlayerColor)
-        {
-            string m_Alphabet = "ABCDEFGH";
-
-            while (true)
-            {
-                Console.WriteLine("Please enter your move : ");
-                string i_UserInput = Console.ReadLine();
-                if (i_UserInput.Length == 2 && m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] >= 0
-                    && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize)
-                    && (m_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor)))
-                {
-                    //TODO: make if more readeable and throw print lines with proper notes regarding user input
-                    return i_UserInput;
-                }
-
-                Console.WriteLine("Invalid move!");
-            }
-        }
-
-        private string GetMovePC(int i_BoardSize, Colors i_PlayerColor)
-        {
-            Random randGenerator;
-            byte randomLetterCell;
-            byte randomNumCell;
-            StringBuilder newMove = new StringBuilder();
-
-            while (true)
-            {
-                randGenerator = new Random();
-                randomLetterCell = (byte)randGenerator.Next(i_BoardSize);
-                randomNumCell = (byte)randGenerator.Next(i_BoardSize);
-                newMove.Append((char)(randomLetterCell + 65)).Append((char)randomNumCell);
-
-                if (m_GameBoard.CheckIfValid(newMove.ToString(), Colors.WHITE))
-                {
-                    return newMove.ToString();
-                }
-                else
-                {
-                    newMove.Clear();
-                }
-            }
         }
 
         private int getBoardSize()

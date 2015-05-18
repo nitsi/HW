@@ -15,7 +15,7 @@ namespace Reversi
             this.m_PlayerColor = o_PlayerColor;
         }
 
-        public static string GetMove(int i_BoardSize)
+        public string GetMove(int i_BoardSize, Colors i_PlayerColor, GameBoard i_GameBoard)
         {
             string m_Alphabet = "ABCDEFGH";
 
@@ -23,11 +23,15 @@ namespace Reversi
             {
                 Console.WriteLine("Please enter your move : ");
                 string i_UserInput = Console.ReadLine();
-                if (i_UserInput.Length == 2 && m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] >= 0 && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
+                if (i_UserInput.Length == 2 && m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] >= 0
+                    && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize)
+                    && (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor)))
                 {
+                    //TODO: make if more readeable and throw print lines with proper notes regarding user input
                     return i_UserInput;
                 }
-                Console.WriteLine("Please enter proper moves");
+
+                Console.WriteLine("Invalid move!");
             }
         }
 
