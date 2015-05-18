@@ -187,7 +187,6 @@ namespace Reversi
             int i_TempCounterForCrawlers = 0;
             for (int i = i_Y + 1; i < m_BoardSize; i++)
             {
-                if (!verifyEdges(i_X, i_Y)) { return false; }
                 i_CurrentColorFromCell = m_Board[i_X, i];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
@@ -201,8 +200,6 @@ namespace Reversi
             i_TempCounterForCrawlers = 0;
             for (int i = i_Y; i > -1; i--)
             {
-                if (!verifyEdges(i_X, i)) { return false; }
-
                 i_CurrentColorFromCell = m_Board[i_X, i];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
