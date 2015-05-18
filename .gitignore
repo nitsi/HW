@@ -17,3 +17,5 @@
 C# & .NET/C#_Ex2/Solution/Reversi/Reversi/obj/Debug/Reversi.csproj.FileListAbsolute.txt
 
 C# & .NET/C#_Ex2/Solution/Reversi/Reversi/bin/Debug/Reversi.vshost.exe.manifest
+
+*.Cache
