@@ -10,7 +10,7 @@ namespace Reversi
     {
         private int m_BoardSize;
         private Colors[,] m_Board;
-
+        private UserInteraction UI;
 
         private string m_Alphabet = "ABCDEFGH";
 
@@ -22,6 +22,9 @@ namespace Reversi
         {
             m_BoardSize = o_BoardSize;
             m_Board = new Colors[m_BoardSize, m_BoardSize];
+
+            // Initialize UI
+            UI = new UserInteraction();
 
             // init the array with empty
             for (int i = 0; i < m_BoardSize; i++)
