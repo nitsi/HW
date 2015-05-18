@@ -215,7 +215,7 @@ namespace Reversi
             i_TempY = i_Y - 1;
             for (int i = 0; i < m_BoardSize * 2; i++)
             {
-                i_CurrentColorFromCell = m_Board[i_X, i];
+                i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
                 // Means we hit a cell from another color, but we passed other cells on the way
@@ -240,6 +240,7 @@ namespace Reversi
             int i_TempY = i_Y - 1;
             for (int i = 0; i < m_BoardSize * 2; i++)
             {
+
                 if (!verifyEdges(i_TempX, i_TempY)) { Console.WriteLine("Failed on down slash crawl, edges. [" + i_TempX + "," + i_TempY + "]"); return false; }
                 i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
@@ -260,7 +261,7 @@ namespace Reversi
             i_TempY = i_Y + 1;
             for (int i = 0; i < m_BoardSize * 2; i++)
             {
-                i_CurrentColorFromCell = m_Board[i_X, i];
+                i_CurrentColorFromCell = m_Board[i_TempX, i_TempY];
                 // Means we hit cell from same color, but it's adjacent
                 if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
                 // Means we hit a cell from another color, but we passed other cells on the way
