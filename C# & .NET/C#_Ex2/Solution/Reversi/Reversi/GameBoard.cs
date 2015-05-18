@@ -364,13 +364,22 @@ namespace Reversi
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
             Console.WriteLine("updating stuff");
+            List<int[]> io_propagationCandidates = new List<int[]>();
+
             // Update vertical
             propagatePositiveVertical(i_X, i_Y, i_GivenColor);
             propagateNegativeVertical(i_X, i_Y, i_GivenColor);
             // Update Horizontal
             propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
             propagatePositiveHorizontal(i_X, i_Y, i_GivenColor);
+            // Update slash
+            propagatePositiveSlash(i_X, i_Y, i_GivenColor);
+            propagateNegativeSlash(i_X, i_Y, i_GivenColor);
+            // Update backslash
+            propagatePositiveBackslash(i_X, i_Y, i_GivenColor);
+            propagateNegativeBackslash(i_X, i_Y, i_GivenColor);
         }
+
 
         internal Colors CalculateWinner()
         {
