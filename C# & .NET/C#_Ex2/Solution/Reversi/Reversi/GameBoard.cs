@@ -173,7 +173,7 @@ namespace Reversi
         {
             if (verifyEdges(i_X, i_Y))
             {
-                return crawlRight(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlBackslash(i_X, i_Y, i_PlayerColor);
+                return crawlVertical(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlBackslash(i_X, i_Y, i_PlayerColor);
             }
             else
             {
@@ -181,37 +181,28 @@ namespace Reversi
             }
         }
 
-        private bool crawlRight(int i_X, int i_Y, Colors i_CurrentPlayerColor)
+        private bool crawlVertical(int i_X, int i_Y, Colors i_CurrentPlayerColor, int i_EnemyUnitsCounter)
         {
-            int i_TempXCordsHolder = i_X + 1;
-            int i_TempYCordsHolder = i_Y;
-            int i_EnemyUnitsCounter = 0;
+            // If we're out of bound we return false
+            if (!verifyEdges(i_X, i_Y)) { return false; }
+            // Init temp var for ease
             Colors i_CurrentColorInCell;
-            // While in range
-            while (verifyEdges(i_TempXCordsHolder, i_TempYCordsHolder))
+            i_CurrentColorInCell = m_Board[i_X, i_Y];
+            // If current color in cell is ours, we test if we passed at least one pion. if yes -> return true
+            if (i_CurrentColorInCell == i_CurrentPlayerColor)
             {
-                i_CurrentColorInCell = m_Board[i_TempXCordsHolder, i_TempYCordsHolder];
-                // Test for enemy spots
-                if (i_CurrentColorInCell != i_CurrentPlayerColor && i_CurrentColorInCell != Colors.EMPTY)
-                {
-                    //Move right & increase count
-                    i_EnemyUnitsCounter++;
-                    i_TempXCordsHolder++;
-
-                    continue;
-                }
-
-                else if (i_CurrentColorInCell == i_CurrentPlayerColor)
-                {
-                    return i_EnemyUnitsCounter == 0 ? false : true;
-                }
-                else // else means the cell is empty
-                {
-                    return false;
-                }
+                return i_EnemyUnitsCounter > 0 ? true : false;
             }
-            // If we reached this it means we're out of boundries for the edges -> means no room
-            return false;
+            // Else if the cell is empty, means we can't block with it. So we return false
+            else if (i_CurrentColorInCell == Colors.EMPTY)
+            {
+                return false;
+            }
+            // Else, the color is not ours neither empty hence it's the enemy. we go recursive right and left and increase counter for passed pions.
+            else
+            {
+                return crawlVertical(i_X + 1, i_Y, i_CurrentPlayerColor, i_EnemyUnitsCounter + 1) || crawlVertical(i_X - 1, i_Y, i_CurrentPlayerColor, i_EnemyUnitsCounter + 1);
+            }
         }
 
         internal void AppendMove(object p)
