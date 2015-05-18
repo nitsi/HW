@@ -145,7 +145,7 @@ namespace Reversi
 
         //Assuming we've recieved in the form of "A1" <Char,Number>
 
-        internal bool CheckIfValid(string i_PlayerMove, Colors i_PlayerColor)
+        public bool CheckIfValid(string i_PlayerMove, Colors i_PlayerColor)
         {
             int[] i_PlayerMoveCoords = new int[2]; // used for coorsdinate
 

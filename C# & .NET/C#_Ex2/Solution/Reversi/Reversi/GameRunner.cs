@@ -153,7 +153,7 @@ namespace Reversi
                 string i_UserInput = Console.ReadLine();
                 if (i_UserInput.Length == 2 && m_Alphabet.IndexOf(i_UserInput[0]) > -1 && (i_UserInput[1] >= 0
                     && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize)
-                    && (CheckIfValid(i_UserInput, i_PlayerColor)))
+                    && (m_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor)))
                 {
                     //TODO: make if more readeable and throw print lines with proper notes regarding user input
                     return i_UserInput;
@@ -177,7 +177,7 @@ namespace Reversi
                 randomNumCell = (byte)randGenerator.Next(i_BoardSize);
                 newMove.Append((char)(randomLetterCell + 65)).Append((char)randomNumCell);
 
-                if (CheckIfValid(newMove.ToString(), Colors.WHITE))
+                if (m_GameBoard.CheckIfValid(newMove.ToString(), Colors.WHITE))
                 {
                     return newMove.ToString();
                 }
