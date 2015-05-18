@@ -149,21 +149,24 @@ namespace Reversi
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
             i_PlayerMoveCoords[1] = (int)Char.GetNumericValue(i_PlayerMove[1]) - 1;
 
-            if (!verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) || m_Board[i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]] != Colors.EMPTY)
+            int i_XCords = i_PlayerMoveCoords[1];
+            int i_YCords = i_PlayerMoveCoords[0];
+            Console.WriteLine(verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]));
+            if (verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) && m_Board[i_XCords, i_YCords] == Colors.EMPTY)
             {
-                return false;
+                Console.WriteLine("Enter crawler");
+
+                return crawler(i_XCords, i_YCords, i_PlayerColor);
             }
             else
             {
-                Console.WriteLine("Enter crawler");
-                // Flip the variables
-                return crawler(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0], i_PlayerColor);
+                return false;
             }
         }
 
         private bool verifyEdges(int i_X, int i_Y)
         {
-            return ((i_X > 0 && i_X <= m_BoardSize) && (i_Y > 0 && i_Y <= m_BoardSize));
+            return ((i_X >= 0 && i_X <= m_BoardSize-1) && (i_Y >= 0 && i_Y <= m_BoardSize-1));
         }
 
         private bool crawler(int i_X, int i_Y, Colors i_PlayerColor)
@@ -180,7 +183,7 @@ namespace Reversi
             }
         }
 
-     
+
         internal void AppendMove(string i_Move, Colors i_GivenColor)
         {
             m_Board[(int)Char.GetNumericValue(i_Move[1]) - 1, m_Alphabet.IndexOf(i_Move[0])] = i_GivenColor;
