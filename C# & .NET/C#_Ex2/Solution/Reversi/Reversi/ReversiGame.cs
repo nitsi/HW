@@ -19,7 +19,8 @@ namespace Reversi
     enum Colors
     {
         BLACK,
-        WHITE
+        WHITE,
+        EMPTY
     }
 
     class ReversiGame

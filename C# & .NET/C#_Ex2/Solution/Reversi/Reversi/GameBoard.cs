@@ -6,18 +6,11 @@ using System.Collections;
 
 namespace Reversi
 {
-    enum Pions
-    {
-        //TODO: get rif of comments
-        BLACK, // marks black
-        WHITE, // marks white
-        EMPTY
-    }
 
     class GameBoard
     {
         private int m_BoardSize;
-        private Pions[,] m_Board;
+        private Colors[,] m_Board;
         private ArrayList m_PlayerOneValidMoves;
         private ArrayList m_PlayerTwoValidMoves;
 
@@ -29,7 +22,7 @@ namespace Reversi
         public GameBoard(int i_BoardSize)
         {
             m_BoardSize = i_BoardSize;
-            m_Board = new Pions[m_BoardSize, m_BoardSize];
+            m_Board = new Colors[m_BoardSize, m_BoardSize];
             initBoard();
             initMovesTrackers();
         }
@@ -46,7 +39,7 @@ namespace Reversi
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    m_Board[i, j] = Pions.EMPTY;
+                    m_Board[i, j] = Colors.EMPTY;
                 }
             }
 
@@ -54,12 +47,12 @@ namespace Reversi
             int i_BoardMiddle = m_BoardSize / 2;
 
             // Append BLACK
-            m_Board[i_BoardMiddle, i_BoardMiddle] = Pions.BLACK;
-            m_Board[i_BoardMiddle - 1, i_BoardMiddle - 1] = Pions.BLACK;
+            m_Board[i_BoardMiddle, i_BoardMiddle] = Colors.BLACK;
+            m_Board[i_BoardMiddle - 1, i_BoardMiddle - 1] = Colors.BLACK;
 
             // Append WHITE
-            m_Board[i_BoardMiddle - 1, i_BoardMiddle] = Pions.WHITE;
-            m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Pions.WHITE;
+            m_Board[i_BoardMiddle - 1, i_BoardMiddle] = Colors.WHITE;
+            m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Colors.WHITE;
         }
 
         internal bool GotMoreValidMoves(CurrentPlayer currentPlayer)
@@ -94,12 +87,12 @@ namespace Reversi
         private void generateCellContent(int i, int j)
         {
             //TODO: change i_
-            Pions i_TempPionContent = m_Board[i, j];
-            if (i_TempPionContent == Pions.EMPTY)
+            Colors i_TempPionContent = m_Board[i, j];
+            if (i_TempPionContent == Colors.EMPTY)
             {
                 Console.Write(" ");
             }
-            else if (i_TempPionContent == Pions.BLACK)
+            else if (i_TempPionContent == Colors.BLACK)
             {
                 Console.Write("X");
             }
@@ -152,7 +145,7 @@ namespace Reversi
 
         //Assuming we've recieved in the form of "A1" <Char,Number>
 
-        internal bool CheckIfValid(string i_PlayerMove, string i_PlayerColor)
+        internal bool CheckIfValid(string i_PlayerMove, Colors i_PlayerColor)
         {
             int[] i_PlayerMoveCoords = new int[2]; // used for coorsdinate
 
@@ -161,7 +154,7 @@ namespace Reversi
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
             i_PlayerMoveCoords[1] = i_PlayerMove[1];
 
-            if (!verifyEdges(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) || m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Pions.EMPTY)
+            if (!verifyEdges(i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]) || m_Board[i_PlayerMoveCoords[0], i_PlayerMoveCoords[1]] != Colors.EMPTY)
             {
                 return false;
             }
@@ -173,14 +166,14 @@ namespace Reversi
 
         private bool verifyEdges(int p1, int p2)
         {
-            return ((p1 > 0 && p1 <= m_BoardSize) &&(p2 >0 && p2<=m_BoardSize));
+            return ((p1 > 0 && p1 <= m_BoardSize) && (p2 > 0 && p2 <= m_BoardSize));
         }
 
-        private bool crawler(int i_X, int i_Y, string i_PlayerColor)
+        private bool crawler(int i_X, int i_Y, Colors i_PlayerColor)
         {
             if (verifyEdges(i_X, i_Y))
             {
-                return crawlVertical(i_X, i_Y) || crawlHorizontal(i_X, i_Y) || crawlSlash(i_X, i_Y) || crawlBackslash(i_X, i_Y);
+                return crawlVertical(i_X, i_Y, i_PlayerColor) || crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlSlash(i_X, i_Y, i_PlayerColor) || crawlBackslash(i_X, i_Y, i_PlayerColor);
             }
             else
             {
@@ -188,9 +181,10 @@ namespace Reversi
             }
         }
 
-        private bool crawlVertical(int i_X, int i_Y)
+        private bool crawlVertical(int i_X, int i_Y, Colors i_CurrentPlayerColor)
         {
-            throw new NotImplementedException();
+            if (!verifyEdges(i_X, i_Y)) return false;
+            if (m_Board[i_X,i_Y] != i_CurrentPlayerColor && m_Board[i_X,i_Y] != Colors.Empty)
         }
 
         internal void AppendMove(object p)
@@ -210,17 +204,17 @@ namespace Reversi
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    if (m_Board[i, j] == Pions.WHITE)
+                    if (m_Board[i, j] == Colors.WHITE)
                     {
                         i_WhitePoints++;
                     }
-                    else if (m_Board[i, j] == Pions.BLACK)
+                    else if (m_Board[i, j] == Colors.BLACK)
                     {
                         i_BlackPoints++;
                     }
                 }
             }
-            return i_BlackPoints > i_WhitePoints ? Pions.BLACK.ToString() : Pions.WHITE.ToString();
+            return i_BlackPoints > i_WhitePoints ? Colors.BLACK.ToString() : Colors.WHITE.ToString();
         }
 
 

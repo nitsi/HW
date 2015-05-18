@@ -7,15 +7,15 @@ namespace Reversi
 {
     class UserPlayer
     {
-        private string m_PlayerColor;
+        private Colors m_PlayerColor;
         private List<int[]> m_PivotPosition;
 
         //TODO: change io_
-        public UserPlayer(string i_PlayerColor)
+        public UserPlayer(Colors i_PlayerColor)
         {
             // TODO: Complete member initialization
             this.m_PlayerColor = i_PlayerColor;
-            this.m_PivotPosition = new List<int[]>;
+            //this.m_PivotPosition = new List<int[]>;
         }
 
         internal bool HasMoves()
@@ -28,7 +28,7 @@ namespace Reversi
             throw new NotImplementedException();
         }
 
-        public string Color
+        public Colors Color
         {
             get
             {
