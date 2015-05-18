@@ -180,13 +180,29 @@ namespace Reversi
                 // OLD version
                 //return crawlBackSlash_old(i_X, i_Y, i_PlayerColor) || crawlSlash_old(i_X, i_Y, i_PlayerColor) || crawlVertical_old(i_X, i_Y, i_PlayerColor) || crawlHorizontal_old(i_X, i_Y, i_PlayerColor);
                 // New version
-                return crawlHorizontal(i_X, i_Y, i_PlayerColor);
+                return crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor) || i_crawlCross(i_X, i_Y, i_PlayerColor);
             }
             else
             {
                 Console.WriteLine("Main crawler, failed on edges");
                 return false;
             }
+        }
+
+        private bool i_crawlCross(int i_X, int i_Y, Colors i_PlayerColor)
+        {
+            int i_Zero = 0;
+            return validityCrawler(i_X - 1, -1, i_Y + 1, 1, i_PlayerColor, i_Zero)
+                || validityCrawler(i_X + 1, 1, i_Y - 1, -1, i_PlayerColor, i_Zero)
+                || validityCrawler(i_X + 1, 1, i_Y + 1, 1, i_PlayerColor, i_Zero)
+                || validityCrawler(i_X - 1, -1, i_Y - 1, -1, i_PlayerColor, i_Zero);
+
+        }
+
+        private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor)
+        {
+            int i_Zero = 0;
+            return validityCrawler(i_X + 1, 1, i_Y, 0, i_PlayerColor, i_Zero) || validityCrawler(i_X - 1, -1, i_Y, 0, i_PlayerColor, i_Zero);
         }
 
         private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
