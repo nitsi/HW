@@ -159,7 +159,7 @@ namespace Reversi
             int i_YCords = i_PlayerMoveCoords[0];
             if (verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) && m_Board[i_XCords, i_YCords] == Colors.EMPTY)
             {
-                Console.WriteLine("Enter crawler");
+                //Console.WriteLine("Enter crawler");
                 return crawler(i_XCords, i_YCords, i_PlayerColor);
             }
             else
@@ -184,7 +184,7 @@ namespace Reversi
             }
             else
             {
-                Console.WriteLine("Main crawler, failed on edges");
+                //Console.WriteLine("Main crawler, failed on edges");
                 return false;
             }
         }
