@@ -169,11 +169,10 @@ namespace Reversi
 
         private bool crawler(int i_X, int i_Y, Colors i_PlayerColor)
         {
-            int io_TempCounterForCrawlers = 0;
             if (verifyEdges(i_X, i_Y))
             {
 
-                return crawlVertical(i_X, i_Y, i_PlayerColor, io_TempCounterForCrawlers);
+                return crawlVertical(i_X, i_Y, i_PlayerColor);
             }
             else
             {
@@ -181,27 +180,66 @@ namespace Reversi
             }
         }
 
-        private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor, int io_TempCounterForCrawlers)
-        {
-            // so we won't go out of boundries
-            if (!verifyEdges(i_X, i_Y)) { return false; }
 
-            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
-            // Means that's the first iteration 
-            if (i_CurrentColorFromCell == Colors.EMPTY && io_TempCounterForCrawlers == 0)
+        private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor)
+        {
+
+            //// so we won't go out of boundries
+            //if (!verifyEdges(i_X, i_Y)) { return false; }
+
+            //Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+            //// Means that's the first iteration 
+            //if (i_CurrentColorFromCell == Colors.EMPTY && io_TempCounterForCrawlers == 0)
+            //{
+
+            //    Console.WriteLine(i_X + 1);
+            //    //go recursive
+            //    return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers) || crawlVertical(i_X + 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers);
+            //}
+            //// Means we hit a cell from opposite color and not on first iteration
+            //if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+            //{
+            //    return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1) || crawlVertical(i_X + 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1);
+            //}
+            //// Means we hit cell from same color, but it's adjacent
+            //if (i_CurrentColorFromCell == i_PlayerColor && io_TempCounterForCrawlers == 0) { return false; }
+            //// Means we hit a cell from another color, but we passed other cells on the way
+            //if (i_CurrentColorFromCell == i_PlayerColor && io_TempCounterForCrawlers > 0) { return true; }
+            //// Fallback
+            //return false;
+
+            //Iterative implementation
+            Colors i_CurrentColorFromCell;
+            int i_TempCounterForCrawlers = 0;
+            for (int i = i_X + 1; i < m_BoardSize; i++)
             {
-                //go recursive
-                return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers) || crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers);
+                if (!verifyEdges(i_X, i_Y)) { return false; }
+                i_CurrentColorFromCell = m_Board[i, i_Y];
+                // Means we hit cell from same color, but it's adjacent
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
+                // Means we hit a cell from another color, but we passed other cells on the way
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers > 0) { return true; }
+                if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+                {
+                    i_TempCounterForCrawlers++;
+                }
             }
-            // Means we hit cell from same color, but it's adjacent
-            if (i_CurrentColorFromCell == i_PlayerColor && io_TempCounterForCrawlers == 0) { return false; }
-            // Means we hit a cell from another color, but we passed other cells on the way
-            if (i_CurrentColorFromCell == i_PlayerColor && io_TempCounterForCrawlers > 0) { return true; }
-            // Means we hit a cell from opposite color and not on first iteration
-            if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+            i_TempCounterForCrawlers = 0;
+            for (int i = i_X ; i > -1; i--)
             {
-                return crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1) || crawlVertical(i_X - 1, i_Y, i_PlayerColor, io_TempCounterForCrawlers + 1);
+                if (!verifyEdges(i_X, i_Y)) { return false; }
+
+                i_CurrentColorFromCell = m_Board[i, i_Y];
+                // Means we hit cell from same color, but it's adjacent
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers == 0) { return false; }
+                // Means we hit a cell from another color, but we passed other cells on the way
+                if (i_CurrentColorFromCell == i_PlayerColor && i_TempCounterForCrawlers > 0) { return true; }
+                if (i_CurrentColorFromCell != i_PlayerColor && i_CurrentColorFromCell != Colors.EMPTY)
+                {
+                    i_TempCounterForCrawlers++;
+                }
             }
+            // If all failed
             return false;
         }
 
