@@ -13,8 +13,6 @@ namespace Reversi
         private Colors[,] m_Board;
         private UserInteraction m_UI;
 
-        private string m_Alphabet = "ABCDEFGH";
-
         public GameBoard()
         {
         }
@@ -101,7 +99,7 @@ namespace Reversi
 
             // Get data from player
             // TODO : change this to object parsing
-            io_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
+            io_PlayerMoveCoords[0] = m_UI.GetAvilableLetters().IndexOf(i_PlayerMove[0]);
             io_PlayerMoveCoords[1] = (int)char.GetNumericValue(i_PlayerMove[1]) - 1;
 
             int io_XCords = io_PlayerMoveCoords[1];
@@ -182,7 +180,7 @@ namespace Reversi
         internal void AppendMove(string i_Move, Colors io_GivenColor)
         {
             int io_tempX = (int)char.GetNumericValue(i_Move[1]) - 1;
-            int io_tempY = m_Alphabet.IndexOf(i_Move[0]);
+            int io_tempY = m_UI.GetAvilableLetters().IndexOf(i_Move[0]);
 
             // Inject new data to array
             m_Board[io_tempX, io_tempY] = io_GivenColor;
