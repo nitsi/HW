@@ -8,6 +8,7 @@ namespace Reversi
 {
     class UserInteraction
     {
+        static string AVAILABLE_LETTERS = "ABCDEFGH";
         static readonly string ERROR_ = "ERROR: ";
         static readonly string ERROR_DATA_NOT_VALID = "ERROR: The input data is not valid";
 
@@ -18,10 +19,22 @@ namespace Reversi
         {
         }
 
+        public string GetAvilableLetters()
+        {
+            return AVAILABLE_LETTERS;
+        }
+
         public void PrintNeedValidData()
         {
             System.Console.WriteLine(ERROR_DATA_NOT_VALID);
             System.Console.WriteLine(INFO_NEED_NEW_CELL_INPUT);
+        }
+
+        public string GetUserMove()
+        {
+            Console.WriteLine("Please enter your move : ");
+            string userInput = Console.ReadLine();
+            return userInput;
         }
 
         public void ClearScreen()
