@@ -35,7 +35,6 @@ namespace Reversi
                 }
             }
 
-            //TODO: vhange i
             int i_BoardMiddle = m_BoardSize / 2;
 
             // Append BLACK
@@ -63,7 +62,6 @@ namespace Reversi
             return false;
         }
 
-        //TODO: replace methos writeline with internal C# writeline
         internal void PrintCurrentState()
         {
             generateTopLetters();
@@ -86,10 +84,8 @@ namespace Reversi
             }
         }
 
-        //TODO: change to meaningful names
         private void generateCellContent(int i, int j)
         {
-            //TODO: change i_
             Colors i_TempPionContent = m_Board[i, j];
             UI.GenerateTableCellContet(i_TempPionContent);
         }
@@ -106,7 +102,6 @@ namespace Reversi
 
         private void generateLineSeparators()
         {
-            //TODO: replace with regular print add comment above
             UI.generateTableBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
@@ -138,8 +133,6 @@ namespace Reversi
             int[] i_PlayerMoveCoords = new int[2]; // used for coorsdinate
 
             // Get data from player
-            //TODO : change this to object parsing
-
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
             i_PlayerMoveCoords[1] = (int)Char.GetNumericValue(i_PlayerMove[1]) - 1;
 
@@ -147,7 +140,6 @@ namespace Reversi
             int i_YCords = i_PlayerMoveCoords[0];
             if (verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) && m_Board[i_XCords, i_YCords] == Colors.EMPTY)
             {
-                //Console.WriteLine("Enter crawler");
                 return crawler(i_XCords, i_YCords, i_PlayerColor);
             }
             else
@@ -165,14 +157,10 @@ namespace Reversi
         {
             if (verifyEdges(i_X, i_Y))
             {
-                // OLD version
-                //return crawlBackSlash_old(i_X, i_Y, i_PlayerColor) || crawlSlash_old(i_X, i_Y, i_PlayerColor) || crawlVertical_old(i_X, i_Y, i_PlayerColor) || crawlHorizontal_old(i_X, i_Y, i_PlayerColor);
-                // New version
                 return crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor) || crawlCross(i_X, i_Y, i_PlayerColor);
             }
             else
             {
-                //Console.WriteLine("Main crawler, failed on edges");
                 return false;
             }
         }
@@ -211,8 +199,9 @@ namespace Reversi
             {
                 return i_Count == 0 ? false : true;
             }
-            else // Means it's the opponent color
+            else
             {
+                // Means it's the opponent color
                 return validityCrawler(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_PlayerColor, i_Count + 1);
             }
 
@@ -230,19 +219,19 @@ namespace Reversi
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
             Console.WriteLine("updating stuff");
-            bool dummy = false;
+            bool i_RecursionBooleanHolder = false;
             // Update vertical
-            dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
-            dummy = propagateTable(i_X - 1, -1, i_Y, 0, i_GivenColor);
+            i_RecursionBooleanHolder = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
+            i_RecursionBooleanHolder = propagateTable(i_X - 1, -1, i_Y, 0, i_GivenColor);
             // Update Horizontal
-            dummy = propagateTable(i_X, 0, i_Y + 1, 1, i_GivenColor);
-            dummy = propagateTable(i_X, 0, i_Y - 1, -1, i_GivenColor);
-            //// Update slash
-            dummy = propagateTable(i_X - 1, -1, i_Y + 1, 1, i_GivenColor);
-            dummy = propagateTable(i_X + 1, 1, i_Y - 1, -1, i_GivenColor);
-            //// Update backslash
-            dummy = propagateTable(i_X + 1, 1, i_Y + 1, 1, i_GivenColor);
-            dummy = propagateTable(i_X - 1, -1, i_Y - 1, -1, i_GivenColor);
+            i_RecursionBooleanHolder = propagateTable(i_X, 0, i_Y + 1, 1, i_GivenColor);
+            i_RecursionBooleanHolder = propagateTable(i_X, 0, i_Y - 1, -1, i_GivenColor);
+            // Update slash
+            i_RecursionBooleanHolder = propagateTable(i_X - 1, -1, i_Y + 1, 1, i_GivenColor);
+            i_RecursionBooleanHolder = propagateTable(i_X + 1, 1, i_Y - 1, -1, i_GivenColor);
+            // Update backslash
+            i_RecursionBooleanHolder = propagateTable(i_X + 1, 1, i_Y + 1, 1, i_GivenColor);
+            i_RecursionBooleanHolder = propagateTable(i_X - 1, -1, i_Y - 1, -1, i_GivenColor);
         }
 
         private bool propagateTable(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_GivenColor)
