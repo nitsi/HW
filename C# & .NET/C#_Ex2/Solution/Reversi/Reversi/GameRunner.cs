@@ -10,12 +10,6 @@ namespace Reversi
         Computer
     }
 
-    enum CurrentPlayer
-    {
-        PlayerOne,
-        PlayerTwo
-    }
-
     enum Colors
     {
         BLACK,
@@ -37,7 +31,6 @@ namespace Reversi
 
             while (true)
             {
-                // TODO: Print Welcome Message
                 userChoice = UI.GetChoiceFromConsole();
                 m_BoardSize = UI.GetBoardSize();
                 m_GameBoard.initBoard(m_BoardSize);
@@ -48,7 +41,7 @@ namespace Reversi
 
                 if (!AskForAnotherGame())
                 {
-                    Console.WriteLine("Thank you for playing ! \nPress any key to leave....");
+                    Console.WriteLine("Thank you for playing ! \nPress any key to exit....");
                     Console.Read();
                     System.Environment.Exit(0);
                 }
@@ -103,6 +96,13 @@ namespace Reversi
                     //Player2 logic
                     Console.WriteLine("Turn of P2: O");
 
+                    if(!hasMovesP2)
+                    {
+                        playerOneTurn = true;
+                        Console.WriteLine("No Possible mooves for P2, Returning to P1");
+                        continue;
+                    }
+
                     string nextMove = (i_IsPlayer2PC) ? uPlayer2.GetMovePC(m_BoardSize, m_GameBoard) : uPlayer2.GetMove(m_BoardSize, uPlayer2.Color, m_GameBoard);
                     m_GameBoard.AppendMove(nextMove, uPlayer2.Color);
                     playerOneTurn = true;
@@ -134,7 +134,7 @@ namespace Reversi
                 }
                 else
                 {
-                    Console.WriteLine("Please type in Y/N.....");
+                    Console.WriteLine("Please type Y or N");
                 }
             }
         }
