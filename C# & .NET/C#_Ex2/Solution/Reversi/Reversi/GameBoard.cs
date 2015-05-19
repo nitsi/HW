@@ -307,11 +307,10 @@ namespace Reversi
                 {
                     if (m_Board[i, j] == Colors.EMPTY)
                     {
-                        io_ListOfEmptyCells.Add(string.Empty + (i + 1) + string.Empty + m_UI.GetAvilableLetters()[j]);
+                        io_ListOfEmptyCells.Add(m_UI.GetAvilableLetters()[j] + string.Empty + (i + 1) + string.Empty);
                     }
                 }
             }
-
             return io_ListOfEmptyCells;
         }
     }
