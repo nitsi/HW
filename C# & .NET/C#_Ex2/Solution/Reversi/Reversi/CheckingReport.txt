@@ -5,5 +5,5 @@ Second Student Details: 200846905 - Matan Gidnian
 Delivery Date.........: 19 - May - 2015
 Delivered In Delay....: Yes (1.5 days)
 Delay Reason..........: Personal issues that led to lack of time.
-Visual Studio Version.: 2013 / 2010
+Visual Studio Version.: 2013
 Comments..............: AI might slow down towards end game
