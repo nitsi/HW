@@ -107,7 +107,7 @@ namespace Reversi
         private void generateLineSeparators()
         {
             //TODO: replace with regular print add comment above
-            UI.generateBorderSpan();
+            UI.generateTableBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
                 Console.Write("====");
@@ -119,7 +119,7 @@ namespace Reversi
             UI.GenerateTableTopLetters(m_BoardSize);
             // Generate top letters
             //TODO: replace with regular print add comment above
-            UI.generateBorderSpan();
+            UI.generateTableBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
                 Console.Write("  " + m_Alphabet[i] + " ");
@@ -311,4 +311,5 @@ namespace Reversi
 
             return io_ListOfEmptyCells;
         }
+    }
 }

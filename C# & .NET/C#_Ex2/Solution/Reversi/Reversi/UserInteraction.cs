@@ -14,7 +14,6 @@ namespace Reversi
         private static readonly string INFO_NEED_NEW_CELL_INPUT = "Please enter a cell in format Letter,Number. e.g: A3";
         private static readonly string INFO_ = "INFO: ";
 
-        
         private static string AVAILABLE_LETTERS = "ABCDEFGH";
 
         public UserInteraction()
