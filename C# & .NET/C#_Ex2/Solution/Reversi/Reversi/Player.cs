@@ -17,7 +17,6 @@ namespace Reversi
 
         private bool ValidateInput(string i_UserInput, int i_BoardSize, Colors i_PlayerColor, GameBoard i_GameBoard)
         {
-            string m_Alphabet = "ABCDEFGH";
             bool answer = true;
 
             if(i_UserInput.Equals("Q"))
@@ -26,7 +25,7 @@ namespace Reversi
             }
 
             if (i_UserInput.Length == 2 &&
-                    m_Alphabet.IndexOf(i_UserInput[0]) > -1 && 
+                    UI.GetAvilableLetters().IndexOf(i_UserInput[0]) > -1 && 
                     (i_UserInput[1] >= 0 && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
             {
                 if (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor))
@@ -49,8 +48,7 @@ namespace Reversi
         {
             while (true)
             {
-                Console.WriteLine("Please enter your move : ");
-                string i_UserInput = Console.ReadLine();
+                string i_UserInput = UI.GetUserMove();
                 if (ValidateInput(i_UserInput, i_BoardSize, i_PlayerColor, i_GameBoard))
                 {
                     return i_UserInput;
