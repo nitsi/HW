@@ -58,27 +58,23 @@ namespace Reversi
             }
         }
 
-        public string GetMovePC(int i_BoardSize, GameBoard gameB)
+        public string GetMovePC(int i_BoardSize, GameBoard i_GameBoard)
         {
             Random randGenerator;
-            byte randomLetterCell;
-            byte randomNumCell;
-            StringBuilder newMove = new StringBuilder();
-
+            List<string> blankCell = i_GameBoard.GetListOfEmptyCells();
+            int length = blankCell.Count;
+            byte guess;
+            string chosenMove;
+            
             while (true)
             {
                 randGenerator = new Random();
-                randomLetterCell = (byte)randGenerator.Next(i_BoardSize);
-                randomNumCell = (byte)randGenerator.Next(i_BoardSize);
-                newMove.Append((char)(randomLetterCell + 65)).Append((char)(randomNumCell + 48));
+                guess = (byte)randGenerator.Next(length);
+                chosenMove = blankCell.ElementAt(guess);
 
-                if (gameB.CheckIfValid(newMove.ToString(), Colors.WHITE))
+                if (i_GameBoard.CheckIfValid(chosenMove, Colors.WHITE))
                 {
-                    return newMove.ToString();
-                }
-                else
-                {
-                    newMove.Clear();
+                    return chosenMove;
                 }
             }
         }
