@@ -294,7 +294,14 @@ namespace Reversi
                     }
                 }
             }
+            
+            // Handle tie
+            if (io_BlackPoints == io_WhitePoints)
+            {
+                return Colors.EMPTY;
+            }
 
+            //Handle every other case
             return io_BlackPoints > io_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
 
