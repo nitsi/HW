@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Reversi
 {
-    private enum GamerTypes
+    enum GamerTypes
     {
         User,
         Computer
     }
 
-    private enum Colors
+    enum Colors
     {
         BLACK,
         WHITE,

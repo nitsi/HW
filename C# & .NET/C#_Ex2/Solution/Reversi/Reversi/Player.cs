@@ -50,10 +50,10 @@ namespace Reversi
         {
             while (true)
             {
-                string i_UserInput = m_UI.GetUserMove();
-                if (ValidateInput(i_UserInput, i_BoardSize, i_PlayerColor, i_GameBoard))
+                string userInput = m_UI.GetUserMove();
+                if (ValidateInput(userInput, i_BoardSize, i_PlayerColor, i_GameBoard))
                 {
-                    return i_UserInput;
+                    return userInput;
                 }
             }
         }
