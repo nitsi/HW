@@ -1,4 +1,3 @@
-For Example:
 ==========================Exercise Checking Report==========================
 Exercise No...........: 2
 First Student Details.: 302188347 - Aviad Hahami
