@@ -72,24 +72,7 @@ namespace Reversi
 
         internal void PrintCurrentState()
         {
-            m_UI.GenerateTableTopLetters(m_BoardSize);
-            m_UI.GenereateTableNewLine();
-            m_UI.GenerateTableLineSeparators(m_BoardSize);
-            m_UI.GenereateTableNewLine();
-            for (int i = 0; i < m_BoardSize; i++)
-            {
-                m_UI.GenerateTableLineNumber(i);
-                for (int j = 0; j < m_BoardSize; j++)
-                {
-                    m_UI.GenreateTableColumnSeparator();
-                    Colors tempPionContent = m_Board[i, j];
-                    m_UI.GenerateTableCellContet(tempPionContent);
-                }
-
-                m_UI.GenereateTableNewLine();
-                m_UI.GenerateTableLineSeparators(m_BoardSize);
-                m_UI.GenereateTableNewLine();
-            }
+            m_UI.printCurrentTableState(m_BoardSize, this);
         }
 
         // Assuming we've recieved in the form of "A1" <Char,Number>

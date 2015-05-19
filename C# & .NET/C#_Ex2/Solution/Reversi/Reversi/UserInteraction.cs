@@ -136,7 +136,6 @@ namespace Reversi
         public void GenerateTableTopLetters(int i_BoardSize)
         {
             // Generate top letters
-            // TODO: replace with regular print add comment above
             GenerateTableBorderSpan();
             for (int i = 0; i < i_BoardSize; i++)
             {
@@ -147,6 +146,28 @@ namespace Reversi
         public void GenereateTableNewLine()
         {
             Console.WriteLine();
+        }
+
+        internal void printCurrentTableState(int i_BoardSize, GameBoard i_Board)
+        {
+            GenerateTableTopLetters(i_BoardSize);
+            GenereateTableNewLine();
+            GenerateTableLineSeparators(i_BoardSize);
+            GenereateTableNewLine();
+            for (int i = 0; i < i_BoardSize; i++)
+            {
+                GenerateTableLineNumber(i);
+                for (int j = 0; j < i_BoardSize; j++)
+                {
+                    GenreateTableColumnSeparator();
+                    Colors tempPionContent = i_Board[i, j];
+                    GenerateTableCellContet(tempPionContent);
+                }
+
+                GenereateTableNewLine();
+                GenerateTableLineSeparators(i_BoardSize);
+                GenereateTableNewLine();
+            }
         }
     }
 }
