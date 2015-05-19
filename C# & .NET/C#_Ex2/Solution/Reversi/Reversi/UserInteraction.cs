@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Reversi
 {
-    class UserInteraction
+    public class UserInteraction
     {
         private static readonly string ERROR_ = "ERROR: ";
         private static readonly string ERROR_DATA_NOT_VALID = "ERROR: The input data is not valid";

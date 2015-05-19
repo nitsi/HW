@@ -4,26 +4,25 @@ using System.Text;
 
 namespace Reversi
 {
-    enum GamerTypes
+    private enum GamerTypes
     {
         User,
         Computer
     }
 
-    enum Colors
+    private enum Colors
     {
         BLACK,
         WHITE,
         EMPTY
     }
 
-    class GameRunner
+    public class GameRunner
     {
-        int m_BoardSize;
-        bool isPlayer2PC = true;
-        GameBoard m_GameBoard = new GameBoard();
-        UserInteraction UI = new UserInteraction();
-
+        private GameBoard m_GameBoard = new GameBoard();
+        private UserInteraction m_UI = new UserInteraction();
+        private int m_BoardSize;
+        private bool m_IsPlayer2PC = true;
 
         public void StartGame()
         {
@@ -31,13 +30,13 @@ namespace Reversi
 
             while (true)
             {
-                userChoice = UI.GetChoiceFromConsole();
-                m_BoardSize = UI.GetBoardSize();
+                userChoice = m_UI.GetChoiceFromConsole();
+                m_BoardSize = m_UI.GetBoardSize();
                 m_GameBoard.initBoard(m_BoardSize);
 
-                isPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
+                m_IsPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
 
-                Play(isPlayer2PC);
+                Play(m_IsPlayer2PC);
 
                 if (!AskForAnotherGame())
                 {
@@ -47,7 +46,7 @@ namespace Reversi
                 }
                 else
                 {
-                    UI.ClearScreen();
+                    m_UI.ClearScreen();
                 }
             }
         }
@@ -63,7 +62,7 @@ namespace Reversi
 
             while (true)
             {
-                UI.ClearScreen();
+                m_UI.ClearScreen();
                 m_GameBoard.PrintCurrentState();
                 hasMovesP1 = m_GameBoard.GotMoreValidMoves(uPlayer1.Color);
                 hasMovesP2 = m_GameBoard.GotMoreValidMoves(uPlayer2.Color);
