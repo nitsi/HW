@@ -115,7 +115,7 @@ namespace Reversi
 
         private void generateTopLetters()
         {
-            UI.GenerateTableTopLetters(m_Alphabet, m_BoardSize);
+            UI.GenerateTableTopLetters(m_BoardSize);
         }
 
         private void generateNewLine()
@@ -309,7 +309,7 @@ namespace Reversi
                 {
                     if (m_Board[i, j] == Colors.EMPTY)
                     {
-                        io_ListOfEmptyCells.Add(string.Empty + (i + 1) + string.Empty + m_Alphabet[j + 1]);
+                        io_ListOfEmptyCells.Add(string.Empty + (i + 1) + string.Empty + UI.GetAvilableLetters()[j]);
                     }
                 }
             }
