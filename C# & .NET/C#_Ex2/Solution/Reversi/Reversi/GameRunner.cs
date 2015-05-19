@@ -23,8 +23,8 @@ namespace Reversi
         private UserInteraction m_UI = new UserInteraction();
         private int m_BoardSize;
         private bool m_IsPlayer2PC = true;
-        string p1Name;
-        string p2Name = "Computer";
+        private string m_P1Name;
+        private string m_P2Name = "Computer";
 
         public void StartGame()
         {
@@ -32,12 +32,12 @@ namespace Reversi
 
             while (true)
             {
-                p1Name = m_UI.GetName();
+                m_P1Name = m_UI.GetName();
                 userChoice = m_UI.GetChoiceFromConsole();
                 m_IsPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
                 if(!m_IsPlayer2PC)
                 {
-                    p2Name = m_UI.GetName();
+                    m_P2Name = m_UI.GetName();
                 }
                 
                 m_BoardSize = m_UI.GetBoardSize();
@@ -62,8 +62,8 @@ namespace Reversi
 
         private void Play(bool i_IsPlayer2PC)
         {
-            Player uPlayer1 = new Player(Colors.BLACK, p1Name);
-            Player uPlayer2 = new Player(Colors.WHITE, p2Name);
+            Player uPlayer1 = new Player(Colors.BLACK, m_P1Name);
+            Player uPlayer2 = new Player(Colors.WHITE, m_P2Name);
 
             bool playerOneTurn = true;
             bool hasMovesP1;
@@ -128,7 +128,7 @@ namespace Reversi
             }
             else
             {
-                string name = (i_WinnerColor == Colors.BLACK) ? p1Name : p2Name;
+                string name = (i_WinnerColor == Colors.BLACK) ? m_P1Name : m_P2Name;
                 System.Console.WriteLine("Winner is: " + i_WinnerColor.ToString());
             }
         }

@@ -73,7 +73,7 @@ namespace Reversi
                     }
                 }
 
-                Console.WriteLine("Please choose 6 or 8 only!");
+                Console.WriteLine("Please choose exactly 6 or 8");
             }
         }
 
