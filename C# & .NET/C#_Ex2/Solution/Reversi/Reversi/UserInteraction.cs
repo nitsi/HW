@@ -8,12 +8,13 @@ namespace Reversi
 {
     class UserInteraction
     {
-        static string AVAILABLE_LETTERS = "ABCDEFGH";
-        static readonly string ERROR_ = "ERROR: ";
-        static readonly string ERROR_DATA_NOT_VALID = "ERROR: The input data is not valid";
+        private static string AVAILABLE_LETTERS = "ABCDEFGH";
+        
+        private static readonly string ERROR_ = "ERROR: ";
+        private static readonly string ERROR_DATA_NOT_VALID = "ERROR: The input data is not valid";
 
-        static readonly string INFO_NEED_NEW_CELL_INPUT = "Please enter a cell in format Letter,Number. e.g: A3";
-        static readonly string INFO_ = "INFO: ";
+        private static readonly string INFO_NEED_NEW_CELL_INPUT = "Please enter a cell in format Letter,Number. e.g: A3";
+        private static readonly string INFO_ = "INFO: ";
 
         public UserInteraction()
         {
@@ -116,14 +117,14 @@ namespace Reversi
             }
         }
 
-        public void GenerateTableTopLetters(string m_Alphabet, int i_BoardSize)
+        public void GenerateTableTopLetters(int i_BoardSize)
         {
             // Generate top letters
             // TODO: replace with regular print add comment above
             generateTableBorderSpan();
             for (int i = 0; i < i_BoardSize; i++)
             {
-                Console.Write("  " + m_Alphabet[i] + " ");
+                Console.Write("  " + GetAvilableLetters()[i] + " ");
             }
         }
 
