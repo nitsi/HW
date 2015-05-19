@@ -8,16 +8,27 @@ namespace Reversi
 {
     class UserInteraction
     {
-        private static readonly string ERROR_ = "ERROR: ";
         private static readonly string ERROR_DATA_NOT_VALID = "ERROR: The input data is not valid";
 
         private static readonly string INFO_NEED_NEW_CELL_INPUT = "Please enter a cell in format Letter,Number. e.g: A3";
-        private static readonly string INFO_ = "INFO: ";
 
         private static string AVAILABLE_LETTERS = "ABCDEFGH";
 
         public UserInteraction()
         {
+        }
+
+        public string GetName()
+        {
+            System.Console.WriteLine("Please enter your name: ");
+            string name = Console.ReadLine();
+            return name;
+        }
+
+        public void PlayerNoMoves(string i_Name)
+        {
+            string toPrint = string.Format("{0} turn, but {0} has no moves possible", i_Name);
+            System.Console.WriteLine(toPrint);
         }
 
         public string GetAvilableLetters()

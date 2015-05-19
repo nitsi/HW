@@ -4,25 +4,27 @@ using System.Text;
 
 namespace Reversi
 {
-    enum GamerTypes
+    public enum GamerTypes
     {
         User,
         Computer
     }
 
-    enum Colors
+    public enum Colors
     {
         BLACK,
         WHITE,
         EMPTY
     }
 
-    class GameRunner
+    public class GameRunner
     {
         private GameBoard m_GameBoard = new GameBoard();
         private UserInteraction m_UI = new UserInteraction();
         private int m_BoardSize;
         private bool m_IsPlayer2PC = true;
+        string p1Name;
+        string p2Name;
 
         public void StartGame()
         {
@@ -30,7 +32,14 @@ namespace Reversi
 
             while (true)
             {
+                p1Name = m_UI.GetName();
                 userChoice = m_UI.GetChoiceFromConsole();
+                m_IsPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
+                if(!m_IsPlayer2PC)
+                {
+                    p2Name = m_UI.GetName();
+                }
+                
                 m_BoardSize = m_UI.GetBoardSize();
                 m_GameBoard.initBoard(m_BoardSize);
 
@@ -53,8 +62,8 @@ namespace Reversi
 
         private void Play(bool i_IsPlayer2PC)
         {
-            Player uPlayer1 = new Player(Colors.BLACK);
-            Player uPlayer2 = new Player(Colors.WHITE);
+            Player uPlayer1 = new Player(Colors.BLACK, p1Name);
+            Player uPlayer2 = new Player(Colors.WHITE, p2Name);
 
             bool playerOneTurn = true;
             bool hasMovesP1;
@@ -71,7 +80,8 @@ namespace Reversi
                 {
                     if (!hasMovesP1)
                     {
-                        System.Console.WriteLine("P1 turn, but P1 has no moves possible");
+                        m_UI.
+                        System.Console.WriteLine(("{0} turn, but {0} has no moves possible", uPlayer1.GetName());
                         if (!hasMovesP2)
                         {
                             System.Console.WriteLine("P2 turn, but P2 ALSO has no moves possible");

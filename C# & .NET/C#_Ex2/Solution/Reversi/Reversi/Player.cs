@@ -7,12 +7,19 @@ namespace Reversi
 {
     class Player
     {
+        private string m_Name;
         private UserInteraction m_UI = new UserInteraction();
         private Colors m_PlayerColor;
 
-        public Player(Colors o_PlayerColor)
+        public Player(Colors o_PlayerColor, string o_Name)
         {
-            this.m_PlayerColor = o_PlayerColor;
+            m_PlayerColor = o_PlayerColor;
+            m_Name = o_Name;
+        }
+
+        public string GetName()
+        {
+            return m_Name;
         }
 
         private bool ValidateInput(string i_UserInput, int i_BoardSize, Colors i_PlayerColor, GameBoard i_GameBoard)
