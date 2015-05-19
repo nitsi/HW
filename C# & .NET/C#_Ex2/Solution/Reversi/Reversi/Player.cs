@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Reversi
 {
-    public class Player
+    class Player
     {
         private UserInteraction m_UI = new UserInteraction();
         private Colors m_PlayerColor;
