@@ -27,7 +27,7 @@ namespace Reversi
             if (i_UserInput.Length == 2 &&
 
                     UI.GetAvilableLetters().IndexOf(i_UserInput[0]) > -1 && 
-                    (i_UserInput[1] >= 0 && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
+                    (i_UserInput[1] >= 0 && (int)char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
             {
                 if (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor))
                 {

@@ -24,7 +24,6 @@ namespace Reversi
         GameBoard m_GameBoard = new GameBoard();
         UserInteraction UI = new UserInteraction();
 
-
         public void StartGame()
         {
             string userChoice;
