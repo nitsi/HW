@@ -17,9 +17,9 @@ namespace Reversi
         EMPTY
     }
 
-    public class GameRunner
+    class GameRunner
     {
-
+        
         private GameBoard m_GameBoard = new GameBoard();
         private UserInteraction m_UI = new UserInteraction();
         private int m_BoardSize;

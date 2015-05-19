@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Reversi
 {
     // change neame to something more meaning ful
-    public class StartUp
+    class StartUp
     {
         public static void Main(string[] args)
         {
