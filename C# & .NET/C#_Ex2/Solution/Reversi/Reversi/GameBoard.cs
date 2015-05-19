@@ -301,7 +301,7 @@ namespace Reversi
                 return Colors.EMPTY;
             }
 
-            //Handle every other case
+            // Handle every other case
             return io_BlackPoints > io_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
 

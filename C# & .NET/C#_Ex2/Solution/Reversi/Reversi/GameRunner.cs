@@ -19,7 +19,6 @@ namespace Reversi
 
     class GameRunner
     {
-
         private GameBoard m_GameBoard = new GameBoard();
         private UserInteraction m_UI = new UserInteraction();
         private int m_BoardSize;
@@ -118,7 +117,6 @@ namespace Reversi
             if (i_WinnerColor == Colors.EMPTY)
             {
                 System.Console.WriteLine("It's a tie ! OMG OMG !");
-
             }
             else
             {
