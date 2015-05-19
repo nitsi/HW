@@ -135,8 +135,6 @@ namespace Reversi
 
         public void GenerateTableTopLetters(int i_BoardSize)
         {
-            // Generate top letters
-            // TODO: replace with regular print add comment above
             GenerateTableBorderSpan();
             for (int i = 0; i < i_BoardSize; i++)
             {
