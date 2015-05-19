@@ -35,7 +35,7 @@ namespace Reversi
                 }
             }
 
-            //TODO: vhange i
+            // TODO: vhange i
             int i_BoardMiddle = m_BoardSize / 2;
 
             // Append BLACK
@@ -54,12 +54,19 @@ namespace Reversi
             {
                 for (int j = 0; j < m_BoardSize; j++)
                 {
-                    if (m_Board[i, j] != Colors.EMPTY) { continue; }
-                    i_ValidMovesTestFlag = crawler(i, j, i_currentPlayerColor);
-                    if (i_ValidMovesTestFlag) { return true; }
-                }
+                    if (m_Board[i, j] != Colors.EMPTY)
+                    {
+                        continue;
+                    }
 
+                    i_ValidMovesTestFlag = crawler(i, j, i_currentPlayerColor);
+                    if (i_ValidMovesTestFlag)
+                    {
+                        return true;
+                    }
+                }
             }
+
             return false;
         }
 
@@ -76,7 +83,6 @@ namespace Reversi
                 {
                     generateColumnSeparator();
                     generateCellContent(i, j);
-
                 }
 
                 generateNewLine();
@@ -87,7 +93,7 @@ namespace Reversi
 
         private void generateCellContent(int i, int j)
         {
-            //TODO: change i_
+            // TODO: change i_
             Colors i_TempPionContent = m_Board[i, j];
             UI.GenerateTableCellContet(i_TempPionContent);
         }
@@ -117,17 +123,16 @@ namespace Reversi
             UI.GenereateTableNewLine();
         }
 
-        //Assuming we've recieved in the form of "A1" <Char,Number>
-
+        // Assuming we've recieved in the form of "A1" <Char,Number>
         public bool CheckIfValid(string i_PlayerMove, Colors i_PlayerColor)
         {
-            int[] i_PlayerMoveCoords = new int[2]; // used for coorsdinate
+            // used for coorsdinate
+            int[] i_PlayerMoveCoords = new int[2];
 
             // Get data from player
-            //TODO : change this to object parsing
-
+            // TODO : change this to object parsing
             i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
-            i_PlayerMoveCoords[1] = (int)Char.GetNumericValue(i_PlayerMove[1]) - 1;
+            i_PlayerMoveCoords[1] = (int)char.GetNumericValue(i_PlayerMove[1]) - 1;
 
             int i_XCords = i_PlayerMoveCoords[1];
             int i_YCords = i_PlayerMoveCoords[0];
@@ -143,7 +148,7 @@ namespace Reversi
 
         private bool verifyEdges(int i_X, int i_Y)
         {
-            return ((i_X >= 0 && i_X <= m_BoardSize - 1) && (i_Y >= 0 && i_Y <= m_BoardSize - 1));
+            return (i_X >= 0 && i_X <= m_BoardSize - 1) && (i_Y >= 0 && i_Y <= m_BoardSize - 1);
         }
 
         private bool crawler(int i_X, int i_Y, Colors i_PlayerColor)
@@ -165,7 +170,6 @@ namespace Reversi
                 || validityCrawler(i_X + 1, 1, i_Y - 1, -1, i_PlayerColor, i_Zero)
                 || validityCrawler(i_X + 1, 1, i_Y + 1, 1, i_PlayerColor, i_Zero)
                 || validityCrawler(i_X - 1, -1, i_Y - 1, -1, i_PlayerColor, i_Zero);
-
         }
 
         private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor)
@@ -183,25 +187,36 @@ namespace Reversi
         private bool validityCrawler(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_PlayerColor, int i_Count)
         {
             // Check in bounds
-            if (!verifyEdges(i_X, i_Y)) { return false; }
+            if (!verifyEdges(i_X, i_Y))
+            {
+                return false;
+            }
+
             // Init color
             Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+
             // If we hit empty cell
-            if (i_CurrentColorFromCell == Colors.EMPTY) { return false; }
+            if (i_CurrentColorFromCell == Colors.EMPTY)
+            {
+                return false;
+            }
+
             if (i_CurrentColorFromCell == i_PlayerColor)
             {
                 return i_Count == 0 ? false : true;
             }
-            else // Means it's the opponent color
+            else
             {
+                // Means it's the opponent color
                 return validityCrawler(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_PlayerColor, i_Count + 1);
             }
-
         }
+
         internal void AppendMove(string i_Move, Colors i_GivenColor)
         {
-            int i_tempX = (int)Char.GetNumericValue(i_Move[1]) - 1;
+            int i_tempX = (int)char.GetNumericValue(i_Move[1]) - 1;
             int i_tempY = m_Alphabet.IndexOf(i_Move[0]);
+
             // Inject new data to array
             m_Board[i_tempX, i_tempY] = i_GivenColor;
 
@@ -211,16 +226,20 @@ namespace Reversi
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
             bool dummy = false;
+
             // Update vertical
             dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
             dummy = propagateTable(i_X - 1, -1, i_Y, 0, i_GivenColor);
+
             // Update Horizontal
             dummy = propagateTable(i_X, 0, i_Y + 1, 1, i_GivenColor);
             dummy = propagateTable(i_X, 0, i_Y - 1, -1, i_GivenColor);
-            //// Update slash
+
+            // Update slash
             dummy = propagateTable(i_X - 1, -1, i_Y + 1, 1, i_GivenColor);
             dummy = propagateTable(i_X + 1, 1, i_Y - 1, -1, i_GivenColor);
-            //// Update backslash
+
+            // Update backslash
             dummy = propagateTable(i_X + 1, 1, i_Y + 1, 1, i_GivenColor);
             dummy = propagateTable(i_X - 1, -1, i_Y - 1, -1, i_GivenColor);
         }
@@ -228,15 +247,24 @@ namespace Reversi
         private bool propagateTable(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_GivenColor)
         {
             // Check edges
-            if (!verifyEdges(i_X, i_Y)) { return false; }
+            if (!verifyEdges(i_X, i_Y))
+            {
+                return false;
+            }
 
             // Get current color
             Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
 
             // check if empty
-            if (i_CurrentColorFromCell == Colors.EMPTY) { return false; }
+            if (i_CurrentColorFromCell == Colors.EMPTY)
+            {
+                return false;
+            }
 
-            if (i_CurrentColorFromCell == i_GivenColor) { return true; }
+            if (i_CurrentColorFromCell == i_GivenColor)
+            {
+                return true;
+            }
 
             if (propagateTable(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_GivenColor))
             {
@@ -251,7 +279,6 @@ namespace Reversi
 
         internal Colors CalculateWinner()
         {
-
             int i_WhitePoints = 0;
             int i_BlackPoints = 0;
 
@@ -269,6 +296,7 @@ namespace Reversi
                     }
                 }
             }
+
             return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
 
@@ -281,7 +309,7 @@ namespace Reversi
                 {
                     if (m_Board[i, j] == Colors.EMPTY)
                     {
-                        io_ListOfEmptyCells.Add(m_Alphabet[j + 1] + "" + (i + 1));
+                        io_ListOfEmptyCells.Add(string.Empty + (i + 1) + string.Empty + m_Alphabet[j + 1]);
                     }
                 }
             }

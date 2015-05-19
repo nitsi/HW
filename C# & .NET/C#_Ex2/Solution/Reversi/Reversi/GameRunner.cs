@@ -84,7 +84,7 @@ namespace Reversi
                     }
                     else
                     {
-                        //Player1 logic
+                        // Player1 logic
                         Console.WriteLine("Turn of P1: X");
                         string nextMove = uPlayer1.GetMove(m_BoardSize, uPlayer1.Color, m_GameBoard);
                         m_GameBoard.AppendMove(nextMove, uPlayer1.Color);
@@ -93,23 +93,23 @@ namespace Reversi
                 }
                 else
                 {
-                    //Player2 logic
+                    // Player2 logic
                     Console.WriteLine("Turn of P2: O");
 
-                    if(!hasMovesP2)
+                    if (!hasMovesP2)
                     {
                         playerOneTurn = true;
                         Console.WriteLine("No Possible mooves for P2, Returning to P1");
                         continue;
                     }
 
-                    string nextMove = (i_IsPlayer2PC) ? uPlayer2.GetMovePC(m_BoardSize, m_GameBoard) : uPlayer2.GetMove(m_BoardSize, uPlayer2.Color, m_GameBoard);
+                    string nextMove = i_IsPlayer2PC ? uPlayer2.GetMovePC(m_BoardSize, m_GameBoard) : uPlayer2.GetMove(m_BoardSize, uPlayer2.Color, m_GameBoard);
                     m_GameBoard.AppendMove(nextMove, uPlayer2.Color);
                     playerOneTurn = true;
                 }
-
             }
-            //End Game
+
+            // End Game
         }
 
         private void DeclareWinner(Colors i_WinnerColor)

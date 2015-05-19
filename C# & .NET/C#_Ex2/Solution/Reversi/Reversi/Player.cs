@@ -20,14 +20,14 @@ namespace Reversi
             string m_Alphabet = "ABCDEFGH";
             bool answer = true;
 
-            if(i_UserInput.Equals("Q"))
+            if (i_UserInput.Equals("Q"))
             {
                 System.Environment.Exit(0);
             }
 
             if (i_UserInput.Length == 2 &&
-                    m_Alphabet.IndexOf(i_UserInput[0]) > -1 && 
-                    (i_UserInput[1] >= 0 && (int)Char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
+                    m_Alphabet.IndexOf(i_UserInput[0]) > -1 &&
+                    (i_UserInput[1] >= 0 && (int)char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
             {
                 if (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor))
                 {
@@ -42,6 +42,7 @@ namespace Reversi
             {
                 UI.PrintNeedValidData();
             }
+
             return !answer;
         }
 
@@ -65,7 +66,7 @@ namespace Reversi
             int length = blankCell.Count;
             byte guess;
             string chosenMove;
-            
+
             while (true)
             {
                 randGenerator = new Random();

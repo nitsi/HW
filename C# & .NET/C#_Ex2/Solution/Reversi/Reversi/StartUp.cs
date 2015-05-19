@@ -10,7 +10,7 @@ namespace Reversi
     {
         static void Main(string[] args)
         {
-            //change i_MainGame  to correct name
+            // change i_MainGame  to correct name
             GameRunner mainGame = new GameRunner();
             mainGame.StartGame();
         }
