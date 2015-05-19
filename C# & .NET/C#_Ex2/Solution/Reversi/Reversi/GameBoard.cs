@@ -311,6 +311,7 @@ namespace Reversi
                     }
                 }
             }
+
             return io_ListOfEmptyCells;
         }
     }
