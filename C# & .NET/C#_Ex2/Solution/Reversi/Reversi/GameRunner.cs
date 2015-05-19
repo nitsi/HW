@@ -43,11 +43,9 @@ namespace Reversi
                 m_BoardSize = m_UI.GetBoardSize();
                 m_GameBoard.InitBoard(m_BoardSize);
 
-                m_IsPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
+                play(m_IsPlayer2PC);
 
-                Play(m_IsPlayer2PC);
-
-                if (!AskForAnotherGame())
+                if (!askForAnotherGame())
                 {
                     Console.WriteLine("Thank you for playing ! \nPress any key to exit....");
                     Console.Read();
@@ -60,7 +58,7 @@ namespace Reversi
             }
         }
 
-        private void Play(bool i_IsPlayer2PC)
+        private void play(bool i_IsPlayer2PC)
         {
             Player uPlayer1 = new Player(Colors.BLACK, m_P1Name);
             Player uPlayer2 = new Player(Colors.WHITE, m_P2Name);
@@ -86,7 +84,7 @@ namespace Reversi
                             m_UI.PlayerNoMoves(uPlayer2.GetName());
                             Colors winnerColor = m_GameBoard.CalculateWinner();
 
-                            DeclareWinner(winnerColor);
+                            declareWinner(winnerColor);
                             break;
                         }
                     }
@@ -119,7 +117,7 @@ namespace Reversi
             // End Game
         }
 
-        private void DeclareWinner(Colors i_WinnerColor)
+        private void declareWinner(Colors i_WinnerColor)
         {
             m_GameBoard.PrintCurrentState();
             if (i_WinnerColor == Colors.EMPTY)
@@ -133,7 +131,7 @@ namespace Reversi
             }
         }
 
-        private bool AskForAnotherGame()
+        private bool askForAnotherGame()
         {
             while (true)
             {
