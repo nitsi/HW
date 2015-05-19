@@ -96,29 +96,25 @@ namespace Reversi
 
         private void generateColumnSeparator()
         {
-            Console.Write(" | ");
+            UI.genreateTableColumnSeparator();
         }
 
         private void generateLineNumber(int i)
         {
-            Console.Write((i + 1) + " )");
+            UI.GenerateTableLineNumber(i);
         }
 
         private void generateLineSeparators()
         {
             //TODO: replace with regular print add comment above
-            UI.generateBorderSpan();
-            for (int i = 0; i < m_BoardSize; i++)
-            {
-                Console.Write("====");
-            }
+            UI.GenerateTableLineSeparators(m_BoardSize);
         }
 
         private void generateTopLetters()
         {
             // Generate top letters
             //TODO: replace with regular print add comment above
-            UI.generateBorderSpan();
+            UI.generateTableBorderSpan();
             for (int i = 0; i < m_BoardSize; i++)
             {
                 Console.Write("  " + m_Alphabet[i] + " ");
@@ -228,7 +224,6 @@ namespace Reversi
 
         private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
         {
-            Console.WriteLine("updating stuff");
             bool dummy = false;
             // Update vertical
             dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
@@ -266,10 +261,7 @@ namespace Reversi
             {
                 return false;
             }
-
         }
-
-
 
         internal Colors CalculateWinner()
         {

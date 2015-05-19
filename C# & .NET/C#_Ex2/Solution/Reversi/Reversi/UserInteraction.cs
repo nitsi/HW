@@ -79,9 +79,28 @@ namespace Reversi
             }
         }
 
-        public void generateBorderSpan()
+        public void generateTableBorderSpan()
         {
             Console.Write("    ");
+        }
+
+        public void genreateTableColumnSeparator()
+        {
+            Console.Write(" | ");
+        }
+
+        public void GenerateTableLineNumber(int i)
+        {
+            Console.Write((i + 1) + " )");
+        }
+
+        public void GenerateTableLineSeparators(int i_BoardSize)
+        {
+            generateTableBorderSpan();
+            for (int i = 0; i < i_BoardSize; i++)
+            {
+                Console.Write("====");
+            }
         }
     }
 }
