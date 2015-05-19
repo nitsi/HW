@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Reversi
 {
-    class Player
+    public class Player
     {
-        UserInteraction UI = new UserInteraction();
+        private UserInteraction m_UI = new UserInteraction();
         private Colors m_PlayerColor;
 
         public Player(Colors o_PlayerColor)
@@ -26,7 +26,7 @@ namespace Reversi
 
             if (i_UserInput.Length == 2 &&
 
-                    UI.GetAvilableLetters().IndexOf(i_UserInput[0]) > -1 && 
+                    m_UI.GetAvilableLetters().IndexOf(i_UserInput[0]) > -1 && 
                     (i_UserInput[1] >= 0 && (int)char.GetNumericValue(i_UserInput[1]) <= i_BoardSize))
             {
                 if (i_GameBoard.CheckIfValid(i_UserInput, i_PlayerColor))
@@ -40,7 +40,7 @@ namespace Reversi
             }
             else
             {
-                UI.PrintNeedValidData();
+                m_UI.PrintNeedValidData();
             }
 
             return !answer;
@@ -50,7 +50,7 @@ namespace Reversi
         {
             while (true)
             {
-                string i_UserInput = UI.GetUserMove();
+                string i_UserInput = m_UI.GetUserMove();
                 if (ValidateInput(i_UserInput, i_BoardSize, i_PlayerColor, i_GameBoard))
                 {
                     return i_UserInput;

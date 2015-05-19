@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 namespace Reversi
 {
     // change neame to something more meaning ful
-    class StartUp
+    public class StartUp
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // change i_MainGame  to correct name
             GameRunner mainGame = new GameRunner();
