@@ -8,9 +8,10 @@ namespace Reversi
 {
     class GameBoard
     {
+        private const int k_Zero = 0;
         private int m_BoardSize;
         private Colors[,] m_Board;
-        private UserInteraction UI;
+        private UserInteraction m_UI;
 
         private string m_Alphabet = "ABCDEFGH";
 
@@ -18,13 +19,13 @@ namespace Reversi
         {
         }
 
-        public void initBoard(int o_BoardSize)
+        public void initBoard(int i_BoardSize)
         {
-            m_BoardSize = o_BoardSize;
+            m_BoardSize = i_BoardSize;
             m_Board = new Colors[m_BoardSize, m_BoardSize];
 
             // Initialize UI
-            UI = new UserInteraction();
+            m_UI = new UserInteraction();
 
             // init the array with empty
             for (int i = 0; i < m_BoardSize; i++)
@@ -36,20 +37,20 @@ namespace Reversi
             }
 
             // TODO: vhange i
-            int i_BoardMiddle = m_BoardSize / 2;
+            int boardMiddle = m_BoardSize / 2;
 
             // Append BLACK
-            m_Board[i_BoardMiddle, i_BoardMiddle] = Colors.BLACK;
-            m_Board[i_BoardMiddle - 1, i_BoardMiddle - 1] = Colors.BLACK;
+            m_Board[boardMiddle, boardMiddle] = Colors.BLACK;
+            m_Board[boardMiddle - 1, boardMiddle - 1] = Colors.BLACK;
 
             // Append WHITE
-            m_Board[i_BoardMiddle - 1, i_BoardMiddle] = Colors.WHITE;
-            m_Board[i_BoardMiddle, i_BoardMiddle - 1] = Colors.WHITE;
+            m_Board[boardMiddle - 1, boardMiddle] = Colors.WHITE;
+            m_Board[boardMiddle, boardMiddle - 1] = Colors.WHITE;
         }
 
         internal bool GotMoreValidMoves(Colors i_currentPlayerColor)
         {
-            bool i_ValidMovesTestFlag = false;
+            bool validMovesFlag = false;
             for (int i = 0; i < m_BoardSize; i++)
             {
                 for (int j = 0; j < m_BoardSize; j++)
@@ -59,8 +60,8 @@ namespace Reversi
                         continue;
                     }
 
-                    i_ValidMovesTestFlag = crawler(i, j, i_currentPlayerColor);
-                    if (i_ValidMovesTestFlag)
+                    validMovesFlag = crawler(i, j, i_currentPlayerColor);
+                    if (validMovesFlag)
                     {
                         return true;
                     }
@@ -94,51 +95,51 @@ namespace Reversi
         private void generateCellContent(int i, int j)
         {
             // TODO: change i_
-            Colors i_TempPionContent = m_Board[i, j];
-            UI.GenerateTableCellContet(i_TempPionContent);
+            Colors o_TempPionContent = m_Board[i, j];
+            m_UI.GenerateTableCellContet(o_TempPionContent);
         }
 
         private void generateColumnSeparator()
         {
-            UI.genreateTableColumnSeparator();
+            m_UI.genreateTableColumnSeparator();
         }
 
         private void generateLineNumber(int i)
         {
-            UI.GenerateTableLineNumber(i);
+            m_UI.GenerateTableLineNumber(i);
         }
 
         private void generateLineSeparators()
         {
-            UI.GenerateTableLineSeparators(m_BoardSize);
+            m_UI.GenerateTableLineSeparators(m_BoardSize);
         }
 
         private void generateTopLetters()
         {
-            UI.GenerateTableTopLetters(m_BoardSize);
+            m_UI.GenerateTableTopLetters(m_BoardSize);
         }
 
         private void generateNewLine()
         {
-            UI.GenereateTableNewLine();
+            m_UI.GenereateTableNewLine();
         }
 
         // Assuming we've recieved in the form of "A1" <Char,Number>
         public bool CheckIfValid(string i_PlayerMove, Colors i_PlayerColor)
         {
             // used for coorsdinate
-            int[] i_PlayerMoveCoords = new int[2];
+            int[] io_PlayerMoveCoords = new int[2];
 
             // Get data from player
             // TODO : change this to object parsing
-            i_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
-            i_PlayerMoveCoords[1] = (int)char.GetNumericValue(i_PlayerMove[1]) - 1;
+            io_PlayerMoveCoords[0] = m_Alphabet.IndexOf(i_PlayerMove[0]);
+            io_PlayerMoveCoords[1] = (int)char.GetNumericValue(i_PlayerMove[1]) - 1;
 
-            int i_XCords = i_PlayerMoveCoords[1];
-            int i_YCords = i_PlayerMoveCoords[0];
-            if (verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) && m_Board[i_XCords, i_YCords] == Colors.EMPTY)
+            int io_XCords = io_PlayerMoveCoords[1];
+            int io_YCords = io_PlayerMoveCoords[0];
+            if (verifyEdges(io_PlayerMoveCoords[1], io_PlayerMoveCoords[0]) && m_Board[io_XCords, io_YCords] == Colors.EMPTY)
             {
-                return crawler(i_XCords, i_YCords, i_PlayerColor);
+                return crawler(io_XCords, io_YCords, i_PlayerColor);
             }
             else
             {
@@ -151,11 +152,11 @@ namespace Reversi
             return (i_X >= 0 && i_X <= m_BoardSize - 1) && (i_Y >= 0 && i_Y <= m_BoardSize - 1);
         }
 
-        private bool crawler(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawler(int io_X, int io_Y, Colors io_PlayerColor)
         {
-            if (verifyEdges(i_X, i_Y))
+            if (verifyEdges(io_X, io_Y))
             {
-                return crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor) || crawlCross(i_X, i_Y, i_PlayerColor);
+                return crawlHorizontal(io_X, io_Y, io_PlayerColor) || crawlVertical(io_X, io_Y, io_PlayerColor) || crawlCross(io_X, io_Y, io_PlayerColor);
             }
             else
             {
@@ -163,37 +164,34 @@ namespace Reversi
             }
         }
 
-        private bool crawlCross(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlCross(int io_X, int io_Y, Colors io_PlayerColor)
         {
-            int i_Zero = 0;
-            return validityCrawler(i_X - 1, -1, i_Y + 1, 1, i_PlayerColor, i_Zero)
-                || validityCrawler(i_X + 1, 1, i_Y - 1, -1, i_PlayerColor, i_Zero)
-                || validityCrawler(i_X + 1, 1, i_Y + 1, 1, i_PlayerColor, i_Zero)
-                || validityCrawler(i_X - 1, -1, i_Y - 1, -1, i_PlayerColor, i_Zero);
+            return validityCrawler(io_X - 1, -1, io_Y + 1, 1, io_PlayerColor, k_Zero)
+                || validityCrawler(io_X + 1, 1, io_Y - 1, -1, io_PlayerColor, k_Zero)
+                || validityCrawler(io_X + 1, 1, io_Y + 1, 1, io_PlayerColor, k_Zero)
+                || validityCrawler(io_X - 1, -1, io_Y - 1, -1, io_PlayerColor, k_Zero);
         }
 
-        private bool crawlVertical(int i_X, int i_Y, Colors i_PlayerColor)
+        private bool crawlVertical(int io_X, int io_Y, Colors i_PlayerColor)
         {
-            int i_Zero = 0;
-            return validityCrawler(i_X + 1, 1, i_Y, 0, i_PlayerColor, i_Zero) || validityCrawler(i_X - 1, -1, i_Y, 0, i_PlayerColor, i_Zero);
+            return validityCrawler(io_X + 1, 1, io_Y, 0, i_PlayerColor, k_Zero) || validityCrawler(io_X - 1, -1, io_Y, 0, i_PlayerColor, k_Zero);
         }
 
         private bool crawlHorizontal(int i_X, int i_Y, Colors i_PlayerColor)
         {
-            int i_Zero = 0;
-            return validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, i_Zero) || validityCrawler(i_X, 0, i_Y - 1, -1, i_PlayerColor, i_Zero);
+            return validityCrawler(i_X, 0, i_Y + 1, 1, i_PlayerColor, k_Zero) || validityCrawler(i_X, 0, i_Y - 1, -1, i_PlayerColor, k_Zero);
         }
 
-        private bool validityCrawler(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_PlayerColor, int i_Count)
+        private bool validityCrawler(int io_X, int io_XFactor, int io_Y, int io_YFactor, Colors io_PlayerColor, int io_Count)
         {
             // Check in bounds
-            if (!verifyEdges(i_X, i_Y))
+            if (!verifyEdges(io_X, io_Y))
             {
                 return false;
             }
 
             // Init color
-            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+            Colors i_CurrentColorFromCell = m_Board[io_X, io_Y];
 
             // If we hit empty cell
             if (i_CurrentColorFromCell == Colors.EMPTY)
@@ -201,74 +199,74 @@ namespace Reversi
                 return false;
             }
 
-            if (i_CurrentColorFromCell == i_PlayerColor)
+            if (i_CurrentColorFromCell == io_PlayerColor)
             {
-                return i_Count == 0 ? false : true;
+                return io_Count == 0 ? false : true;
             }
             else
             {
                 // Means it's the opponent color
-                return validityCrawler(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_PlayerColor, i_Count + 1);
+                return validityCrawler(io_X + io_XFactor, io_XFactor, io_Y + io_YFactor, io_YFactor, io_PlayerColor, io_Count + 1);
             }
         }
 
-        internal void AppendMove(string i_Move, Colors i_GivenColor)
+        internal void AppendMove(string i_Move, Colors io_GivenColor)
         {
-            int i_tempX = (int)char.GetNumericValue(i_Move[1]) - 1;
-            int i_tempY = m_Alphabet.IndexOf(i_Move[0]);
+            int io_tempX = (int)char.GetNumericValue(i_Move[1]) - 1;
+            int io_tempY = m_Alphabet.IndexOf(i_Move[0]);
 
             // Inject new data to array
-            m_Board[i_tempX, i_tempY] = i_GivenColor;
+            m_Board[io_tempX, io_tempY] = io_GivenColor;
 
-            updateFromLocation(i_tempX, i_tempY, i_GivenColor);
+            updateFromLocation(io_tempX, io_tempY, io_GivenColor);
         }
 
-        private void updateFromLocation(int i_X, int i_Y, Colors i_GivenColor)
+        private void updateFromLocation(int io_X, int io_Y, Colors io_GivenColor)
         {
-            bool dummy = false;
+            bool dummyBooleanHolder = false;
 
             // Update vertical
-            dummy = propagateTable(i_X + 1, 1, i_Y, 0, i_GivenColor);
-            dummy = propagateTable(i_X - 1, -1, i_Y, 0, i_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X + 1, 1, io_Y, 0, io_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X - 1, -1, io_Y, 0, io_GivenColor);
 
             // Update Horizontal
-            dummy = propagateTable(i_X, 0, i_Y + 1, 1, i_GivenColor);
-            dummy = propagateTable(i_X, 0, i_Y - 1, -1, i_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X, 0, io_Y + 1, 1, io_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X, 0, io_Y - 1, -1, io_GivenColor);
 
             // Update slash
-            dummy = propagateTable(i_X - 1, -1, i_Y + 1, 1, i_GivenColor);
-            dummy = propagateTable(i_X + 1, 1, i_Y - 1, -1, i_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X - 1, -1, io_Y + 1, 1, io_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X + 1, 1, io_Y - 1, -1, io_GivenColor);
 
             // Update backslash
-            dummy = propagateTable(i_X + 1, 1, i_Y + 1, 1, i_GivenColor);
-            dummy = propagateTable(i_X - 1, -1, i_Y - 1, -1, i_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X + 1, 1, io_Y + 1, 1, io_GivenColor);
+            dummyBooleanHolder = propagateTable(io_X - 1, -1, io_Y - 1, -1, io_GivenColor);
         }
 
-        private bool propagateTable(int i_X, int i_XFactor, int i_Y, int i_YFactor, Colors i_GivenColor)
+        private bool propagateTable(int io_X, int io_XFactor, int io_Y, int io_YFactor, Colors io_GivenColor)
         {
             // Check edges
-            if (!verifyEdges(i_X, i_Y))
+            if (!verifyEdges(io_X, io_Y))
             {
                 return false;
             }
 
             // Get current color
-            Colors i_CurrentColorFromCell = m_Board[i_X, i_Y];
+            Colors currentColorFromCell = m_Board[io_X, io_Y];
 
             // check if empty
-            if (i_CurrentColorFromCell == Colors.EMPTY)
+            if (currentColorFromCell == Colors.EMPTY)
             {
                 return false;
             }
 
-            if (i_CurrentColorFromCell == i_GivenColor)
+            if (currentColorFromCell == io_GivenColor)
             {
                 return true;
             }
 
-            if (propagateTable(i_X + i_XFactor, i_XFactor, i_Y + i_YFactor, i_YFactor, i_GivenColor))
+            if (propagateTable(io_X + io_XFactor, io_XFactor, io_Y + io_YFactor, io_YFactor, io_GivenColor))
             {
-                m_Board[i_X, i_Y] = i_GivenColor;
+                m_Board[io_X, io_Y] = io_GivenColor;
                 return true;
             }
             else
@@ -279,8 +277,8 @@ namespace Reversi
 
         internal Colors CalculateWinner()
         {
-            int i_WhitePoints = 0;
-            int i_BlackPoints = 0;
+            int io_WhitePoints = 0;
+            int io_BlackPoints = 0;
 
             for (int i = 0; i < m_BoardSize; i++)
             {
@@ -288,16 +286,16 @@ namespace Reversi
                 {
                     if (m_Board[i, j] == Colors.WHITE)
                     {
-                        i_WhitePoints++;
+                        io_WhitePoints++;
                     }
                     else if (m_Board[i, j] == Colors.BLACK)
                     {
-                        i_BlackPoints++;
+                        io_BlackPoints++;
                     }
                 }
             }
 
-            return i_BlackPoints > i_WhitePoints ? Colors.BLACK : Colors.WHITE;
+            return io_BlackPoints > io_WhitePoints ? Colors.BLACK : Colors.WHITE;
         }
 
         public List<string> GetListOfEmptyCells()
@@ -309,7 +307,7 @@ namespace Reversi
                 {
                     if (m_Board[i, j] == Colors.EMPTY)
                     {
-                        io_ListOfEmptyCells.Add(string.Empty + (i + 1) + string.Empty + UI.GetAvilableLetters()[j]);
+                        io_ListOfEmptyCells.Add(string.Empty + (i + 1) + string.Empty + m_UI.GetAvilableLetters()[j]);
                     }
                 }
             }
