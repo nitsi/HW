@@ -1,0 +1,10 @@
+For Example:
+==========================Exercise Checking Report==========================
+Exercise No...........: 2
+First Student Details.: 302188347 - Aviad Hahami
+Second Student Details: 200846905- Matan Gidnian
+Delivery Date.........: 19 - May - 2015
+Delivered In Delay....: Yes (2 days)
+Delay Reason..........: Not enough time.
+Visual Studio Version.: 2013 /
+Comments..............: AI might slow down towards end game
