@@ -41,7 +41,7 @@ namespace Reversi
                 }
                 
                 m_BoardSize = m_UI.GetBoardSize();
-                m_GameBoard.initBoard(m_BoardSize);
+                m_GameBoard.InitBoard(m_BoardSize);
 
                 m_IsPlayer2PC = (userChoice == GamerTypes.Computer.ToString()) ? true : false;
 

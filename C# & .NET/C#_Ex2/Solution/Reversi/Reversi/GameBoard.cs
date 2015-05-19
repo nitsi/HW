@@ -19,7 +19,7 @@ namespace Reversi
         {
         }
 
-        public void initBoard(int i_BoardSize)
+        public void InitBoard(int i_BoardSize)
         {
             m_BoardSize = i_BoardSize;
             m_Board = new Colors[m_BoardSize, m_BoardSize];
