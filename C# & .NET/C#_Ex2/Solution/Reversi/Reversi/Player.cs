@@ -61,8 +61,8 @@ namespace Reversi
         public string GetMovePC(int i_BoardSize, GameBoard i_GameBoard)
         {
             Random randGenerator;
-            List<string> blankCell = i_GameBoard.GetListOfEmptyCells();
-            int length = blankCell.Count;
+            List<string> blankCells = i_GameBoard.GetListOfEmptyCells();
+            int length = blankCells.Count;
             byte guess;
             string chosenMove;
 
@@ -70,7 +70,7 @@ namespace Reversi
             {
                 randGenerator = new Random();
                 guess = (byte)randGenerator.Next(length);
-                chosenMove = blankCell.ElementAt(guess);
+                chosenMove = blankCells.ElementAt(guess);
 
                 if (i_GameBoard.CheckIfValid(chosenMove, Colors.WHITE))
                 {
