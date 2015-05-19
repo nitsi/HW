@@ -102,5 +102,21 @@ namespace Reversi
                 Console.Write("====");
             }
         }
+
+        public void GenerateTableTopLetters(string m_Alphabet, int i_BoardSize)
+        {
+            // Generate top letters
+            //TODO: replace with regular print add comment above
+            generateTableBorderSpan();
+            for (int i = 0; i < i_BoardSize; i++)
+            {
+                Console.Write("  " + m_Alphabet[i] + " ");
+            }
+        }
+
+        public void GenereateTableNewLine()
+        {
+            Console.WriteLine();
+        }
     }
 }

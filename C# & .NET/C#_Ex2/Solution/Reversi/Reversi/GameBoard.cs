@@ -63,7 +63,6 @@ namespace Reversi
             return false;
         }
 
-        //TODO: replace methos writeline with internal C# writeline
         internal void PrintCurrentState()
         {
             generateTopLetters();
@@ -86,7 +85,6 @@ namespace Reversi
             }
         }
 
-        //TODO: change to meaningful names
         private void generateCellContent(int i, int j)
         {
             //TODO: change i_
@@ -106,24 +104,17 @@ namespace Reversi
 
         private void generateLineSeparators()
         {
-            //TODO: replace with regular print add comment above
             UI.GenerateTableLineSeparators(m_BoardSize);
         }
 
         private void generateTopLetters()
         {
-            // Generate top letters
-            //TODO: replace with regular print add comment above
-            UI.generateTableBorderSpan();
-            for (int i = 0; i < m_BoardSize; i++)
-            {
-                Console.Write("  " + m_Alphabet[i] + " ");
-            }
+            UI.GenerateTableTopLetters(m_Alphabet, m_BoardSize);
         }
 
         private void generateNewLine()
         {
-            Console.WriteLine();
+            UI.GenereateTableNewLine();
         }
 
         //Assuming we've recieved in the form of "A1" <Char,Number>
@@ -142,7 +133,6 @@ namespace Reversi
             int i_YCords = i_PlayerMoveCoords[0];
             if (verifyEdges(i_PlayerMoveCoords[1], i_PlayerMoveCoords[0]) && m_Board[i_XCords, i_YCords] == Colors.EMPTY)
             {
-                //Console.WriteLine("Enter crawler");
                 return crawler(i_XCords, i_YCords, i_PlayerColor);
             }
             else
@@ -160,14 +150,10 @@ namespace Reversi
         {
             if (verifyEdges(i_X, i_Y))
             {
-                // OLD version
-                //return crawlBackSlash_old(i_X, i_Y, i_PlayerColor) || crawlSlash_old(i_X, i_Y, i_PlayerColor) || crawlVertical_old(i_X, i_Y, i_PlayerColor) || crawlHorizontal_old(i_X, i_Y, i_PlayerColor);
-                // New version
                 return crawlHorizontal(i_X, i_Y, i_PlayerColor) || crawlVertical(i_X, i_Y, i_PlayerColor) || crawlCross(i_X, i_Y, i_PlayerColor);
             }
             else
             {
-                //Console.WriteLine("Main crawler, failed on edges");
                 return false;
             }
         }
