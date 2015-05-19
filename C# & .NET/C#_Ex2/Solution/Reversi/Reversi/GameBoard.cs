@@ -72,7 +72,7 @@ namespace Reversi
 
         internal void PrintCurrentState()
         {
-            m_UI.printCurrentTableState(m_BoardSize, this);
+            m_UI.printCurrentTableState(m_BoardSize, m_Board);
         }
 
         // Assuming we've recieved in the form of "A1" <Char,Number>

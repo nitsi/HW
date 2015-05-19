@@ -148,7 +148,7 @@ namespace Reversi
             Console.WriteLine();
         }
 
-        internal void printCurrentTableState(int i_BoardSize, GameBoard i_Board)
+        internal void printCurrentTableState(int i_BoardSize, Colors[,] i_Board)
         {
             GenerateTableTopLetters(i_BoardSize);
             GenereateTableNewLine();
