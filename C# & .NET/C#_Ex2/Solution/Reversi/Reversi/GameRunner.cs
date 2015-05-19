@@ -24,7 +24,7 @@ namespace Reversi
         private int m_BoardSize;
         private bool m_IsPlayer2PC = true;
         string p1Name;
-        string p2Name;
+        string p2Name = "Computer";
 
         public void StartGame()
         {
@@ -80,11 +80,10 @@ namespace Reversi
                 {
                     if (!hasMovesP1)
                     {
-                        m_UI.
-                        System.Console.WriteLine(("{0} turn, but {0} has no moves possible", uPlayer1.GetName());
+                        m_UI.PlayerNoMoves(uPlayer1.GetName());
                         if (!hasMovesP2)
                         {
-                            System.Console.WriteLine("P2 turn, but P2 ALSO has no moves possible");
+                            m_UI.PlayerNoMoves(uPlayer2.GetName());
                             Colors winnerColor = m_GameBoard.CalculateWinner();
 
                             DeclareWinner(winnerColor);
@@ -94,7 +93,7 @@ namespace Reversi
                     else
                     {
                         // Player1 logic
-                        Console.WriteLine("Turn of P1: X");
+                        m_UI.TurnOf(uPlayer1.GetName());
                         string nextMove = uPlayer1.GetMove(m_BoardSize, uPlayer1.Color, m_GameBoard);
                         m_GameBoard.AppendMove(nextMove, uPlayer1.Color);
                         playerOneTurn = false;
@@ -103,8 +102,7 @@ namespace Reversi
                 else
                 {
                     // Player2 logic
-                    Console.WriteLine("Turn of P2: O");
-
+                    m_UI.TurnOf(uPlayer2.GetName());
                     if (!hasMovesP2)
                     {
                         playerOneTurn = true;
@@ -126,10 +124,11 @@ namespace Reversi
             m_GameBoard.PrintCurrentState();
             if (i_WinnerColor == Colors.EMPTY)
             {
-                System.Console.WriteLine("It's a tie ! OMG OMG !");
+                System.Console.WriteLine("It's a tie !");
             }
             else
             {
+                string name = (i_WinnerColor == Colors.BLACK) ? p1Name : p2Name;
                 System.Console.WriteLine("Winner is: " + i_WinnerColor.ToString());
             }
         }

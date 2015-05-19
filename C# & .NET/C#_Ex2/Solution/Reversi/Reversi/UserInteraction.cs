@@ -18,6 +18,11 @@ namespace Reversi
         {
         }
 
+        public void TurnOf(string i_Name)
+        {
+            Console.WriteLine("Turn of " + i_Name);
+        }
+
         public string GetName()
         {
             System.Console.WriteLine("Please enter your name: ");
@@ -104,12 +109,12 @@ namespace Reversi
             }
         }
 
-        public void generateTableBorderSpan()
+        public void GenerateTableBorderSpan()
         {
             Console.Write("    ");
         }
 
-        public void genreateTableColumnSeparator()
+        public void GenreateTableColumnSeparator()
         {
             Console.Write(" | ");
         }
@@ -121,7 +126,7 @@ namespace Reversi
 
         public void GenerateTableLineSeparators(int i_BoardSize)
         {
-            generateTableBorderSpan();
+            GenerateTableBorderSpan();
             for (int i = 0; i < i_BoardSize; i++)
             {
                 Console.Write("====");
@@ -132,7 +137,7 @@ namespace Reversi
         {
             // Generate top letters
             // TODO: replace with regular print add comment above
-            generateTableBorderSpan();
+            GenerateTableBorderSpan();
             for (int i = 0; i < i_BoardSize; i++)
             {
                 Console.Write("  " + GetAvilableLetters()[i] + " ");
