@@ -1,2 +1,0 @@
-D:\Dropbox\Courses\DN\Code4Site\01_FirstVSApp_\FirstVSApp\obj\Debug\Interop.SpeechLib.dll
-D:\Dropbox\Courses\DN\Code4Site\01_FirstVSApp_\FirstVSApp\obj\Debug\FirstVSApp.2010.csproj.ResolveComReference.cache
